@@ -197,6 +197,7 @@ em{font-style:italic}
 /* map section */
 .mapsec{margin-top:12px}
 #detMap{width:100%;height:340px;border-radius:16px;border:1px solid var(--line);z-index:0}
+.a10-pin{background:none;border:0;filter:drop-shadow(0 3px 5px rgba(11,22,36,.35))}
 .mapmeta{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:12px}
 .endereco{font-size:14.5px;color:var(--navy-2)}
 .endereco b{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-d);margin-bottom:3px;font-weight:600}
@@ -494,9 +495,10 @@ function renderDetailMap(e){
   const el=document.getElementById('detMap'); if(!el||typeof L==='undefined')return;
   if(detMap){detMap.remove();detMap=null;}
   const lat=e.lat!=null?e.lat:-26.99,lng=e.lng!=null?e.lng:-48.63;
-  detMap=L.map('detMap',{scrollWheelZoom:false}).setView([lat,lng],15);
+  detMap=L.map('detMap',{scrollWheelZoom:false}).setView([lat,lng],16);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(detMap);
-  L.circle([lat,lng],{radius:380,color:'#B7965A',weight:1.5,fillColor:'#B7965A',fillOpacity:.14}).addTo(detMap);
+  const pin=L.divIcon({className:'a10-pin',html:'<svg width="36" height="48" viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg"><path d="M18 1C9.2 1 2 8.2 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.2 26.8 1 18 1z" fill="#C9A86A" stroke="#fff" stroke-width="2"/><circle cx="18" cy="17" r="6" fill="#0B1624"/></svg>',iconSize:[36,48],iconAnchor:[18,46],popupAnchor:[0,-42]});
+  L.marker([lat,lng],{icon:pin}).addTo(detMap).bindTooltip(e.nome,{direction:'top',offset:[0,-44]});
   setTimeout(()=>detMap.invalidateSize(),140);
 }
 
