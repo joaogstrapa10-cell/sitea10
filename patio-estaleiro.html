@@ -190,11 +190,9 @@ footer{background:#070D16;color:#8d99a8;padding:56px 0 34px}
     <div>
       <img class="foot-logo" src="lib/a10-logo.png" alt="A10 Empreendimentos">
       <div class="foot-assin" id="fAssin"></div>
-      <div class="foot-res" id="fRes"></div>
     </div>
     <div class="foot-nav" id="fNav"></div>
   </div>
-  <div class="pilares" id="fPil"></div>
   <div class="foot-note">A10 Empreendimentos · Pátio Estaleiro Private Residences. Imagens meramente ilustrativas; metragens, valores e disponibilidade sujeitos a confirmação.</div>
 </div></footer>
 
@@ -325,10 +323,9 @@ document.getElementById('main').innerHTML=html;
 
 /* ---- rodape ---- */
 document.getElementById('fAssin').textContent=L10.rodape.assinatura;
-document.getElementById('fRes').textContent=L10.rodape.resumo;
 document.getElementById('fNav').innerHTML=L10.secoes.map(s=>'<a href="#'+esc(s.id)+'">'+esc(s.nav)+'</a>').join('')
   +'<a href="#galeria">Galeria de fotos</a><a href="#contato">Contato & Visita</a><a href="index.html">Portfólio A10</a>';
-document.getElementById('fPil').innerHTML=L10.rodape.pilares.map(p=>'<span>'+esc(p)+'</span>').join('');
+
 
 /* ---- lightbox ---- */
 let lbIdx=0;
