@@ -136,12 +136,14 @@
       "landing": "patio-estaleiro.html",
       "condominio": {
         "residencias_total": 8,
-        "unidades_a10": [
+        "residencias_disponiveis": 2,
+        "unidades_disponiveis": [
           "Casa Mar",
           "Casa Brisa"
         ],
         "distancia_praia_m": 90
-      }
+      },
+      "disponibilidade": "Últimas 2 das 8 residências"
     },
     {
       "slug": "aurora",
@@ -1258,15 +1260,15 @@
         "stats": [
           [
             "08",
-            "Residências únicas"
+            "Residências no condomínio"
+          ],
+          [
+            "02",
+            "Ainda disponíveis"
           ],
           [
             "90m",
             "Distância da praia"
-          ],
-          [
-            "8",
-            "Famílias, privacidade absoluta"
           ]
         ]
       },
@@ -1337,6 +1339,7 @@
         "Patrimônio",
         "Discrição"
       ]
-    }
+    },
+    "disponibilidade": "Das oito residências do condomínio, restam duas: Casa Mar e Casa Brisa."
   }
 }

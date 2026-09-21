@@ -24,7 +24,7 @@ no header e no rodapé de todas as páginas.
    filtros em drawer e ordenação (destaque, preço, área, nome)
 4. **Grade** de cards. A foto sempre preenche o card (`object-fit: cover`); quem não
    tem foto mostra "Foto em breve"
-5. **Detalhe** (`#/emp/<slug>`): capa clicável e três abas
+5. **Detalhe** (`#/emp/<slug>`): capa clicável, selo de disponibilidade e três abas
    - **Galeria de fotos**, com miniaturas e lightbox em tela cheia (setas, teclado,
      Esc). Empreendimentos com o campo `grupos` vêm separados por casa (o Pátio
      Estaleiro mostra Casa Mar e Casa Brisa)
@@ -107,5 +107,6 @@ npx http-server -p 8791 .
   `fotos/img/` derruba para algo perto de 300 KB
 - `netlify/` (113 MB) e `fotos_web/` (40 MB) são resíduo das versões anteriores e
   podem sair do repositório
-- Conferir com o cliente: distância do mar do Pátio Estaleiro (90 m ou 120 m) e o
-  e-mail de contato (`a10negociosimb@gmail.com.br`)
+- O e-mail `a10negociosimb@gmail.com.br` veio do documento de comunicação e foi
+  mantido como está, a pedido. O domínio `gmail.com.br` não existe, então vale
+  revisar antes de divulgar

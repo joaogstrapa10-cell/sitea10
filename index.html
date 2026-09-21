@@ -134,6 +134,8 @@ em{font-style:italic}
 .d-seal{display:inline-flex;align-items:center;gap:6px;background:radial-gradient(circle at 30% 30%,#E7D09B,#C9A86A);color:#0B1624;font-family:var(--serif);font-weight:600;font-size:13px;padding:5px 12px;border-radius:100px}
 .d-status{display:inline-flex;background:var(--navy);color:var(--gold);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:100px}
 .d-land{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--gold);color:var(--gold-d);font-size:12px;padding:5px 13px;border-radius:100px}
+.d-disp{display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:#0B1624;font-size:11.5px;font-weight:500;padding:6px 13px;border-radius:100px}
+.dcard-disp{display:inline-block;background:var(--gold);color:#0B1624;font-size:10.5px;font-weight:500;padding:4px 11px;border-radius:100px;margin-bottom:9px}
 .d-land svg{width:12px;height:12px;stroke:currentColor;fill:none}
 .d-price{font-family:var(--serif);font-weight:600;font-size:30px;color:var(--navy);white-space:nowrap}
 .d-price small{font-family:var(--sans);font-size:13px;font-weight:400;color:var(--muted)}
@@ -322,6 +324,7 @@ footer{background:var(--navy);color:#cfd6e0;padding:52px 0 34px;margin-top:20px}
       <div class="d-badges">
         <span class="d-seal" id="detSeal">Empreendimento A10</span>
         <span class="d-status" id="detStatus"></span>
+        <span class="d-disp" id="detDisp"></span>
         <a class="d-land" id="detLand" href="#"><svg viewBox="0 0 16 16" stroke-width="1.5" stroke-linecap="round"><path d="M3 8h9M9 5l3 3-3 3"/></svg> Página do empreendimento</a>
       </div>
     </div>
@@ -485,7 +488,8 @@ function dcard(e){
   if(fmtArea(e))meta.push(fmtArea(e));
   return '<article class="dcard" data-slug="'+esc(e.slug)+'" tabindex="0" role="button" aria-label="Ver '+esc(e.nome)+'">'
     +img+(e.categoria==='a10'?'<span class="dcard-sel">A10</span>':'')
-    +'<div class="dcard-b"><div class="dcard-k">'+esc(e.destaque||e.tipologia)+'</div>'
+    +'<div class="dcard-b">'+(e.disponibilidade?'<span class="dcard-disp">'+esc(e.disponibilidade)+'</span>':'')
+    +'<div class="dcard-k">'+esc(e.destaque||e.tipologia)+'</div>'
     +'<h3 class="dcard-n">'+nome+'</h3>'
     +(e.tag?'<div class="dcard-t">'+esc(e.tag)+'</div>':'')
     +'<div class="dcard-m">'+meta.join(' · ')+'</div></div></article>';
@@ -674,6 +678,7 @@ function renderDetail(slug){
   document.getElementById('detTag').textContent=e.tag||'';
   document.getElementById('detSeal').style.display=e.categoria==='a10'?'inline-flex':'none';
   const ds=document.getElementById('detStatus');ds.textContent=isConf(e.status)?e.status:'';ds.style.display=isConf(e.status)?'inline-flex':'none';
+  const dd=document.getElementById('detDisp');dd.textContent=e.disponibilidade||'';dd.style.display=e.disponibilidade?'inline-flex':'none';
   const dl=document.getElementById('detLand');
   if(e.landing){dl.href=e.landing;dl.style.display='inline-flex';}else{dl.style.display='none';}
   document.getElementById('detPrice').innerHTML=e.valorNum?esc(e.valor):'<small>Sob consulta</small>';
