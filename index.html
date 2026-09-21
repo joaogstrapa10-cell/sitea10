@@ -48,7 +48,8 @@ em{font-style:italic}
 
 /* ====== header transparente, logo no centro ====== */
 .nav{position:fixed;top:0;left:0;right:0;z-index:1200;transition:background .3s,box-shadow .3s}
-.nav-in{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:var(--nav-h);gap:24px}
+.nav-in{display:flex;align-items:center;height:var(--nav-h);gap:clamp(16px,2.2vw,34px)}
+.nav-logo{order:-1;margin-right:auto;display:block}
 .nav-side{display:flex;align-items:center;gap:clamp(16px,2.2vw,34px)}
 .nav-side.right{justify-content:flex-end}
 .nav a.nlink{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;white-space:nowrap;opacity:.9;transition:.2s;padding:6px 0;border-bottom:1px solid transparent}
@@ -66,7 +67,7 @@ body.nav-solid .nav-logo img{filter:none}
 body.nav-solid .nav-burger{color:var(--ink)}
 @media(max-width:1100px){
   .nav-side{display:none}
-  .nav-in{grid-template-columns:44px auto 44px}
+  .nav-burger{order:2;margin-left:auto}
   .nav-burger{display:flex}
   .nav-side.right{display:flex}
   .nav-side.right .nlink{display:none}
@@ -298,7 +299,6 @@ footer{background:var(--navy);color:#b9c3d0}
       <source src="video/a10-hero.mp4" type="video/mp4">
     </video>
     <div class="vhero-in">
-      <div class="vhero-kick" id="hKick"></div>
       <h1 id="hTit"></h1>
       <p class="sub" id="hSub"></p>
       <div class="vhero-acts">
@@ -318,11 +318,11 @@ footer{background:var(--navy);color:#b9c3d0}
   <section>
     <div class="sec-head wrap">
       <h2 class="sec-title">Nossos empreendimentos</h2>
-      <p>Uma curadoria de endereços no litoral de Santa Catarina, do lançamento à entrega.</p>
+      <p>Os 20 endereços do portfólio no litoral de Santa Catarina, do lançamento à entrega.</p>
     </div>
     <div class="tiles" id="homeTiles"></div>
     <div style="text-align:center;padding:clamp(40px,5vw,70px) 20px">
-      <a class="btn btn-line" href="#/empreendimentos">Ver os 20 empreendimentos <span class="arw">&#8594;</span></a>
+      <a class="btn btn-line" href="#/empreendimentos">Buscar e filtrar <span class="arw">&#8594;</span></a>
     </div>
   </section>
 
@@ -489,7 +489,6 @@ const HERO=FEATURED.map(s=>DATA.find(e=>e.slug===s)).filter(Boolean);
 let hi=0;
 function paintHero(){
   const e=HERO[hi];if(!e)return;
-  document.getElementById('hKick').textContent=isConf(e.cidade)?e.cidade:e.tipologia;
   document.getElementById('hTit').textContent=e.nome;
   document.getElementById('hSub').textContent=e.tag||'';
   document.getElementById('hCta').href=e.landing?e.landing:('#/emp/'+e.slug);
@@ -523,7 +522,7 @@ function tile(e){
 }
 document.getElementById('homeTiles').innerHTML=
   FEATURED.map(s=>DATA.find(e=>e.slug===s)).filter(Boolean).concat(
-  DATA.filter(e=>!FEATURED.includes(e.slug)&&cover(e)).slice(0,3)).map(tile).join('');
+  DATA.filter(e=>!FEATURED.includes(e.slug))).map(tile).join('');
 
 /* ---------- numeros ---------- */
 (function(){
