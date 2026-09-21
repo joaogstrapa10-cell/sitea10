@@ -1,0 +1,359 @@
+{
+  "projeto_lovable": {
+    "id": "8239c145-1e56-4f56-8db3-e2fcc3da863f",
+    "workspace": "Giulliano's Lovable",
+    "editor_url": "https://lovable.dev/projects/8239c145-1e56-4f56-8db3-e2fcc3da863f",
+    "preview_url": "https://id-preview--8239c145-1e56-4f56-8db3-e2fcc3da863f.lovable.app",
+    "stack": "tanstack_start_ts + tailwind + shadcn/ui"
+  },
+  "home_hero": "fotos_web/home-hero.jpg",
+  "empreendimentos": [
+    {
+      "slug": "patio-estaleiro",
+      "nome": "Pátio Estaleiro",
+      "tipologia": "Casas de alto padrão",
+      "destaque": "Casa Mar · Casa Brisa",
+      "localizacao": "Balneário Camboriú",
+      "status": "Lançamento",
+      "parceria": "A10 × R21",
+      "imagem": "fotos_web/patio-estaleiro.jpg",
+      "imagem_secundaria": "fotos_web/patio-estaleiro-2.jpg",
+      "galeria": [
+        "fotos_web/patio-estaleiro.jpg",
+        "fotos_web/patio-mar-1.jpg",
+        "fotos_web/patio-mar-2.jpg",
+        "fotos_web/patio-mar-3.jpg",
+        "fotos_web/patio-mar-4.jpg",
+        "fotos_web/patio-mar-5.jpg",
+        "fotos_web/patio-mar-6.jpg",
+        "fotos_web/patio-mar-7.jpg",
+        "fotos_web/patio-brisa-1.jpg",
+        "fotos_web/patio-brisa-2.jpg",
+        "fotos_web/patio-brisa-3.jpg",
+        "fotos_web/patio-brisa-4.jpg",
+        "fotos_web/patio-brisa-5.jpg",
+        "fotos_web/patio-brisa-6.jpg",
+        "fotos_web/patio-brisa-7.jpg",
+        "fotos_web/patio-brisa-8.jpg",
+        "fotos_web/patio-brisa-9.jpg",
+        "fotos_web/patio-brisa-10.jpg",
+        "fotos_web/patio-brisa-11.jpg",
+        "fotos_web/patio-brisa-12.jpg"
+      ],
+      "grupos": [
+        {
+          "nome": "Casa Mar",
+          "fotos": [
+            "fotos_web/patio-mar-1.jpg",
+            "fotos_web/patio-mar-2.jpg",
+            "fotos_web/patio-mar-3.jpg",
+            "fotos_web/patio-mar-4.jpg",
+            "fotos_web/patio-mar-5.jpg",
+            "fotos_web/patio-mar-6.jpg",
+            "fotos_web/patio-mar-7.jpg"
+          ]
+        },
+        {
+          "nome": "Casa Brisa",
+          "fotos": [
+            "fotos_web/patio-brisa-1.jpg",
+            "fotos_web/patio-brisa-2.jpg",
+            "fotos_web/patio-brisa-3.jpg",
+            "fotos_web/patio-brisa-4.jpg",
+            "fotos_web/patio-brisa-5.jpg",
+            "fotos_web/patio-brisa-6.jpg",
+            "fotos_web/patio-brisa-7.jpg",
+            "fotos_web/patio-brisa-8.jpg",
+            "fotos_web/patio-brisa-9.jpg",
+            "fotos_web/patio-brisa-10.jpg",
+            "fotos_web/patio-brisa-11.jpg",
+            "fotos_web/patio-brisa-12.jpg"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "aurora",
+      "nome": "Residencial Aurora",
+      "tipologia": "Torre residencial",
+      "destaque": "Piscina · Rooftop",
+      "localizacao": "Balneário Camboriú/SC",
+      "status": "Em obras",
+      "imagem": "fotos_web/aurora.jpg",
+      "imagem_secundaria": "fotos_web/aurora-2.jpg",
+      "galeria": [
+        "fotos_web/aurora.jpg",
+        "fotos_web/aurora-2.jpg",
+        "fotos_web/aurora-3.jpg",
+        "fotos_web/aurora-4.jpg",
+        "fotos_web/aurora-5.jpg",
+        "fotos_web/aurora-6.jpg",
+        "fotos_web/aurora-7.jpg",
+        "fotos_web/aurora-8.jpg",
+        "fotos_web/aurora-9.jpg",
+        "fotos_web/aurora-10.jpg",
+        "fotos_web/aurora-11.jpg",
+        "fotos_web/aurora-12.jpg",
+        "fotos_web/aurora-13.jpg"
+      ],
+      "ficha": {
+        "nome_oficial": "Aurora Exclusive Home",
+        "endereco": "Avenida Atlântica — Balneário Camboriú/SC (frente mar)",
+        "area_privativa": "230 m²",
+        "area_total": "368 m²",
+        "configuracao": "5 suítes + 1 lavabo",
+        "vagas": 5,
+        "lazer": [
+          "Piscina adulto",
+          "Piscina infantil",
+          "Piscina térmica",
+          "Academia",
+          "Sala de jogos",
+          "Playground",
+          "Salão de festas",
+          "Espaço gourmet",
+          "Estar social",
+          "Spa",
+          "Sauna",
+          "Bicicletário",
+          "Box de praia",
+          "Hall decorado"
+        ]
+      }
+    },
+    {
+      "slug": "hub-240",
+      "nome": "Hub 240",
+      "tipologia": "Torre multiuso",
+      "destaque": "Live · Work · Hub",
+      "localizacao": "Porto Belo/SC",
+      "status": "Lançamento",
+      "imagem": "fotos_web/hub-240.jpg",
+      "galeria": [
+        "fotos_web/hub-240.jpg",
+        "fotos_web/hub-240-2.jpg",
+        "fotos_web/hub-240-3.jpg",
+        "fotos_web/hub-240-4.jpg",
+        "fotos_web/hub-240-5.jpg",
+        "fotos_web/hub-240-6.jpg",
+        "fotos_web/hub-240-7.jpg",
+        "fotos_web/hub-240-8.jpg",
+        "fotos_web/hub-240-9.jpg",
+        "fotos_web/hub-240-10.jpg",
+        "fotos_web/hub-240-11.jpg"
+      ],
+      "ficha": {
+        "nome_oficial": "Edifício Hub 240",
+        "endereco": "Rua Leonor Baron, 240 — Porto Belo/SC",
+        "area_privativa": "71,1 m²",
+        "area_total": "80 m²",
+        "configuracao": "2 dormitórios (1 suíte) + 1 banheiro social",
+        "vagas": 1,
+        "lazer": [
+          "Piscina adulto",
+          "Piscina infantil",
+          "Academia",
+          "Sala de jogos",
+          "Playground",
+          "Sala de reunião",
+          "Estar social",
+          "Espelho d'água",
+          "Hall decorado",
+          "Lavanderia compartilhada (OMO)"
+        ]
+      }
+    },
+    {
+      "slug": "sunstar-tower",
+      "nome": "Sunstar Tower",
+      "tipologia": "Torre residencial",
+      "destaque": "Rooftop vista mar",
+      "localizacao": "Itapema/SC",
+      "status": "Em obras",
+      "imagem": "fotos_web/sunstar-tower.jpg",
+      "galeria": [
+        "fotos_web/sunstar-tower.jpg",
+        "fotos_web/sunstar-tower-2.jpg",
+        "fotos_web/sunstar-tower-3.jpg",
+        "fotos_web/sunstar-tower-4.jpg",
+        "fotos_web/sunstar-tower-5.jpg",
+        "fotos_web/sunstar-tower-6.jpg",
+        "fotos_web/sunstar-tower-7.jpg",
+        "fotos_web/sunstar-tower-8.jpg",
+        "fotos_web/sunstar-tower-9.jpg",
+        "fotos_web/sunstar-tower-10.jpg",
+        "fotos_web/sunstar-tower-11.jpg",
+        "fotos_web/sunstar-tower-12.jpg"
+      ],
+      "ficha": {
+        "nome_oficial": "Sunstar Ocean Tower",
+        "endereco": "Avenida Nereu Ramos, 385 (esq. Rua 139), Centro — Itapema/SC (~100 m da praia)",
+        "area_privativa": "206 m²",
+        "area_total": "237 m²",
+        "configuracao": "4 suítes + 4 banheiros · 1 apto por andar",
+        "vagas": 3,
+        "lazer": [
+          "Piscina adulto",
+          "Piscina infantil",
+          "Piscina térmica",
+          "Academia",
+          "Lounge",
+          "Espaço gourmet",
+          "Rooftop",
+          "Bar",
+          "Salão de festas",
+          "Sala de jogos",
+          "Segurança 24h"
+        ]
+      }
+    },
+    {
+      "slug": "san-andreas",
+      "nome": "Residencial San Andreas",
+      "tipologia": "Torre residencial",
+      "destaque": "Vertical premium",
+      "localizacao": "Balneário Camboriú/SC",
+      "status": "Em obras",
+      "imagem": "fotos_web/san-andreas.jpg",
+      "galeria": [
+        "fotos_web/san-andreas.jpg",
+        "fotos_web/san-andreas-2.jpg",
+        "fotos_web/san-andreas-3.jpg",
+        "fotos_web/san-andreas-4.jpg",
+        "fotos_web/san-andreas-5.jpg",
+        "fotos_web/san-andreas-6.jpg",
+        "fotos_web/san-andreas-7.jpg",
+        "fotos_web/san-andreas-8.jpg",
+        "fotos_web/san-andreas-9.jpg",
+        "fotos_web/san-andreas-10.jpg"
+      ],
+      "ficha": {
+        "nome_oficial": "San Andreas",
+        "endereco": "Rua 3900, 99 — Balneário Camboriú/SC",
+        "area_privativa": "91,9 m²",
+        "area_total": "116,32 m²",
+        "configuracao": "3 dormitórios (1 suíte) + 1 banheiro social",
+        "vagas": 2,
+        "lazer": [
+          "Elevador",
+          "Hall decorado",
+          "Box de praia"
+        ]
+      }
+    },
+    {
+      "slug": "san-valentin",
+      "nome": "Residencial San Valentin",
+      "tipologia": "Torre residencial",
+      "destaque": "Fachada assinatura",
+      "localizacao": "Balneário Camboriú/SC",
+      "status": "Lançamento",
+      "imagem": "fotos_web/san-valentin.jpg",
+      "galeria": [
+        "fotos_web/san-valentin.jpg",
+        "fotos_web/san-valentin-2.jpg",
+        "fotos_web/san-valentin-3.jpg",
+        "fotos_web/san-valentin-4.jpg",
+        "fotos_web/san-valentin-5.jpg",
+        "fotos_web/san-valentin-6.jpg",
+        "fotos_web/san-valentin-7.jpg",
+        "fotos_web/san-valentin-8.jpg",
+        "fotos_web/san-valentin-9.jpg"
+      ],
+      "ficha": {
+        "nome_oficial": "San Valentin",
+        "endereco": "Rua 2480, 155 — Balneário Camboriú/SC",
+        "area_privativa": "130,61 m²",
+        "area_total": "129,02 m² (verificar divergência)",
+        "configuracao": "3 suítes + 1 lavabo",
+        "vagas": 3,
+        "lazer": [
+          "Piscina adulto",
+          "Piscina infantil",
+          "Academia",
+          "Playground",
+          "Brinquedoteca",
+          "Espaço gourmet",
+          "Box de praia",
+          "Hall decorado",
+          "Medidores individuais"
+        ]
+      }
+    },
+    {
+      "slug": "villa-do-mar",
+      "nome": "Villa do Mar",
+      "tipologia": "Torre residencial",
+      "destaque": "Frente mar",
+      "localizacao": "Itapema/SC",
+      "status": "Em obras",
+      "imagem": "fotos_web/villa-do-mar.jpg",
+      "galeria": [
+        "fotos_web/villa-do-mar.jpg",
+        "fotos_web/villa-do-mar-2.jpg",
+        "fotos_web/villa-do-mar-3.jpg",
+        "fotos_web/villa-do-mar-4.jpg",
+        "fotos_web/villa-do-mar-5.jpg",
+        "fotos_web/villa-do-mar-6.jpg",
+        "fotos_web/villa-do-mar-7.jpg",
+        "fotos_web/villa-do-mar-8.jpg",
+        "fotos_web/villa-do-mar-9.jpg",
+        "fotos_web/villa-do-mar-10.jpg"
+      ],
+      "ficha": {
+        "nome_oficial": "Residencial Villa do Mar",
+        "endereco": "Rua 222, 155 — Itapema/SC",
+        "area_privativa": "220 m²",
+        "area_total": "307 m²",
+        "configuracao": "4 dormitórios (2 suítes) + 1 lavabo",
+        "vagas": 2,
+        "lazer": [
+          "Piscina adulto",
+          "Piscina infantil",
+          "Academia",
+          "Sala de jogos",
+          "Playground",
+          "Spa",
+          "Salão de festas",
+          "Espaço gourmet",
+          "Estar social",
+          "Solarium",
+          "Brinquedoteca",
+          "Box de praia",
+          "Hall decorado",
+          "Mercadinho 24h"
+        ]
+      }
+    },
+    {
+      "slug": "casa-colombo",
+      "nome": "Casa Colombo",
+      "tipologia": "Residência exclusiva",
+      "destaque": "Casa de alto padrão",
+      "localizacao": "Colombo/PR",
+      "status": "Pronto",
+      "imagem": "fotos_web/casa-colombo.jpg",
+      "galeria": [
+        "fotos_web/casa-colombo.jpg",
+        "fotos_web/casa-colombo-2.jpg",
+        "fotos_web/casa-colombo-3.jpg",
+        "fotos_web/casa-colombo-4.jpg",
+        "fotos_web/casa-colombo-5.jpg",
+        "fotos_web/casa-colombo-6.jpg",
+        "fotos_web/casa-colombo-7.jpg",
+        "fotos_web/casa-colombo-8.jpg"
+      ],
+      "ficha": {
+        "nome_oficial": "Sobrado (Casa Colombo)",
+        "endereco": "Rua do Rosário, 99 — Colombo/PR",
+        "area_privativa": "163 m²",
+        "area_total": "178 m²",
+        "configuracao": "3 dormitórios (1 suíte) · 3 banheiros",
+        "vagas": 2,
+        "lazer": [
+          "Imóvel independente (sem lazer condominial)"
+        ]
+      }
+    }
+  ]
+}

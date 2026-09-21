@@ -1,110 +1,111 @@
 # Site A10 Empreendimentos
 
-Portfólio da **A10 Empreendimentos**, construído no **Lovable**
-(React + TanStack Start + Tailwind + shadcn/ui) seguindo o padrão visual validado da
-A10 (creme + navy + dourado · Cormorant Garamond + Poppins).
+Site estático do portfólio da **A10 Empreendimentos**, servido direto da raiz deste
+repositório (Netlify, ver `netlify.toml`). Sem build: é HTML, CSS e JS puro.
 
-> **Formato atual: deck cinematográfico (single-page vertical).** O site é uma única
-> página em slideshow com scroll-snap (14 cenas, cada uma 100vh): capa creme → 8
-> empreendimentos em foto full-bleed com moldura dourada, número fantasma e specs →
-> slides de encerramento ("Um portfólio · uma direção", manifesto "Vamos construir
-> juntos" com link WhatsApp, assinatura A10 × R21, notas, "Fim"). Tem barra de
-> progresso, dots de navegação laterais, navegação por teclado (↑/↓, PgUp/PgDn,
-> Home/End), parallax suave e reveal-on-scroll. Réplica refinada do deck de referência
-> (netlify) aprovado pelo cliente.
->
-> *(Histórico: uma primeira versão era institucional multi-página — home, portfólio,
-> sobre, contato e páginas de detalhe. Foi substituída pelo deck a pedido.)*
+Identidade: creme `#F5F2EA` / navy `#0B1624` / dourado `#B7965A`, Cormorant Garamond
+nos títulos e Poppins no corpo. Logo oficial dourada em `lib/a10-logo.png`, presente
+no header e no rodapé de todas as páginas.
 
-## Links do projeto (Lovable)
+## Páginas
 
-- **Projeto:** Ippouniverse Explorer — `8239c145-1e56-4f56-8db3-e2fcc3da863f`
-- **Workspace:** Giulliano's Lovable
-- **Editor:** https://lovable.dev/projects/8239c145-1e56-4f56-8db3-e2fcc3da863f
-- **Preview:** https://id-preview--8239c145-1e56-4f56-8db3-e2fcc3da863f.lovable.app
+| Arquivo | O que é |
+|---|---|
+| `index.html` | **Catálogo.** Rotas por hash: `#/` (grade), `#/mapa`, `#/contato`, `#/emp/<slug>` (detalhe) |
+| `patio-estaleiro.html` | **Landing do Pátio Estaleiro.** Página de comunicação do empreendimento (filosofia, residências, santuário arquitetônico, galeria, localização, contato) |
+| `apresentacao.html` | **Deck** cinematográfico em scroll vertical. Ainda com as fotos embutidas em base64 (58 MB) |
 
-> O código-fonte do site vive no repositório interno do Lovable. Esta pasta guarda a
-> **documentação** e as **fotos web** que alimentam o site.
+### Estrutura do catálogo
 
-## Estrutura do site (deck — rota única `/`, 11 cenas)
+1. **Hero** com as categorias Todos / A10 / Imóveis Diversos e o atalho para o mapa
+2. **Em destaque**: Pátio Estaleiro, Solenne e Holmes em cards grandes. A faixa some
+   assim que o visitante busca, filtra ou troca de categoria
+3. **Barra de ferramentas**: busca por texto (nome, cidade, rua, destaque, tipologia),
+   filtros em drawer e ordenação (destaque, preço, área, nome)
+4. **Grade** de cards. A foto sempre preenche o card (`object-fit: cover`); quem não
+   tem foto mostra "Foto em breve"
+5. **Detalhe** (`#/emp/<slug>`): capa clicável e três abas
+   - **Galeria de fotos**, com miniaturas e lightbox em tela cheia (setas, teclado,
+     Esc). Empreendimentos com o campo `grupos` vêm separados por casa (o Pátio
+     Estaleiro mostra Casa Mar e Casa Brisa)
+   - **Informações**: specs, descrição, atributos e comodidades
+   - **Localização**: mapa Leaflet, endereço e link do Google Maps
+6. **Contato** (`#/contato`) e rodapé com endereço, WhatsApp, e-mail, horário e redes
 
-| # | Cena | Descrição |
-|---|------|-----------|
-| 1 | Capa | **Fundo creme sólido** (`#F0EBDD`, sem foto), logo A10, "Nossos *empreendimentos.*", stats 08 · Torres · Casas, "role para caminhar" |
-| 2–9 | Empreendimentos | 1 por tela: foto full-bleed (capa) + moldura dourada, número fantasma, título serif/dourado, tag, specs (Tipologia, Destaque/Parceria, Localização, Status) e **aba/galeria de fotos** com as demais imagens do campo `galeria` (6–13 por empreendimento) |
-| 10 | Direção | Navy, "10" gigante, "Um portfólio · uma direção" |
-| 11 | Manifesto (final) | "Vamos construir *juntos.*" + link discreto WhatsApp "Falar com a A10" — **cena de encerramento** |
+## Dados
 
-> As cenas de Assinatura (A10 × R21), Notas e "Fim" foram removidas a pedido — o deck
-> encerra no manifesto. O número de WhatsApp do link "Falar com a A10" é placeholder
-> (`5547999999999`) até o número oficial ser definido.
+`empreendimentos.json` na raiz é a **fonte de verdade**. Ele tem quatro blocos:
 
-## Os 8 empreendimentos e as galerias de fotos
+- `contato`: WhatsApp, e-mail, endereço, horário de atendimento e redes sociais
+- `destaques`: os slugs da faixa "Em destaque", na ordem
+- `empreendimentos`: os 20 empreendimentos
+- `patio_landing`: todo o texto da landing do Pátio Estaleiro
 
-As fotos web otimizadas estão em [`fotos_web/`](./fotos_web/). Cada arquivo é nomeado
-`<slug>.jpg` (capa) + `<slug>-N.jpg` (galeria). O campo `galeria` de cada empreendimento
-em [`empreendimentos.json`](./empreendimentos.json) lista **todas** as fotos na ordem de
-exibição (a primeira é a capa/full-bleed; as demais compõem a aba **Galeria de fotos**).
+As páginas não leem esse JSON direto: elas carregam `dados/empreendimentos.js`, que é
+**gerado** a partir dele. Depois de editar o JSON, rode:
 
-| # | Slug | Nome | Nº de fotos | Conteúdo da galeria |
-|---|------|------|:-----------:|---------------------|
-| 1 | `patio-estaleiro` | Pátio Estaleiro (A10 × R21) | 6 | Casa Mar + Casa Brisa (fachada, pôr do sol, real) |
-| 2 | `aurora` | Residencial Aurora | 13 | Torre + lazer + apto decorado (vista mar, living, cozinha, suíte, banheiro, varanda, rooftop, hall) |
-| 3 | `hub-240` | Hub 240 | 11 | Fachada + amenities (rooftop, piscina, coworking, game, mercado) + unidades decoradas |
-| 4 | `sunstar-tower` | Sunstar Tower | 12 | Fachada + rooftop/infinity pool + academia + penthouse panorâmica + closet + suíte vista mar |
-| 5 | `san-andreas` | Residencial San Andreas | 10 | Fachada + apto mobiliado (living, cozinha, suíte, banheiro, varanda vista) |
-| 6 | `san-valentin` | Residencial San Valentin | 9 | Apto decorado (living integrado, cozinha, suíte master, banheiro, varanda vista) |
-| 7 | `villa-do-mar` | Villa do Mar | 10 | Apto mobiliado (living, cozinha/jantar, suíte, banheiro, terraço gourmet) |
-| 8 | `casa-colombo` | Casa Colombo | 8 | Casa pronta (fachada, ambientes com teto/piso em madeira, cozinha) |
+```bash
+python3 build/gerar_dados.py
+```
 
-- **Hero da home:** `home-hero.jpg` (torre Aurora com piscina refletindo — foto-assinatura do portfólio).
+(Um `<script src>` funciona tanto no Netlify quanto abrindo o arquivo local, o que um
+`fetch()` de JSON não permite.)
 
-### Origem das fotos
+### Campos de cada empreendimento
 
-- **Aurora, Hub 240, Sunstar Tower, San Andreas, San Valentin, Villa do Mar, Casa Colombo:**
-  baixadas do Google Drive **Grupo Vluw - Mkt e Comercial → 1. EMPREENDIMENTOS →
-  `<NOME>` → FOTOS `<NOME>`**. Cada pasta tem 16–36 fotos brutas; foram curadas as
-  melhores 7–11 por empreendimento.
-- **Pátio Estaleiro:** a pasta do Drive só tem criativos de marketing (com preço/logo);
-  a galeria usa as fotos limpas de `../EMPREENDIMENTOS A10/` (Casa Mar / Casa Brisa,
-  variantes `_real` e `_foto_pordosol`).
+`slug`, `nome`, `reg` + `accent` (o nome quebrado para o título), `tipologia`, `tipo`,
+`cidade`, `endereco`, `tag`, `valor` + `valorNum`, `metragem` + `areaNum`,
+`quartos` + `quartosNum` + `quartosLabel`, `vagas` + `vagasNum`, `banheirosNum`,
+`status`, `parceria`, `destaque`, `descricao`, `atributos[]`, `comodidades[]`,
+`fotos[]`, `grupos[]`, `placeholder`, `imgpos`, `fit`, `categoria` (`a10` ou
+`diversos`), `lat`, `lng`.
 
-Todas as versões em `fotos_web/` foram redimensionadas (máx. 1920px de largura) e
-otimizadas (JPEG progressivo, qualidade ~84) para uso web.
+O Pátio Estaleiro tem ainda `arquiteto`, `landing` (link para a página dedicada) e
+`condominio`.
 
-> **Dados dos CHECKLISTs (Drive):** os PDFs `CHECKLIST *.pdf` de cada pasta trazem
-> endereço, metragem e configuração. Esses dados foram adicionados ao
-> `empreendimentos.json` no objeto **`ficha`** (campos `nome_oficial`, `endereco`,
-> `area_privativa`, `area_total`, `configuracao`, `vagas`, `lazer[]`) para
-> Aurora, Hub 240, Sunstar Tower, San Andreas, San Valentin, Villa do Mar e
-> Casa Colombo. Só Pátio Estaleiro fica sem `ficha` (a pasta do Drive não tem
-> CHECKLIST — só criativos de marketing). Obs.: San Valentin tem divergência de
-> metragem no PDF original (marcada no campo `area_total`); Casa Colombo é um
-> **sobrado em Colombo/PR** (não litoral) — a `localizacao` foi corrigida.
+## Fotos
 
-## Identidade visual (tokens A10)
+As fotos ficam em `fotos/img/` como arquivos soltos (238 arquivos, 46 MB). O código
+resolve o caminho por convenção:
 
-| Token | Valor |
-|-------|-------|
-| Creme (fundo claro) | `#F0EBDD` (nunca branco puro) |
-| Navy (fundo escuro) | `#0B1624` · cards `#101B2C` |
-| Dourado | `#C9A86A` · claro `#D9BC7C` · sobre creme `#AC8A38` |
-| Fonte títulos/valores | Cormorant Garamond (600; itálico 500 para nomes) |
-| Fonte corpo/labels/CTA | Poppins (400/500/600) |
+```js
+const IMG = new Proxy({}, { get: (_, k) => 'fotos/img/' + k + '.jpg' });
+```
 
-Referência completa em [`../A10_PADRAO/INSTRUCOES.md`](../A10_PADRAO/INSTRUCOES.md).
+Convenção de nomes: capa = `<slug>.jpg`, galeria = `<slug>-1.jpg`, `<slug>-2.jpg` etc.
+O campo `fotos[]` lista os slugs na ordem de exibição, e o primeiro é a capa.
 
-## Dados comerciais pendentes
+### Origem no Google Drive
 
-Localização e status de vários empreendimentos estão como **"A confirmar"** de propósito.
-Assim que os dados oficiais forem definidos, atualizar em `src/lib/empreendimentos.ts` no
-projeto Lovable (campos `localizacao` e `status`).
+`Grupo Vluw - Mkt e Comercial` → `1. EMPREENDIMENTOS` → `<NOME>` → `FOTOS <sigla>`,
+com um `CHECKLIST <NOME>.pdf` ao lado trazendo endereço, metragem e configuração.
+O Pátio Estaleiro fica fora dessa pasta, em
+`A10 Empreendimentos - Material Vluw` → `Pátio Estaleiro`.
 
-## Como atualizar
+Três empreendimentos não têm pasta no Drive nem foto no site e aparecem como
+"Foto em breve": `acqua-laura`, `privilege` e `haleiwa`.
 
-1. Abrir o **editor** do projeto no Lovable (link acima).
-2. Para trocar/adicionar fotos: enviar as imagens no chat do Lovable com o nome do `slug`
-   e pedir para substituir; o agente sobe para a CDN (`lovable-assets`) e atualiza
-   `src/lib/empreendimentos.ts` + rotas.
-3. Para publicar o site: usar **Publish** no Lovable (gera um domínio `*.lovable.app`;
-   domínio próprio pode ser configurado nas settings do projeto).
+A pasta `ILHA DE BELIZE` existe no Drive e ainda não está no site.
+
+## Como rodar local
+
+```bash
+npx http-server -p 8791 .
+# http://127.0.0.1:8791/index.html
+```
+
+## Convenções de conteúdo
+
+- **Nunca usar travessões**, nem o longo nem o curto. Use ponto, vírgula, dois-pontos ou o separador `·`
+- Logo dourada oficial no header e no rodapé de toda página
+- A foto sempre preenche o card, sem faixas de fundo sobrando
+- WhatsApp oficial: `5547991916412`. Ele vem do JSON, não está escrito no HTML
+
+## Pendências
+
+- `apresentacao.html` ainda carrega as fotos em base64 (58 MB). Externalizar para
+  `fotos/img/` derruba para algo perto de 300 KB
+- `netlify/` (113 MB) e `fotos_web/` (40 MB) são resíduo das versões anteriores e
+  podem sair do repositório
+- Conferir com o cliente: distância do mar do Pátio Estaleiro (90 m ou 120 m) e o
+  e-mail de contato (`a10negociosimb@gmail.com.br`)
