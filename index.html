@@ -1,404 +1,445 @@
 <!doctype html><html lang="pt-BR"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>A10 Empreendimentos · Portfólio</title>
-<meta name="description" content="Encontre seu endereço A10: empreendimentos de alto padrão em Balneário Camboriú, Itapema e Porto Belo.">
+<title>A10 Empreendimentos</title>
+<meta name="description" content="Empreendimentos de alto padrão no litoral de Santa Catarina. Balneário Camboriú, Itapema e Porto Belo.">
 <link rel="stylesheet" href="lib/fontes.css">
 <link rel="stylesheet" href="lib/leaflet/leaflet.css"/>
 <style>
-:root{--cream:#F5F2EA;--paper:#FBFAF5;--card:#FFFFFF;--navy:#0B1624;--navy-2:#1D2C4B;--gold:#B7965A;--gold-d:#856733;--ink:#1D2C4B;--muted:#6E7683;--line:rgba(29,44,75,.12);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Poppins','Segoe UI',system-ui,sans-serif}
+:root{
+  --cream:#F5EFE3;--paper:#FBF8F2;--card:#FFFFFF;
+  --navy:#0B1624;--ink:#1D2C4B;--muted:#6E7683;
+  --gold:#9A8250;--gold-l:#E7D9B8;--gold-d:#7A6538;
+  --line:rgba(29,44,75,.14);--line-gold:rgba(154,130,80,.45);
+  --serif:'Cormorant Garamond',Georgia,serif;--sans:'Poppins','Segoe UI',system-ui,sans-serif;
+  --nav-h:84px;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:var(--sans);background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;line-height:1.5;font-variant-numeric:lining-nums;font-feature-settings:'lnum' 1}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased;font-size:17px;line-height:1.8;font-variant-numeric:lining-nums;font-feature-settings:'lnum' 1;overflow-x:hidden}
+@media(max-width:768px){body{font-size:16px}}
 a{color:inherit;text-decoration:none}
 img{max-width:100%;display:block}
-*:focus-visible{outline:2px solid var(--gold);outline-offset:2px;border-radius:3px}
-.wrap{max-width:1400px;margin:0 auto;padding:0 clamp(16px,3vw,36px)}
+button{font:inherit;cursor:pointer}
+*:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
 em{font-style:italic}
-/* nav */
-.nav{position:sticky;top:0;z-index:1200;background:rgba(251,250,245,.9);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid var(--line)}
-.nav-in{display:flex;align-items:center;justify-content:space-between;height:62px;gap:16px}
-.nav-r{display:flex;align-items:center;gap:18px}
-.nav-r a.link{font-size:13px;color:var(--navy-2);opacity:.78;white-space:nowrap}
-.nav-r a.link:hover,.nav-r a.link.on{opacity:1;color:var(--gold-d)}
-.nav-wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff;padding:9px 16px;border-radius:100px;font-size:12.5px;font-weight:500;white-space:nowrap}
-.nav-wa svg{width:15px;height:15px;stroke:#fff;fill:none}
-@media(max-width:880px){.nav-r a.link{display:none}}
-.logo{display:inline-flex;align-items:center}
-.logo-img{height:38px;width:auto;display:block}
-.foot-logo{height:46px}
-@media(max-width:560px){.logo-img{height:31px}}
-/* hero */
-.hero{text-align:center;padding:clamp(26px,5vw,50px) 0 8px}
-.hero .eye{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--gold-d);margin-bottom:12px}
-.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,5vw,58px);line-height:1.03;color:var(--navy)}
-.hero h1 em{color:var(--gold-d)}
-.hero .sub{font-size:14.5px;color:var(--muted);margin-top:14px;max-width:62ch;margin-inline:auto}
-.cats{display:inline-flex;gap:6px;margin-top:24px;background:rgba(29,44,75,.06);border-radius:100px;padding:5px}
-.cat-btn{border:0;background:transparent;font-family:var(--sans);font-size:13px;color:var(--navy-2);padding:9px 20px;border-radius:100px;cursor:pointer;white-space:nowrap;transition:.2s}
-.cat-btn.on{background:#fff;color:var(--navy);box-shadow:0 1px 4px rgba(11,22,36,.12)}
-.cat-btn span{opacity:.5;font-size:11px;margin-left:4px}
-@media(max-width:560px){.cats{display:grid;grid-template-columns:repeat(3,1fr);width:100%}.cat-btn{padding:9px 6px;font-size:12px}}
-.hero-cta{margin-top:22px}
-.mapcta{display:inline-flex;align-items:center;gap:9px;background:var(--navy);color:#fff;border:0;padding:12px 22px;border-radius:100px;font-family:var(--sans);font-size:13.5px;cursor:pointer;box-shadow:0 6px 18px rgba(11,22,36,.18);transition:background .2s}
-.mapcta:hover{background:var(--navy-2)} .mapcta svg{stroke:var(--gold);fill:none}
-/* destaques */
-.destaques{padding-top:clamp(30px,4vw,52px);padding-bottom:6px}
-.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:20px}
-.sec-head .k{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-d)}
-.sec-head h2{font-family:var(--serif);font-weight:600;font-size:clamp(24px,3vw,34px);color:var(--navy);line-height:1.1}
-.sec-head p{font-size:13.5px;color:var(--muted);max-width:44ch}
-.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,1.8vw,22px)}
-@media(max-width:940px){.dgrid{grid-template-columns:1fr}}
-.dcard{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;cursor:pointer;background:linear-gradient(160deg,#12203a,#0a1420)}
-@media(max-width:940px){.dcard{aspect-ratio:16/11}}
-.dcard img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-.dcard:hover img{transform:scale(1.05)}
-.dcard::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,22,36,0) 34%,rgba(11,22,36,.82) 100%)}
-.dcard-b{position:absolute;left:0;right:0;bottom:0;padding:22px;z-index:2;color:#fff}
-.dcard-k{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#E7D09B;margin-bottom:7px}
-.dcard-n{font-family:var(--serif);font-weight:600;font-size:clamp(25px,2.6vw,31px);line-height:1.04}
-.dcard-n em{font-weight:500;color:#E7D09B}
-.dcard-t{font-family:var(--serif);font-style:italic;font-size:15px;color:rgba(255,255,255,.82);margin-top:5px}
-.dcard-m{font-size:12.5px;color:rgba(255,255,255,.72);margin-top:9px}
-.dcard-sel{position:absolute;top:14px;left:14px;z-index:2;background:radial-gradient(circle at 33% 28%,#E7D09B,#C9A86A 60%,#A9884E);color:#0B1624;font-family:var(--serif);font-weight:600;font-size:12.5px;padding:5px 13px;border-radius:100px}
-/* toolbar */
-.toolbar{position:sticky;top:62px;z-index:1100;background:rgba(251,250,245,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);margin-top:26px}
-.toolbar-in{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:12px;padding-bottom:12px;flex-wrap:wrap}
-.count{font-size:14px;color:var(--navy-2)}.count b{font-family:var(--serif);font-size:19px;color:var(--navy)}
-.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.btn-ghost{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;color:var(--navy-2);padding:9px 15px;border-radius:10px;font-size:13px;cursor:pointer;font-family:var(--sans)}
-.btn-ghost:hover{border-color:var(--gold)}
-.btn-ghost svg{width:15px;height:15px;stroke:currentColor;fill:none}
-.sortsel{appearance:none;border:1px solid var(--line);background:#fff;color:var(--navy-2);padding:9px 30px 9px 13px;border-radius:10px;font-size:13px;font-family:var(--sans);cursor:pointer}
-.search{position:relative;display:flex;align-items:center}
-.search svg{position:absolute;left:12px;width:15px;height:15px;stroke:var(--muted);fill:none;pointer-events:none}
-.search input{border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 13px 9px 34px;border-radius:10px;font-size:13px;font-family:var(--sans);width:min(260px,52vw)}
-.search input::placeholder{color:var(--muted)}
-.search input:focus{border-color:var(--gold);outline:none}
-/* chips */
-.chips{display:flex;flex-wrap:wrap;gap:8px;padding:12px 0 0}.chips:empty{display:none}
-.chip{display:inline-flex;align-items:center;gap:6px;background:rgba(183,150,90,.12);color:var(--gold-d);border:1px solid rgba(183,150,90,.3);padding:5px 11px;border-radius:100px;font-size:12px}
-.chip .chipx{border:0;background:transparent;color:var(--gold-d);font-size:15px;line-height:1;cursor:pointer;padding:2px}
-.chip.clear{background:transparent;border-color:var(--line);color:var(--muted);cursor:pointer;font-family:var(--sans)}
-/* grade */
-.listings{padding-top:22px;padding-bottom:64px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:clamp(16px,2vw,26px)}
-.ecard{cursor:pointer;display:flex;flex-direction:column;gap:10px}
-.ecard-img{position:relative;aspect-ratio:20/17;border-radius:16px;overflow:hidden;background:linear-gradient(160deg,#12203a,#0a1420)}
-.ecard-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
-.ecard:hover .ecard-img img{transform:scale(1.04)}
-.ecard-img .ph{position:absolute;inset:0;display:flex;flex-direction:column;gap:8px;align-items:center;justify-content:center;color:rgba(183,150,90,.55);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
-.ecard-img .ph svg{width:38px;height:38px;stroke:currentColor;fill:none}
-.seal{position:absolute;top:11px;right:11px;width:42px;height:42px;border-radius:50%;background:radial-gradient(circle at 33% 28%,#E7D09B,#C9A86A 60%,#A9884E);color:#0B1624;display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-weight:600;font-size:15px;box-shadow:0 4px 12px rgba(11,22,36,.3);border:1.5px solid rgba(255,255,255,.7)}
-.pill{position:absolute;top:11px;left:11px;background:rgba(11,22,36,.8);color:var(--gold);font-size:10px;letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;border-radius:100px;backdrop-filter:blur(4px)}
-.nfotos{position:absolute;right:11px;bottom:11px;background:rgba(11,22,36,.72);color:#fff;font-size:11px;padding:4px 10px;border-radius:100px;backdrop-filter:blur(4px);display:inline-flex;align-items:center;gap:6px}
-.nfotos svg{width:12px;height:12px;stroke:currentColor;fill:none}
-.ecard-loc{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-d)}
-.ecard-nome{font-family:var(--serif);font-weight:600;font-size:22px;line-height:1.05;color:var(--navy)}
-.ecard-nome em{font-weight:500;color:var(--gold-d)}
-.ecard-meta{font-size:13px;color:var(--muted);margin-top:2px}
-.ecard-price{font-family:var(--serif);font-size:19px;font-weight:600;color:var(--navy);margin-top:4px}
-.ecard-price small{font-size:12px;font-family:var(--sans);font-weight:400;color:var(--muted)}
-.empty{grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--muted)}.empty .big{font-family:var(--serif);font-size:26px;color:var(--navy);margin-bottom:8px}
-/* leaflet */
-.pricetip{background:#fff!important;border:1px solid var(--line)!important;border-radius:10px!important;box-shadow:0 3px 10px rgba(11,22,36,.18)!important;color:var(--navy)!important;font-family:var(--sans)!important;font-size:11px!important;padding:5px 9px!important;text-align:center;line-height:1.3}
-.pricetip b{font-family:var(--serif);font-size:13px;color:var(--navy)}
-.pricetip.a10{border-color:var(--gold)!important}.pricetip.a10 b{color:var(--gold-d)}
+.wrap{max-width:1360px;margin:0 auto;padding-left:clamp(20px,4vw,52px);padding-right:clamp(20px,4vw,52px)}
+.wrap-narrow{max-width:1080px;margin:0 auto;padding-left:clamp(20px,4vw,52px);padding-right:clamp(20px,4vw,52px)}
+
+/* ====== tipografia JHSF ====== */
+.kicker{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:500}
+@media(max-width:768px){.kicker{font-size:12px}}
+.sec-title{font-family:var(--serif);font-weight:500;font-size:clamp(34px,4.4vw,62px);line-height:1.06;color:var(--gold);text-align:center}
+.sec-title.ink{color:var(--navy)}
+.sec-head{text-align:center;padding:clamp(56px,7vw,104px) 0 clamp(30px,4vw,56px)}
+.sec-head p{max-width:60ch;margin:20px auto 0;color:var(--muted);font-size:17px}
+.lead{font-size:17px;line-height:1.85;color:var(--ink);max-width:62ch}
+
+/* ====== botoes retos, como o JHSF ====== */
+.btn{display:inline-flex;align-items:center;gap:14px;padding:17px 34px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;border:0;transition:.22s}
+.btn-cream{background:var(--cream);color:var(--navy)}
+.btn-cream:hover{background:#fff}
+.btn-navy{background:var(--navy);color:var(--cream)}
+.btn-navy:hover{background:var(--ink)}
+.btn-line{border:1px solid var(--line-gold);color:var(--navy);background:transparent}
+.btn-line:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+.btn-line-light{border:1px solid rgba(255,255,255,.5);color:#fff;background:transparent}
+.btn-line-light:hover{background:#fff;color:var(--navy)}
+.btn .arw{font-size:15px;line-height:1}
+
+/* ====== header transparente, logo no centro ====== */
+.nav{position:fixed;top:0;left:0;right:0;z-index:1200;transition:background .3s,box-shadow .3s}
+.nav-in{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:var(--nav-h);gap:24px}
+.nav-side{display:flex;align-items:center;gap:clamp(16px,2.2vw,34px)}
+.nav-side.right{justify-content:flex-end}
+.nav a.nlink{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:#fff;white-space:nowrap;opacity:.9;transition:.2s;padding:6px 0;border-bottom:1px solid transparent}
+.nav a.nlink:hover{opacity:1;border-bottom-color:var(--gold-l)}
+.nav a.nlink.on{opacity:1;border-bottom-color:var(--gold-l)}
+.nav-logo img{height:46px;width:auto;filter:brightness(0) invert(1);transition:filter .3s}
+@media(max-width:640px){.nav-logo img{height:34px}}
+.nav-burger{display:none;width:44px;height:44px;background:none;border:0;color:#fff;align-items:center;justify-content:center}
+.nav-burger svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.4}
+/* estado solido, fora do hero */
+body.nav-solid .nav{background:var(--paper);box-shadow:0 1px 0 var(--line)}
+body.nav-solid .nav a.nlink{color:var(--ink);opacity:.82}
+body.nav-solid .nav a.nlink:hover,body.nav-solid .nav a.nlink.on{color:var(--gold-d);opacity:1;border-bottom-color:var(--gold)}
+body.nav-solid .nav-logo img{filter:none}
+body.nav-solid .nav-burger{color:var(--ink)}
+@media(max-width:1100px){
+  .nav-side{display:none}
+  .nav-in{grid-template-columns:44px auto 44px}
+  .nav-burger{display:flex}
+  .nav-side.right{display:flex}
+  .nav-side.right .nlink{display:none}
+}
+/* menu mobile */
+.mmenu{position:fixed;inset:var(--nav-h) 0 0;background:var(--navy);z-index:1150;transform:translateY(-100%);transition:transform .35s cubic-bezier(.3,.8,.3,1);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:0 clamp(20px,6vw,60px);visibility:hidden}
+.mmenu.open{transform:none;visibility:visible}
+.mmenu a{font-family:var(--serif);font-size:34px;color:#fff;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+.mmenu a:last-child{border-bottom:0}
+
+/* ====== hero em video ====== */
+.vhero{position:relative;height:100svh;min-height:600px;background:var(--navy);overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center}
+.vhero-media{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vhero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,22,36,.62) 0%,rgba(11,22,36,.28) 38%,rgba(11,22,36,.72) 100%)}
+.vhero-in{position:relative;z-index:3;width:100%;padding:0 clamp(20px,5vw,60px)}
+.vhero-kick{font-size:17px;color:rgba(255,255,255,.92);letter-spacing:.02em;margin-bottom:clamp(16px,2.4vw,30px)}
+.vhero h1{font-family:var(--serif);font-weight:500;font-size:clamp(46px,8.4vw,116px);line-height:.98;color:#fff;letter-spacing:-.005em}
+.vhero .sub{font-size:17px;color:rgba(255,255,255,.78);max-width:52ch;margin:clamp(16px,2vw,26px) auto 0}
+.vhero-acts{margin-top:clamp(28px,4vw,50px);display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+.vhero-nav{position:absolute;left:0;right:0;bottom:clamp(28px,5vw,58px);z-index:3;display:flex;gap:30px;justify-content:center;align-items:center}
+.vhero-nav button{width:46px;height:46px;background:none;border:0;color:#fff;font-size:26px;line-height:1;opacity:.75;transition:.2s}
+.vhero-nav button:hover{opacity:1}
+.vhero-dots{display:flex;gap:9px}
+.vhero-dots i{width:7px;height:7px;background:rgba(255,255,255,.4);display:block;transition:.2s}
+.vhero-dots i.on{background:var(--gold-l);width:22px}
+
+/* ====== faixa de medalhoes ====== */
+.medals{background:var(--cream);padding:clamp(24px,3vw,38px) 0}
+.medals-track{display:flex;gap:clamp(18px,2.4vw,34px);overflow-x:auto;scrollbar-width:none;padding:4px clamp(20px,4vw,52px)}
+.medals-track::-webkit-scrollbar{display:none}
+.medal{flex:none;width:clamp(96px,9vw,124px);text-align:center}
+.medal-c{width:clamp(96px,9vw,124px);height:clamp(96px,9vw,124px);border-radius:50%;overflow:hidden;background:var(--navy);border:1px solid rgba(255,255,255,.8);box-shadow:0 1px 6px rgba(11,22,36,.1)}
+.medal-c img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.medal:hover .medal-c img{transform:scale(1.08)}
+.medal span{display:block;margin-top:11px;min-height:2.8em;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-d);line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+
+/* ====== tiles de foto, sangrando e sem raio ====== */
+.tiles{display:grid;grid-template-columns:1fr 1fr}
+@media(max-width:820px){.tiles{grid-template-columns:1fr}}
+.tile{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:var(--navy)}
+.tile img{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.7,.3,1)}
+.tile:hover img{transform:scale(1.045)}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,22,36,.42) 0%,rgba(11,22,36,.12) 45%,rgba(11,22,36,.62) 100%)}
+.tile-b{position:absolute;inset:0;z-index:2;padding:clamp(22px,2.6vw,38px);display:flex;flex-direction:column;justify-content:space-between;color:#fff}
+.tile-top{display:flex;gap:10px;flex-wrap:wrap}
+.tag{display:inline-block;padding:6px 13px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:rgba(11,22,36,.55);backdrop-filter:blur(6px);color:#fff}
+.tag.gold{background:var(--gold);color:#fff}
+.tag.light{background:rgba(255,255,255,.92);color:var(--navy)}
+.tile-nome{font-family:var(--serif);font-weight:500;font-size:clamp(28px,3.1vw,44px);line-height:1.02}
+.tile-meta{font-size:14px;color:rgba(255,255,255,.82);margin-top:8px}
+.tile-price{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(20px,1.7vw,26px);color:#fff;margin-top:6px}
+.tile.ph{display:flex;align-items:center;justify-content:center;background:var(--cream)}
+.tile.ph::after{display:none}
+.tile.ph .phtx{position:relative;z-index:2;color:var(--gold-d);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
+
+/* ====== bloco institucional creme + foto ====== */
+.split{display:grid;grid-template-columns:1fr 1fr;align-items:stretch}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+.split-txt{background:var(--cream);padding:clamp(40px,6vw,96px) clamp(24px,5vw,80px);display:flex;flex-direction:column;justify-content:center}
+.split-txt h2{font-family:var(--serif);font-weight:500;font-size:clamp(36px,4.4vw,60px);line-height:1.04;color:var(--navy)}
+.split-txt .lead{margin-top:22px;color:#4a5568}
+.split-box{border:1px solid var(--line-gold);padding:clamp(22px,2.6vw,34px);margin-top:clamp(26px,3vw,40px)}
+.split-box h3{font-family:var(--serif);font-weight:500;font-size:clamp(23px,2.2vw,30px);color:var(--navy)}
+.split-box p{margin-top:12px;font-size:16px;color:#4a5568}
+.split-acts{margin-top:clamp(26px,3vw,38px)}
+.split-img{position:relative;min-height:340px;background:var(--navy)}
+.split-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* ====== numeros ====== */
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:clamp(20px,3vw,44px);padding:clamp(48px,6vw,86px) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.num{text-align:center}
+.num b{display:block;font-family:var(--serif);font-weight:500;font-size:clamp(46px,5.4vw,74px);line-height:1;color:var(--gold)}
+.num span{display:block;margin-top:12px;font-size:12.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+
+/* ====== catalogo ====== */
+.view{display:none}
+.view.on{display:block}
+.toolbar{position:sticky;top:var(--nav-h);z-index:900;background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.toolbar-in{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding-top:14px;padding-bottom:14px}
+.count{margin-right:auto;font-size:15px;color:var(--ink)}
+.count b{font-family:var(--serif);font-size:22px;color:var(--navy)}
+.field{display:flex;align-items:center;gap:9px;border:1px solid var(--line);background:#fff;padding:0 14px;height:46px;min-width:0}
+.field svg{width:16px;height:16px;stroke:var(--muted);fill:none;flex:none}
+.field input{border:0;outline:0;background:none;font-size:15px;width:min(260px,44vw);min-width:0}
+.ctrl{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line);background:#fff;height:46px;padding:0 16px;font-size:14px;color:var(--ink)}
+.ctrl:hover{border-color:var(--gold)}
+.ctrl svg{width:16px;height:16px;stroke:currentColor;fill:none}
+select.ctrl{appearance:none;padding-right:30px}
+.cats{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;padding-bottom:clamp(30px,4vw,48px)}
+.cat{border:1px solid var(--line);background:transparent;padding:12px 26px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);transition:.2s}
+.cat:hover{border-color:var(--gold)}
+.cat.on{background:var(--navy);color:var(--cream);border-color:var(--navy)}
+.chips{display:flex;flex-wrap:wrap;gap:9px;padding-top:18px}
+.chips:empty{display:none}
+.chip{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line-gold);color:var(--gold-d);background:transparent;padding:7px 14px;font-size:12.5px}
+.chip button{border:0;background:none;color:inherit;font-size:15px;line-height:1}
+.chip.clear{border-color:var(--line);color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:2px;padding-bottom:clamp(50px,7vw,96px)}
+@media(max-width:700px){.grid{grid-template-columns:1fr}}
+.empty{grid-column:1/-1;text-align:center;padding:90px 20px;color:var(--muted)}
+.empty b{display:block;font-family:var(--serif);font-size:30px;color:var(--navy);margin-bottom:10px;font-weight:500}
+
+/* ====== detalhe ====== */
+.d-hero{position:relative;height:min(72vh,680px);background:var(--navy);overflow:hidden;cursor:zoom-in}
+.d-hero img{width:100%;height:100%;object-fit:cover}
+.d-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,22,36,.5) 0%,rgba(11,22,36,.1) 40%,rgba(11,22,36,.78) 100%)}
+.d-hero-in{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:clamp(28px,5vw,66px) 0;color:#fff}
+.d-hero-in .kicker{color:var(--gold-l)}
+.d-hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(38px,6vw,84px);line-height:1;margin-top:14px}
+.d-hero .dtag{font-family:var(--serif);font-style:italic;font-size:clamp(19px,2vw,26px);color:rgba(255,255,255,.85);margin-top:12px}
+.d-badges{display:flex;gap:9px;flex-wrap:wrap;margin-top:20px}
+.d-zoom{position:absolute;right:clamp(20px,4vw,52px);bottom:clamp(28px,5vw,66px);z-index:3}
+.d-bar{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:clamp(24px,3vw,40px) 0;border-bottom:1px solid var(--line)}
+.d-price{font-family:var(--serif);font-weight:500;font-size:clamp(30px,3.4vw,46px);color:var(--navy)}
+.tabs{display:flex;gap:0;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{border:0;background:none;padding:20px 26px 18px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+.tab:hover{color:var(--ink)}
+.tab.on{color:var(--navy);border-bottom-color:var(--gold)}
+.tab b{font-weight:400;color:var(--gold-d);margin-left:7px}
+.pane{display:none;padding:clamp(34px,4.6vw,66px) 0}
+.pane.on{display:block}
+.specs{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.spec{background:var(--paper);padding:26px 22px}
+.spec svg{width:22px;height:22px;stroke:var(--gold);fill:none;stroke-width:1.3}
+.spec p{margin-top:14px;font-size:15px;color:var(--ink)}
+.blk{margin-top:clamp(34px,4vw,58px)}
+.blk h2{font-family:var(--serif);font-weight:500;font-size:clamp(27px,2.8vw,38px);color:var(--navy)}
+.blk .lead{margin-top:18px;color:#4a5568}
+.attr{list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:13px 34px;margin-top:20px}
+.attr li{position:relative;padding-left:24px;font-size:16px;color:#4a5568}
+.attr li::before{content:"";position:absolute;left:0;top:11px;width:8px;height:8px;background:var(--gold)}
+.gal-grp+.gal-grp{margin-top:clamp(34px,4vw,56px)}
+.gal-t{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-d);margin-bottom:16px}
+.gal{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:2px}
+.gthumb{border:0;padding:0;aspect-ratio:4/3;overflow:hidden;background:var(--navy);cursor:zoom-in}
+.gthumb img{width:100%;height:100%;object-fit:cover;transition:transform .55s}
+.gthumb:hover img{transform:scale(1.07)}
+.gvazia{border:1px solid var(--line);padding:70px 24px;text-align:center;color:var(--muted)}
+.gvazia b{display:block;font-family:var(--serif);font-size:28px;color:var(--navy);margin-bottom:10px;font-weight:500}
+#detMap,#fullMap{width:100%;border:1px solid var(--line);z-index:0}
+#detMap{height:min(58vh,520px)}
+.mapmeta{display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap;margin-top:20px}
+.endereco b{display:block;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-d);margin-bottom:6px;font-weight:500}
+.aprox{font-size:14px;color:var(--muted);font-style:italic;margin-top:12px}
+.a10-pin{background:none;border:0;filter:drop-shadow(0 3px 6px rgba(11,22,36,.4))}
+.pricetip{background:var(--paper)!important;border:1px solid var(--line)!important;border-radius:0!important;box-shadow:0 2px 10px rgba(11,22,36,.16)!important;color:var(--navy)!important;font-family:var(--sans)!important;font-size:12px!important;padding:6px 11px!important;text-align:center;line-height:1.4}
+.pricetip b{font-family:var(--serif);font-size:15px;font-weight:500}
+.pricetip.a10 b{color:var(--gold-d)}
 .pricetip::before{display:none!important}
 .leaflet-container{font-family:var(--sans)}
-.view-map{display:none;position:fixed;inset:62px 0 0;z-index:1000;background:var(--paper)}
-.mapbar{position:absolute;top:0;left:0;right:0;z-index:1010;background:rgba(251,250,245,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-.mapbar-in{display:flex;align-items:center;gap:18px;padding-top:9px;padding-bottom:9px}
-.mapbar .back{margin:0;padding:6px 0}
-.mapbar-t{font-family:var(--serif);font-size:18px;color:var(--navy)}
-.mapbar-t span{font-family:var(--sans);font-size:12px;color:var(--muted);margin-left:4px}
-#fullMap{position:absolute;inset:52px 0 0;width:100%}
-.a10-pin{background:none;border:0;filter:drop-shadow(0 3px 5px rgba(11,22,36,.35))}
-/* DETALHE */
-.view-detail{display:none}
-.detail{max-width:980px;margin:0 auto;padding-top:18px;padding-bottom:70px}
-.back{display:inline-flex;align-items:center;gap:8px;background:none;border:0;color:var(--navy-2);font-family:var(--sans);font-size:14px;cursor:pointer;padding:10px 0;margin-bottom:6px}
-.back svg{width:16px;height:16px;stroke:currentColor;fill:none}
-.d-hero{position:relative;border-radius:18px;overflow:hidden;background:linear-gradient(160deg,#12203a,#0a1420);aspect-ratio:16/9;cursor:zoom-in}
-.d-hero img{width:100%;height:100%;object-fit:cover}
-.d-hero .ph{position:absolute;inset:0;display:flex;flex-direction:column;gap:10px;align-items:center;justify-content:center;color:rgba(183,150,90,.5);font-size:12px;letter-spacing:.2em;text-transform:uppercase}
-.d-hero .ph svg{width:52px;height:52px;stroke:currentColor;fill:none}
-.d-hero .expand{position:absolute;right:14px;bottom:14px;background:rgba(11,22,36,.72);color:#fff;font-size:12px;padding:8px 14px;border-radius:100px;backdrop-filter:blur(4px);display:inline-flex;align-items:center;gap:7px}
-.d-hero .expand svg{width:13px;height:13px;stroke:currentColor;fill:none}
-.d-head{margin:26px 0 4px;display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.d-kick{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-d);margin-bottom:8px}
-.d-tit{font-family:var(--serif);font-weight:600;font-size:clamp(30px,4.5vw,50px);line-height:1;color:var(--navy)}
-.d-tit em{font-weight:500;color:var(--gold-d)}
-.d-tag{font-family:var(--serif);font-style:italic;font-size:18px;color:var(--muted);margin-top:8px}
-.d-badges{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
-.d-seal{display:inline-flex;align-items:center;gap:6px;background:radial-gradient(circle at 30% 30%,#E7D09B,#C9A86A);color:#0B1624;font-family:var(--serif);font-weight:600;font-size:13px;padding:5px 12px;border-radius:100px}
-.d-status{display:inline-flex;background:var(--navy);color:var(--gold);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:6px 12px;border-radius:100px}
-.d-land{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--gold);color:var(--gold-d);font-size:12px;padding:5px 13px;border-radius:100px}
-.d-disp{display:inline-flex;align-items:center;gap:7px;background:var(--gold);color:#0B1624;font-size:11.5px;font-weight:500;padding:6px 13px;border-radius:100px}
-.dcard-disp{display:inline-block;background:var(--gold);color:#0B1624;font-size:10.5px;font-weight:500;padding:4px 11px;border-radius:100px;margin-bottom:9px}
-.d-land svg{width:12px;height:12px;stroke:currentColor;fill:none}
-.d-price{font-family:var(--serif);font-weight:600;font-size:30px;color:var(--navy);white-space:nowrap}
-.d-price small{font-family:var(--sans);font-size:13px;font-weight:400;color:var(--muted)}
-/* abas */
-.tabs{display:flex;gap:4px;margin:26px 0 0;border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
-.tabs::-webkit-scrollbar{display:none}
-.tab-btn{border:0;background:transparent;font-family:var(--sans);font-size:13.5px;color:var(--muted);padding:13px 16px;cursor:pointer;position:relative;white-space:nowrap;transition:color .2s}
-.tab-btn:hover{color:var(--navy-2)}
-.tab-btn.on{color:var(--navy)}
-.tab-btn.on::after{content:"";position:absolute;left:12px;right:12px;bottom:-1px;height:2px;background:var(--gold)}
-.tab-btn b{font-weight:400;color:var(--gold-d);margin-left:5px;font-size:12px}
-.tabpane{display:none;padding-top:22px}
-.tabpane.on{display:block}
-/* galeria */
-.gal-grp-t{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-d);margin:4px 0 14px}
-.gal-grp+.gal-grp{margin-top:34px}
-.gal-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}
-.gthumb{position:relative;border:0;padding:0;aspect-ratio:4/3;border-radius:12px;overflow:hidden;cursor:zoom-in;background:linear-gradient(160deg,#12203a,#0a1420)}
-.gthumb img{width:100%;height:100%;object-fit:cover;transition:transform .45s,opacity .3s}
-.gthumb:hover img{transform:scale(1.06)}
-.gthumb::after{content:"";position:absolute;inset:0;border:1px solid transparent;border-radius:12px;transition:border-color .2s}
-.gthumb:hover::after{border-color:var(--gold)}
-.gal-vazia{text-align:center;padding:48px 20px;color:var(--muted);border:1px dashed var(--line);border-radius:16px}
-.gal-vazia .big{font-family:var(--serif);font-size:23px;color:var(--navy);margin-bottom:6px}
-/* lightbox */
-.lb{position:fixed;inset:0;z-index:1400;background:rgba(7,13,22,.95);display:none;align-items:center;justify-content:center}
-.lb.open{display:flex}
-.lb img{max-width:92vw;max-height:84vh;object-fit:contain;border-radius:6px}
-.lb-x{position:absolute;top:18px;right:18px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;cursor:pointer}
-.lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:50px;height:50px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:24px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.lb-prev{left:18px}.lb-next{right:18px}
-.lb-x:hover,.lb-nav:hover{background:rgba(255,255,255,.24)}
-.lb-cap{position:absolute;left:0;right:0;bottom:22px;text-align:center;color:rgba(255,255,255,.8);font-size:12.5px;letter-spacing:.06em}
-@media(max-width:620px){.lb-nav{width:42px;height:42px}.lb-prev{left:8px}.lb-next{right:8px}}
-/* informacoes */
-.specs{display:flex;flex-wrap:wrap;gap:12px;margin:0 0 22px;padding:0 0 20px;border-bottom:1px solid var(--line)}
-.spec{display:flex;align-items:center;gap:9px;font-size:14.5px;color:var(--navy-2)}
-.spec-ic{width:34px;height:34px;border-radius:9px;background:rgba(183,150,90,.12);display:flex;align-items:center;justify-content:center;flex:none}
-.spec-ic svg{width:17px;height:17px;stroke:var(--gold-d);fill:none}
-.sec-t{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold-d);margin:26px 0 14px}
-.tabpane .sec-t:first-child{margin-top:0}
-.d-desc{font-family:var(--serif);font-size:19px;line-height:1.55;color:var(--navy-2);max-width:70ch}
-.attr{list-style:none;display:grid;grid-template-columns:repeat(2,1fr);gap:10px 28px}
-@media(max-width:600px){.attr{grid-template-columns:1fr}}
-.attr li{position:relative;padding-left:20px;font-size:14.5px;color:var(--navy-2)}
-.attr li::before{content:"";position:absolute;left:0;top:8px;width:7px;height:7px;border:1px solid var(--gold);transform:rotate(45deg)}
-#detMap{width:100%;height:360px;border-radius:16px;border:1px solid var(--line);z-index:0}
-.mapmeta{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-top:14px}
-.endereco{font-size:14.5px;color:var(--navy-2)}
-.endereco b{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-d);margin-bottom:3px;font-weight:600}
-.aprox{font-size:12px;color:var(--muted);font-style:italic;margin-top:8px}
-.maps-link{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 15px;border-radius:10px;font-size:13px}
-.maps-link:hover{border-color:var(--gold)}
-.wacta{margin-top:34px;display:flex;justify-content:center}
-.wa-btn{display:inline-flex;align-items:center;gap:11px;background:#25D366;color:#fff;padding:16px 30px;border-radius:14px;font-size:15px;font-weight:500;box-shadow:0 8px 24px rgba(37,211,102,.28)}
-.wa-btn svg{width:20px;height:20px;stroke:#fff;fill:none;stroke-width:1.3}
-.wa-btn:hover{background:#1eb457}
-/* CONTATO */
-.view-contato{display:none}
-.contato{max-width:1060px;margin:0 auto;padding-top:clamp(24px,4vw,44px);padding-bottom:70px}
-.ct-head{text-align:center;margin-bottom:clamp(28px,4vw,46px)}
-.ct-head .k{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-d);margin-bottom:12px}
-.ct-head h1{font-family:var(--serif);font-weight:500;font-size:clamp(30px,4.6vw,52px);color:var(--navy);line-height:1.05}
-.ct-head h1 em{color:var(--gold-d)}
-.ct-head p{font-size:14.5px;color:var(--muted);margin-top:14px;max-width:56ch;margin-inline:auto}
-.ct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(248px,1fr));gap:14px}
-.ct-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
-.ct-card h3{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-d);margin-bottom:12px}
-.ct-card p,.ct-card a{font-size:14.5px;color:var(--navy-2);line-height:1.6;word-break:break-word}
+#view-mapa .mapwrap{padding-bottom:clamp(50px,6vw,90px)}
+#fullMap{height:min(74vh,720px)}
+
+/* ====== contato ====== */
+.ct-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.ct-card{background:var(--paper);padding:clamp(24px,2.6vw,36px)}
+.ct-card h3{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-d);margin-bottom:16px;font-weight:500}
+.ct-card p,.ct-card a{font-size:16px;color:var(--ink);line-height:1.75;display:block;word-break:break-word}
 .ct-card a:hover{color:var(--gold-d)}
-.ct-card .hora{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--navy-2);padding:5px 0;border-bottom:1px solid var(--line)}
-.ct-card .hora:last-child{border-bottom:0}
-.ct-card .hora span:last-child{color:var(--muted)}
-.ct-cta{margin-top:30px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-/* footer */
-footer{background:var(--navy);color:#cfd6e0;padding:52px 0 34px;margin-top:20px}
-.foot-top{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:34px;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.1)}
-@media(max-width:860px){.foot-top{grid-template-columns:1fr;gap:26px}}
-.foot-top h4{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px}
-.foot-top p,.foot-top a{font-size:13.5px;color:#aab4c2;line-height:1.75;display:block}
+.hora{display:flex;justify-content:space-between;gap:14px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.hora:last-child{border-bottom:0}
+.hora span:last-child{color:var(--muted)}
+
+/* ====== whatsapp flutuante ====== */
+.wafab{position:fixed;right:20px;bottom:max(20px,env(safe-area-inset-bottom));z-index:1400;width:58px;height:58px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 22px rgba(11,22,36,.28);transition:transform .2s}
+.wafab:hover{transform:scale(1.06)}
+.wafab svg{width:29px;height:29px;fill:#fff}
+@media(min-width:768px){.wafab{right:28px;bottom:28px;width:62px;height:62px}}
+
+/* ====== lightbox ====== */
+.lb{position:fixed;inset:0;z-index:1500;background:rgba(7,12,20,.96);display:none;align-items:center;justify-content:center}
+.lb.open{display:flex}
+.lb img{max-width:92vw;max-height:84vh;object-fit:contain}
+.lb button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;cursor:pointer;transition:.2s}
+.lb button:hover{background:rgba(255,255,255,.26)}
+.lb-x{top:20px;right:20px;width:46px;height:46px;font-size:24px}
+.lb-p,.lb-n{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:26px}
+.lb-p{left:20px}.lb-n{right:20px}
+.lb-cap{position:absolute;left:0;right:0;bottom:24px;text-align:center;color:rgba(255,255,255,.75);font-size:13px}
+@media(max-width:620px){.lb-p,.lb-n{width:44px;height:44px}.lb-p{left:8px}.lb-n{right:8px}}
+
+/* ====== drawer filtros ====== */
+.ovl{position:fixed;inset:0;background:rgba(11,22,36,.45);opacity:0;visibility:hidden;transition:.3s;z-index:1300}
+.ovl.open{opacity:1;visibility:visible}
+.drw{position:fixed;top:0;right:0;height:100%;width:min(440px,94vw);background:var(--paper);z-index:1301;transform:translateX(100%);transition:transform .35s cubic-bezier(.3,.8,.3,1);display:flex;flex-direction:column}
+.drw.open{transform:none}
+.drw-h{display:flex;align-items:center;justify-content:space-between;padding:22px clamp(20px,3vw,30px);border-bottom:1px solid var(--line)}
+.drw-h h3{font-family:var(--serif);font-size:28px;font-weight:500;color:var(--navy)}
+.drw-b{flex:1;overflow-y:auto;padding:6px clamp(20px,3vw,30px) 20px}
+.fg{padding:22px 0;border-bottom:1px solid var(--line)}
+.fg:last-child{border-bottom:0}
+.fg h4{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-d);margin-bottom:14px;font-weight:500}
+.opts{display:flex;flex-wrap:wrap;gap:9px}
+.opt{border:1px solid var(--line);background:#fff;color:var(--ink);padding:9px 16px;font-size:14px;transition:.2s}
+.opt:hover{border-color:var(--gold)}
+.opt.on{background:var(--navy);color:var(--cream);border-color:var(--navy)}
+.drw-f{padding:18px clamp(20px,3vw,30px);border-top:1px solid var(--line);display:flex;gap:11px}
+.drw-f button{flex:1;padding:15px;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--line);background:#fff;color:var(--ink)}
+.drw-f .ap{background:var(--navy);color:var(--cream);border-color:var(--navy)}
+.xb{width:46px;height:46px;border:1px solid var(--line);background:#fff;font-size:20px;color:var(--ink)}
+
+/* ====== rodape ====== */
+footer{background:var(--navy);color:#b9c3d0}
+.foot-top{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:clamp(28px,4vw,56px);padding:clamp(48px,6vw,84px) 0 clamp(34px,4vw,50px)}
+@media(max-width:860px){.foot-top{grid-template-columns:1fr}}
+.foot-top h4{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-l);margin-bottom:18px;font-weight:500}
+.foot-top p,.foot-top a{font-size:15px;line-height:1.85;color:#98a4b4;display:block}
 .foot-top a:hover{color:#fff}
-.foot-assin{font-family:var(--serif);font-style:italic;font-size:17px;color:#d8dfe8;margin-top:16px;max-width:34ch}
-.foot-in{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;align-items:center;padding-top:26px}
-.foot-note{margin-top:22px;font-size:11px;color:#5c6a7d}
-/* drawer */
-.overlay{position:fixed;inset:0;background:rgba(11,22,36,.4);backdrop-filter:blur(2px);opacity:0;visibility:hidden;transition:.3s;z-index:1300}
-.overlay.open{opacity:1;visibility:visible}
-.drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);background:var(--paper);z-index:1301;transform:translateX(100%);transition:transform .35s cubic-bezier(.3,.8,.3,1);display:flex;flex-direction:column;box-shadow:-10px 0 40px rgba(11,22,36,.2)}
-.drawer.open{transform:none}
-.drawer-h{display:flex;align-items:center;justify-content:space-between;padding:18px 22px;border-bottom:1px solid var(--line)}
-.drawer-h h3{font-family:var(--serif);font-size:22px;color:var(--navy)}
-.drawer-b{overflow-y:auto;padding:6px 22px 18px;flex:1}
-.fgroup{padding:18px 0;border-bottom:1px solid var(--line)}.fgroup:last-child{border-bottom:0}
-.fgroup h4{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-d);margin-bottom:12px}
-.opts{display:flex;flex-wrap:wrap;gap:8px}
-.opt{border:1px solid var(--line);background:#fff;color:var(--navy-2);padding:8px 14px;border-radius:100px;font-size:13px;cursor:pointer;transition:.2s;font-family:var(--sans)}
-.opt:hover{border-color:var(--gold)}.opt.on{background:var(--navy);color:#fff;border-color:var(--navy)}
-.drawer-f{padding:14px 22px;border-top:1px solid var(--line);display:flex;gap:10px}
-.drawer-f button{flex:1;padding:13px;border-radius:11px;font-size:13px;cursor:pointer;font-family:var(--sans)}
-.b-clear{background:#fff;border:1px solid var(--line);color:var(--navy-2)}.b-apply{background:var(--navy);border:0;color:#fff}
-.x{width:42px;height:42px;border:1px solid var(--line);background:#fff;border-radius:10px;font-size:19px;color:var(--navy-2);cursor:pointer}
+.foot-logo{height:54px;width:auto}
+.foot-sig{font-family:var(--serif);font-style:italic;font-size:21px;color:#dbe2ea;margin-top:20px;max-width:30ch}
+.foot-note{border-top:1px solid rgba(255,255,255,.1);padding:22px 0 30px;font-size:13px;color:#61707f}
 </style>
 </head>
 <body>
+
 <div class="nav"><div class="wrap nav-in">
-  <a class="logo" href="#/" aria-label="A10 Empreendimentos"><img class="logo-img" src="lib/a10-logo.png" alt="A10 Empreendimentos"></a>
-  <div class="nav-r">
-    <a class="link" data-rota="#/" href="#/">Empreendimentos</a>
-    <a class="link" href="patio-estaleiro.html">Pátio Estaleiro</a>
-    <a class="link" data-rota="#/mapa" href="#/mapa">Mapa</a>
-    <a class="link" href="apresentacao.html">Apresentação</a>
-    <a class="link" data-rota="#/contato" href="#/contato">Contato</a>
-    <a class="nav-wa" id="navWa" target="_blank" rel="noopener"><svg viewBox="0 0 16 16"><path d="M8 1.5A6.5 6.5 0 001.7 11L1 15l4.1-.7A6.5 6.5 0 108 1.5z" stroke-width="1.2" fill="none" stroke="currentColor"/></svg> Fale com a gente</a>
-  </div>
+  <button class="nav-burger" id="burger" aria-label="Abrir menu" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg></button>
+  <div class="nav-side left" id="navL"></div>
+  <a class="nav-logo" href="#/" aria-label="A10 Empreendimentos"><img src="lib/a10-logo.png" alt="A10 Empreendimentos"></a>
+  <div class="nav-side right" id="navR"></div>
 </div></div>
+<nav class="mmenu" id="mmenu" aria-label="Navegação"></nav>
 
 <!-- ============ HOME ============ -->
-<div id="view-home" class="view-home">
-  <header class="hero wrap">
-    <div class="eye">O portfólio A10</div>
-    <h1>Encontre seu <em>endereço.</em></h1>
-    <p class="sub">Empreendimentos de alto padrão em Balneário Camboriú, Itapema e Porto Belo, com curadoria da A10.</p>
-    <div class="cats" id="cats">
-      <button class="cat-btn on" data-cat="todos">Todos <span id="cnt-todos"></span></button>
-      <button class="cat-btn" data-cat="a10">A10 <span id="cnt-a10"></span></button>
-      <button class="cat-btn" data-cat="diversos">Imóveis Diversos <span id="cnt-div"></span></button>
+<main id="view-home" class="view on">
+  <header class="vhero">
+    <video class="vhero-media" id="heroVid" autoplay muted loop playsinline preload="metadata" poster="fotos/img/patio-estaleiro.jpg">
+      <source src="video/a10-hero.mp4" type="video/mp4">
+    </video>
+    <div class="vhero-in">
+      <div class="vhero-kick" id="hKick"></div>
+      <h1 id="hTit"></h1>
+      <p class="sub" id="hSub"></p>
+      <div class="vhero-acts">
+        <a class="btn btn-cream" id="hCta">Saiba mais <span class="arw">&#8594;</span></a>
+        <a class="btn btn-line-light" href="#/empreendimentos">Ver todos</a>
+      </div>
     </div>
-    <div class="hero-cta"><button class="mapcta" onclick="location.hash='#/mapa'"><svg viewBox="0 0 16 16" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2L2 4v10l4-2 4 2 4-2V2l-4 2-4-2zM6 2v10M10 4v10"/></svg> Ver empreendimentos no mapa</button></div>
+    <div class="vhero-nav">
+      <button id="hPrev" aria-label="Anterior">&#8249;</button>
+      <div class="vhero-dots" id="hDots"></div>
+      <button id="hNext" aria-label="Próximo">&#8250;</button>
+    </div>
   </header>
 
-  <section class="wrap destaques" id="destaques">
-    <div class="sec-head">
-      <div>
-        <div class="k">Seleção A10</div>
-        <h2>Em destaque</h2>
-      </div>
-      <p>Os três endereços que a A10 está apresentando neste ciclo.</p>
+  <section class="medals"><div class="medals-track" id="medals"></div></section>
+
+  <section>
+    <div class="sec-head wrap">
+      <h2 class="sec-title">Nossos empreendimentos</h2>
+      <p>Uma curadoria de endereços no litoral de Santa Catarina, do lançamento à entrega.</p>
     </div>
-    <div class="dgrid" id="dgrid"></div>
+    <div class="tiles" id="homeTiles"></div>
+    <div style="text-align:center;padding:clamp(40px,5vw,70px) 20px">
+      <a class="btn btn-line" href="#/empreendimentos">Ver os 20 empreendimentos <span class="arw">&#8594;</span></a>
+    </div>
   </section>
 
-  <div class="toolbar"><div class="wrap toolbar-in">
-    <div class="count">Encontramos <b id="count">0</b> <span id="countlabel">empreendimentos</span></div>
-    <div class="tools">
-      <label class="search">
-        <svg viewBox="0 0 16 16" stroke-width="1.5" stroke-linecap="round"><circle cx="7" cy="7" r="4.6"/><path d="M10.4 10.4L14 14"/></svg>
-        <input type="search" id="busca" placeholder="Buscar por nome, cidade ou rua" aria-label="Buscar empreendimento">
-      </label>
-      <button class="btn-ghost" id="openFilters"><svg viewBox="0 0 16 16"><path d="M1 3h14M3 8h10M6 13h4"/></svg> Filtros <span id="fcount"></span></button>
-      <select class="sortsel" id="sort" aria-label="Ordenar">
-        <option value="destaque">Destaque</option>
-        <option value="preco-desc">Maior preço</option>
-        <option value="preco-asc">Menor preço</option>
-        <option value="area-desc">Maior área</option>
-        <option value="nome">Nome (A a Z)</option>
-      </select>
+  <section class="split">
+    <div class="split-txt">
+      <h2>A10 <em>Empreendimentos</em></h2>
+      <p class="lead">Selecionamos endereços que unem arquitetura, localização e qualidade de vida no litoral de Santa Catarina. Cada empreendimento do portfólio passa por uma curadoria própria antes de ser apresentado.</p>
+      <div class="split-box">
+        <h3>Curadoria e acompanhamento</h3>
+        <p>Do primeiro contato à entrega das chaves, com atendimento direto e informação verificada sobre cada unidade.</p>
+      </div>
+      <div class="split-acts"><a class="btn btn-line" href="#/contato">Falar com a equipe <span class="arw">&#8594;</span></a></div>
     </div>
-  </div></div>
+    <div class="split-img"><img src="fotos/img/home-hero.jpg" alt="Empreendimento A10" loading="lazy"></div>
+  </section>
 
-  <div class="wrap listings">
-    <div class="chips" id="chips"></div>
-    <div class="grid" id="grid"></div>
+  <section class="wrap"><div class="nums" id="nums"></div></section>
+
+  <section>
+    <div class="sec-head wrap">
+      <h2 class="sec-title">Onde estamos</h2>
+      <p>Balneário Camboriú, Itapema e Porto Belo, mais um endereço em Colombo, no Paraná.</p>
+      <div style="margin-top:28px"><a class="btn btn-navy" href="#/mapa">Explorar no mapa <span class="arw">&#8594;</span></a></div>
+    </div>
+  </section>
+</main>
+
+<!-- ============ CATALOGO ============ -->
+<main id="view-cat" class="view">
+  <div style="height:var(--nav-h)"></div>
+  <div class="sec-head wrap">
+    <div class="kicker">Portfólio</div>
+    <h2 class="sec-title ink" style="margin-top:14px">Encontre seu <em style="color:var(--gold)">endereço.</em></h2>
   </div>
-</div>
+  <div class="cats" id="cats"></div>
+  <div class="toolbar"><div class="wrap toolbar-in">
+    <div class="count"><b id="count">0</b> <span id="countLb">empreendimentos</span></div>
+    <label class="field"><svg viewBox="0 0 16 16" stroke-width="1.5"><circle cx="7" cy="7" r="4.6"/><path d="M10.4 10.4L14 14"/></svg>
+      <input type="search" id="busca" placeholder="Buscar por nome, cidade ou rua" aria-label="Buscar"></label>
+    <button class="ctrl" id="openF"><svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M1 3h14M3 8h10M6 13h4"/></svg> Filtros <span id="fc"></span></button>
+    <select class="ctrl" id="sort" aria-label="Ordenar">
+      <option value="destaque">Destaque</option><option value="preco-desc">Maior preço</option>
+      <option value="preco-asc">Menor preço</option><option value="area">Maior área</option><option value="nome">Nome A a Z</option>
+    </select>
+  </div></div>
+  <div class="wrap"><div class="chips" id="chips"></div></div>
+  <div class="wrap"><div class="grid" id="grid" style="padding-top:26px"></div></div>
+</main>
 
 <!-- ============ MAPA ============ -->
-<div id="view-map" class="view-map">
-  <div class="mapbar"><div class="wrap mapbar-in">
-    <button class="back" onclick="location.hash='#/'">&#8249; Voltar aos empreendimentos</button>
-    <div class="mapbar-t">Explore no mapa <span id="mapCount"></span></div>
-  </div></div>
-  <div id="fullMap"></div>
-</div>
+<main id="view-mapa" class="view">
+  <div style="height:var(--nav-h)"></div>
+  <div class="sec-head wrap"><div class="kicker">Localização</div><h2 class="sec-title ink" style="margin-top:14px">Explore no mapa</h2><p id="mapCount"></p></div>
+  <div class="wrap mapwrap"><div id="fullMap"></div></div>
+</main>
 
 <!-- ============ DETALHE ============ -->
-<div id="view-detail" class="view-detail"><div class="wrap detail">
-  <button class="back" onclick="location.hash='#/'">&#8249; Voltar aos empreendimentos</button>
-
-  <div class="d-hero" id="detHero"></div>
-
-  <div class="d-head">
-    <div>
-      <div class="d-kick" id="detKick"></div>
-      <h1 class="d-tit" id="detTit"></h1>
-      <p class="d-tag" id="detTag"></p>
-      <div class="d-badges">
-        <span class="d-seal" id="detSeal">Empreendimento A10</span>
-        <span class="d-status" id="detStatus"></span>
-        <span class="d-disp" id="detDisp"></span>
-        <a class="d-land" id="detLand" href="#"><svg viewBox="0 0 16 16" stroke-width="1.5" stroke-linecap="round"><path d="M3 8h9M9 5l3 3-3 3"/></svg> Página do empreendimento</a>
-      </div>
+<main id="view-det" class="view">
+  <div class="d-hero" id="dHero"></div>
+  <div class="wrap">
+    <div class="d-bar"><div class="d-price" id="dPrice"></div><a class="btn btn-navy" id="dWa" target="_blank" rel="noopener">Falar sobre este empreendimento <span class="arw">&#8594;</span></a></div>
+    <div class="tabs" id="dTabs">
+      <button class="tab on" data-p="p-gal">Galeria de fotos <b id="dGalN"></b></button>
+      <button class="tab" data-p="p-info">Informações</button>
+      <button class="tab" data-p="p-loc">Localização</button>
     </div>
-    <div class="d-price" id="detPrice"></div>
-  </div>
-
-  <div class="tabs" id="detTabs" role="tablist">
-    <button class="tab-btn on" data-pane="pane-gal" role="tab">Galeria de fotos <b id="tabGalN"></b></button>
-    <button class="tab-btn" data-pane="pane-info" role="tab">Informações</button>
-    <button class="tab-btn" data-pane="pane-loc" role="tab">Localização</button>
-  </div>
-
-  <div class="tabpane on" id="pane-gal"><div id="detGal"></div></div>
-
-  <div class="tabpane" id="pane-info">
-    <div class="specs" id="detSpecs"></div>
-    <div id="detDescWrap"><div class="sec-t">Sobre o empreendimento</div><p class="d-desc" id="detDesc"></p></div>
-    <div id="detAttrWrap"><div class="sec-t">Atributos e lazer</div><ul class="attr" id="detAttr"></ul></div>
-    <div id="detComWrap"><div class="sec-t">Comodidades</div><ul class="attr" id="detCom"></ul></div>
-  </div>
-
-  <div class="tabpane" id="pane-loc">
-    <div id="detMap"></div>
-    <div class="mapmeta">
-      <div class="endereco"><b>Endereço</b><span id="detEndereco"></span></div>
-      <a class="maps-link" id="detMapsLink" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 14s5-4.2 5-8A5 5 0 003 6c0 3.8 5 8 5 8z"/><circle cx="8" cy="6" r="1.7"/></svg> Ver no Google Maps</a>
+    <div class="pane on" id="p-gal"><div id="dGal"></div></div>
+    <div class="pane" id="p-info">
+      <div class="specs" id="dSpecs"></div>
+      <div class="blk" id="dDescW"><h2>Sobre o empreendimento</h2><p class="lead" id="dDesc"></p></div>
+      <div class="blk" id="dAttrW"><h2>Atributos e lazer</h2><ul class="attr" id="dAttr"></ul></div>
+      <div class="blk" id="dComW"><h2>Comodidades</h2><ul class="attr" id="dCom"></ul></div>
     </div>
-    <div class="aprox">Localização aproximada. Confirme o endereço exato com o corretor.</div>
+    <div class="pane" id="p-loc">
+      <div id="detMap"></div>
+      <div class="mapmeta"><div class="endereco"><b>Endereço</b><span id="dEnd"></span></div>
+        <a class="btn btn-line" id="dMaps" target="_blank" rel="noopener">Ver no Google Maps <span class="arw">&#8594;</span></a></div>
+      <p class="aprox">Localização aproximada. Confirme o endereço exato com o corretor.</p>
+    </div>
+    <div style="height:clamp(40px,5vw,70px)"></div>
   </div>
-
-  <div class="wacta"><a class="wa-btn" id="detWa" target="_blank" rel="noopener"><svg viewBox="0 0 16 16"><path d="M8 1.5A6.5 6.5 0 001.7 11L1 15l4.1-.7A6.5 6.5 0 108 1.5z"/></svg> Falar sobre este empreendimento</a></div>
-</div></div>
+</main>
 
 <!-- ============ CONTATO ============ -->
-<div id="view-contato" class="view-contato"><div class="wrap contato">
-  <button class="back" onclick="location.hash='#/'">&#8249; Voltar aos empreendimentos</button>
-  <div class="ct-head">
-    <div class="k">Contato</div>
-    <h1>Agende sua <em>visita.</em></h1>
-    <p>Nossa equipe está pronta para oferecer um atendimento personalizado e apresentar cada empreendimento em detalhe.</p>
+<main id="view-ct" class="view">
+  <div style="height:var(--nav-h)"></div>
+  <div class="sec-head wrap"><div class="kicker">Contato</div><h2 class="sec-title ink" style="margin-top:14px">Agende sua <em style="color:var(--gold)">visita.</em></h2>
+    <p>Nossa equipe apresenta cada empreendimento em detalhe, com atendimento direto.</p></div>
+  <div class="wrap-narrow"><div class="ct-grid" id="ctGrid"></div>
+    <div style="text-align:center;padding:clamp(36px,4vw,60px) 0 clamp(50px,6vw,90px)">
+      <a class="btn btn-navy" id="ctWa" target="_blank" rel="noopener">Falar no WhatsApp <span class="arw">&#8594;</span></a></div>
   </div>
-  <div class="ct-grid" id="ctGrid"></div>
-  <div class="ct-cta">
-    <a class="wa-btn" id="ctWa" target="_blank" rel="noopener"><svg viewBox="0 0 16 16"><path d="M8 1.5A6.5 6.5 0 001.7 11L1 15l4.1-.7A6.5 6.5 0 108 1.5z"/></svg> Falar no WhatsApp</a>
-  </div>
-</div></div>
+</main>
 
-<!-- lightbox -->
+<a class="wafab" id="wafab" target="_blank" rel="noopener" aria-label="Falar com a A10 no WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.04 2a9.84 9.84 0 0 0-8.52 14.75L2 22l5.38-1.41A9.98 9.98 0 0 0 12.04 22 10 10 0 0 0 12.04 2Zm0 18.18a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.2.84.86-3.12-.2-.32a8.16 8.16 0 1 1 6.97 3.91Zm4.48-6.1c-.25-.12-1.45-.72-1.68-.8-.22-.08-.39-.12-.55.12-.16.25-.63.8-.77.96-.14.17-.29.19-.53.07-.25-.13-1.04-.39-1.98-1.23a7.4 7.4 0 0 1-1.37-1.7c-.14-.25-.01-.38.11-.5.11-.1.25-.28.37-.43.12-.14.16-.24.24-.4.09-.17.04-.31-.02-.44-.06-.12-.55-1.33-.75-1.82-.2-.48-.4-.41-.55-.42h-.47c-.16 0-.43.06-.65.3-.23.25-.86.85-.86 2.06 0 1.21.88 2.38 1 2.55.13.16 1.74 2.65 4.21 3.72.59.26 1.05.4 1.4.52.6.19 1.13.16 1.56.1.48-.07 1.46-.6 1.66-1.17.2-.58.2-1.08.14-1.18-.06-.1-.22-.17-.47-.3Z"/></svg>
+</a>
+
 <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Foto ampliada">
   <button class="lb-x" onclick="lbClose()" aria-label="Fechar">&times;</button>
-  <button class="lb-nav lb-prev" onclick="lbPrev()" aria-label="Foto anterior">&#8249;</button>
-  <img id="lbImg" alt="">
-  <button class="lb-nav lb-next" onclick="lbNext()" aria-label="Próxima foto">&#8250;</button>
+  <button class="lb-p" onclick="lbPrev()" aria-label="Foto anterior">&#8249;</button>
+  <img id="lbImg" alt=""><button class="lb-n" onclick="lbNext()" aria-label="Próxima foto">&#8250;</button>
   <div class="lb-cap" id="lbCap"></div>
 </div>
 
-<div class="overlay" id="overlay"></div>
-<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Filtros">
-  <div class="drawer-h"><h3>Filtros</h3><button class="x" onclick="closeDrawer()" aria-label="Fechar">&times;</button></div>
-  <div class="drawer-b" id="filterBody"></div>
-  <div class="drawer-f"><button class="b-clear" onclick="clearFilters()">Limpar</button><button class="b-apply" onclick="closeDrawer()">Ver resultados</button></div>
+<div class="ovl" id="ovl"></div>
+<aside class="drw" id="drw" role="dialog" aria-modal="true" aria-label="Filtros">
+  <div class="drw-h"><h3>Filtros</h3><button class="xb" onclick="closeDrw()" aria-label="Fechar">&times;</button></div>
+  <div class="drw-b" id="fBody"></div>
+  <div class="drw-f"><button onclick="clearAll()">Limpar</button><button class="ap" onclick="closeDrw()">Ver resultados</button></div>
 </aside>
 
 <footer><div class="wrap">
   <div class="foot-top">
-    <div>
-      <img class="logo-img foot-logo" src="lib/a10-logo.png" alt="A10 Empreendimentos">
-      <p class="foot-assin">Endereços selecionados no litoral de Santa Catarina.</p>
-    </div>
-    <div id="footCont"></div>
-    <div id="footRedes"></div>
-  </div>
-  <div class="foot-in">
-    <a class="nav-wa" id="footWa" target="_blank" rel="noopener"><svg viewBox="0 0 16 16"><path d="M8 1.5A6.5 6.5 0 001.7 11L1 15l4.1-.7A6.5 6.5 0 108 1.5z" fill="none" stroke="#fff" stroke-width="1.2"/></svg> WhatsApp</a>
+    <div><img class="foot-logo" src="lib/a10-logo.png" alt="A10 Empreendimentos">
+      <p class="foot-sig">Endereços selecionados no litoral de Santa Catarina.</p></div>
+    <div id="fCont"></div><div id="fRedes"></div>
   </div>
   <div class="foot-note">A10 Empreendimentos · Portfólio 2026. Imagens e localizações meramente ilustrativas; valores e disponibilidade sujeitos a confirmação.</div>
 </div></footer>
@@ -406,351 +447,282 @@ footer{background:var(--navy);color:#cfd6e0;padding:52px 0 34px;margin-top:20px}
 <script src="dados/empreendimentos.js"></script>
 <script src="lib/leaflet/leaflet.js"></script>
 <script>
-/* ============ A10 catálogo ============ */
-const IMG=new Proxy({},{get:function(_,k){return 'fotos/img/'+String(k)+'.jpg';}});
-const DATA=window.A10.empreendimentos;
-const CONTATO=window.A10.contato;
-const FEATURED=window.A10.destaques;
-const WAN=CONTATO.whatsapp;
+const IMG=new Proxy({},{get:(_,k)=>'fotos/img/'+String(k)+'.jpg'});
+const DATA=window.A10.empreendimentos, CONTATO=window.A10.contato, FEATURED=window.A10.destaques;
+const LINKS=[['Empreendimentos','#/empreendimentos'],['Pátio Estaleiro','patio-estaleiro.html'],['Mapa','#/mapa'],['Apresentação','apresentacao.html'],['Contato','#/contato']];
 
-function waLink(nome){var t=nome?("Olá! Tenho interesse no empreendimento "+nome+". Poderia me enviar mais informações?"):"Olá! Vim pelo site da A10 e gostaria de mais informações.";return "https://wa.me/"+WAN+"?text="+encodeURIComponent(t);}
-document.getElementById('navWa').href=waLink("");
-document.getElementById('footWa').href=waLink("");
-document.getElementById('ctWa').href=waLink("");
+const esc=s=>String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const isConf=v=>v&&v!=='A confirmar';
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+const wa=n=>'https://wa.me/'+CONTATO.whatsapp+'?text='+encodeURIComponent(n?('Olá! Tenho interesse no empreendimento '+n+'. Poderia me enviar mais informações?'):'Olá! Vim pelo site da A10 e gostaria de mais informações.');
+const gallery=e=>e.grupos&&e.grupos.length?e.grupos.reduce((a,g)=>a.concat(g.fotos||[]),[]):(e.fotos||[]).slice();
+const cover=e=>(e.fotos&&e.fotos[0])||gallery(e)[0]||null;
+const area=e=>e.areaNum?Math.round(e.areaNum)+' m²':null;
+function icon(t){const m={bed:'<path d="M2 12V5h12v7M2 9h12M5 5V3h6v2"/>',bath:'<path d="M3 9h11M4 9V5a1.6 1.6 0 013.1-.4M14 9v1.5a2.5 2.5 0 01-2.5 2.5h-7A2.5 2.5 0 012 10.5V9"/>',car:'<path d="M2 10h12l-1-4H3L2 10zM4 10v2m8-2v2M4 7h8"/>',ruler:'<path d="M2 6h12v4H2zM4 6v2M6 6v3M8 6v2M10 6v3M12 6v2"/>'};
+return '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">'+(m[t]||'')+'</svg>';}
 
-function gallery(e){
-  if(e.grupos&&e.grupos.length){let a=[];e.grupos.forEach(g=>(g.fotos||[]).forEach(k=>a.push(k)));return a;}
-  return (e.fotos||[]).slice();
+/* ---------- navegacao ---------- */
+(function(){
+  const meio=Math.ceil(LINKS.length/2);
+  const mk=a=>a.map(([l,h])=>'<a class="nlink" href="'+h+'" data-h="'+h+'">'+esc(l)+'</a>').join('');
+  document.getElementById('navL').innerHTML=mk(LINKS.slice(0,meio));
+  document.getElementById('navR').innerHTML=mk(LINKS.slice(meio));
+  document.getElementById('mmenu').innerHTML=mk(LINKS);
+})();
+const burger=document.getElementById('burger'),mmenu=document.getElementById('mmenu');
+burger.onclick=()=>{const o=mmenu.classList.toggle('open');burger.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':'';};
+mmenu.querySelectorAll('a').forEach(a=>a.onclick=()=>{mmenu.classList.remove('open');burger.setAttribute('aria-expanded','false');document.body.style.overflow='';});
+document.getElementById('wafab').href=wa('');
+document.getElementById('ctWa').href=wa('');
+
+function syncNav(){
+  const home=(location.hash||'#/')==='#/';
+  const solid=!home||window.scrollY>window.innerHeight*.78;
+  document.body.classList.toggle('nav-solid',solid);
+  const h=location.hash||'#/';
+  document.querySelectorAll('.nlink').forEach(a=>a.classList.toggle('on',a.dataset.h===h));
 }
-function coverKey(e){return (e.fotos&&e.fotos[0])||gallery(e)[0]||null;}
-function fmtArea(e){return e.areaNum?Math.round(e.areaNum)+' m²':null;}
-function isConf(v){return v&&v!=="A confirmar";}
-function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+window.addEventListener('scroll',syncNav,{passive:true});
 
-function icon(t){const m={
-  bed:'<path d="M2 12V5h12v7M2 9h12M5 5V3h6v2"/>',
-  bath:'<path d="M3 9h11M4 9V5a1.6 1.6 0 013.1-.4M14 9v1.5a2.5 2.5 0 01-2.5 2.5h-7A2.5 2.5 0 012 10.5V9M5 13l-1 1m8-1l1 1"/>',
-  car:'<path d="M2 10h12l-1-4H3L2 10zM4 10v2m8-2v2M4 7h8"/>',
-  ruler:'<path d="M2 6h12v4H2zM4 6v2M6 6v3M8 6v2M10 6v3M12 6v2"/>',
-  pin:'<path d="M8 14s5-4.2 5-8A5 5 0 003 6c0 3.8 5 8 5 8z"/><circle cx="8" cy="6" r="1.7"/>',
-  cam:'<path d="M1.5 5.5h3l1-1.5h5l1 1.5h3v8h-13z"/><circle cx="8" cy="9" r="2.6"/>',
-  expand:'<path d="M6 2H2v4M10 2h4v4M6 14H2v-4M10 14h4v-4"/>',
-  back:'<path d="M13 8H3M7 4L3 8l4 4"/>'
-};return '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">'+(m[t]||'')+'</svg>';}
-
-/* ---------- filtros ---------- */
-const FAIXAS=[["ate1","Até R$ 1 mi",0,1e6],["1a3","R$ 1 a 3 mi",1e6,3e6],["3a5","R$ 3 a 5 mi",3e6,5e6],["5a10","R$ 5 a 10 mi",5e6,10e6],["10mais","R$ 10 mi+",10e6,1e12]];
-const CIDADES=["Balneário Camboriú","Itapema","Porto Belo"];
-const TIPOS=["Casa","Apartamento"];
-const STATUS=["Pré-lançamento","Lançamento","Em obras","Pronto"];
-const COMS=["Piscina","Academia","Vista mar","Rooftop","Churrasqueira","Salão de festas","Spa / Sauna","Segurança 24h"];
-const CATS=[["a10","A10"],["diversos","Imóveis Diversos"]];
-let lastFocus=null;
-const state={cat:"todos",sort:"destaque",q:"",f:{cidade:new Set(),tipo:new Set(),quartos:null,banheiros:null,vagas:null,faixa:new Set(),status:new Set(),com:new Set()}};
-
-function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');}
-function matches(e){
-  const f=state.f;
-  if(state.cat!=='todos' && e.categoria!==state.cat) return false;
-  if(state.q){
-    const alvo=norm([e.nome,e.cidade,e.endereco,e.destaque,e.tipologia,e.tag].join(' '));
-    if(!norm(state.q).split(/\s+/).every(t=>alvo.includes(t))) return false;
-  }
-  if(f.cidade.size && !f.cidade.has(e.cidade)) return false;
-  if(f.tipo.size && !f.tipo.has(e.tipo)) return false;
-  if(f.status.size && !f.status.has(e.status)) return false;
-  if(f.quartos && !(e.quartosNum>=f.quartos)) return false;
-  if(f.banheiros && !(e.banheirosNum>=f.banheiros)) return false;
-  if(f.vagas && !(e.vagasNum>=f.vagas)) return false;
-  if(f.com.size){for(const c of f.com){if(!(e.comodidades||[]).includes(c))return false;}}
-  if(f.faixa.size){let ok=false;for(const id of f.faixa){const fx=FAIXAS.find(x=>x[0]===id);if(fx&&e.valorNum!=null&&e.valorNum>=fx[2]&&e.valorNum<fx[3])ok=true;}if(!ok)return false;}
-  return true;
+/* ---------- hero rotativo ---------- */
+const HERO=FEATURED.map(s=>DATA.find(e=>e.slug===s)).filter(Boolean);
+let hi=0;
+function paintHero(){
+  const e=HERO[hi];if(!e)return;
+  document.getElementById('hKick').textContent=isConf(e.cidade)?e.cidade:e.tipologia;
+  document.getElementById('hTit').textContent=e.nome;
+  document.getElementById('hSub').textContent=e.tag||'';
+  document.getElementById('hCta').href=e.landing?e.landing:('#/emp/'+e.slug);
+  const v=document.getElementById('heroVid'),ck=cover(e);
+  if(ck)v.poster=IMG[ck];
+  document.getElementById('hDots').innerHTML=HERO.map((_,i)=>'<i class="'+(i===hi?'on':'')+'"></i>').join('');
 }
-function sortList(list){
-  const s=state.sort,nn=v=>v==null?-Infinity:v,arr=[...list];
-  if(s==="destaque"){const fi=x=>{const i=FEATURED.indexOf(x.slug);return i===-1?99:i;};arr.sort((a,b)=>fi(a)-fi(b));}
-  else if(s==="preco-asc")arr.sort((a,b)=>(a.valorNum==null?Infinity:a.valorNum)-(b.valorNum==null?Infinity:b.valorNum));
-  else if(s==="preco-desc")arr.sort((a,b)=>nn(b.valorNum)-nn(a.valorNum));
-  else if(s==="area-desc")arr.sort((a,b)=>nn(b.areaNum)-nn(a.areaNum));
-  else if(s==="nome")arr.sort((a,b)=>a.nome.localeCompare(b.nome,'pt-BR'));
-  return arr;
-}
-function currentList(){return sortList(DATA.filter(matches));}
+document.getElementById('hPrev').onclick=()=>{hi=(hi-1+HERO.length)%HERO.length;paintHero();};
+document.getElementById('hNext').onclick=()=>{hi=(hi+1)%HERO.length;paintHero();};
 
-/* ---------- destaques ---------- */
-function dcard(e){
-  const ck=coverKey(e);
-  const img=ck?'<img src="'+IMG[ck]+'" alt="'+esc(e.nome)+'" decoding="async">':'';
-  const nome=e.reg?(esc(e.reg)+' <em>'+esc(e.accent)+'</em>'):('<em>'+esc(e.accent)+'</em>');
-  let meta=[];
-  if(isConf(e.cidade))meta.push(esc(e.cidade));
+/* ---------- medalhoes ---------- */
+document.getElementById('medals').innerHTML=DATA.filter(e=>cover(e)).map(e=>
+  '<a class="medal" href="'+(e.landing||('#/emp/'+e.slug))+'"><span class="medal-c"><img src="'+IMG[cover(e)]+'" alt="" loading="lazy"></span><span>'+esc(e.nome)+'</span></a>').join('');
+
+/* ---------- tiles ---------- */
+function tile(e){
+  const ck=cover(e);
+  const sel=[]; if(e.categoria==='a10')sel.push('<span class="tag light">A10</span>');
+  if(isConf(e.status))sel.push('<span class="tag">'+esc(e.status)+'</span>');
+  if(e.disponibilidade)sel.push('<span class="tag gold">'+esc(e.disponibilidade)+'</span>');
+  const meta=[]; if(isConf(e.cidade))meta.push(esc(e.cidade));
   if(e.quartosNum)meta.push(e.quartosNum+' '+esc(e.quartosLabel||'quartos'));
-  if(fmtArea(e))meta.push(fmtArea(e));
-  return '<article class="dcard" data-slug="'+esc(e.slug)+'" tabindex="0" role="button" aria-label="Ver '+esc(e.nome)+'">'
-    +img+(e.categoria==='a10'?'<span class="dcard-sel">A10</span>':'')
-    +'<div class="dcard-b">'+(e.disponibilidade?'<span class="dcard-disp">'+esc(e.disponibilidade)+'</span>':'')
-    +'<div class="dcard-k">'+esc(e.destaque||e.tipologia)+'</div>'
-    +'<h3 class="dcard-n">'+nome+'</h3>'
-    +(e.tag?'<div class="dcard-t">'+esc(e.tag)+'</div>':'')
-    +'<div class="dcard-m">'+meta.join(' · ')+'</div></div></article>';
+  if(area(e))meta.push(area(e));
+  const href=e.landing||('#/emp/'+e.slug);
+  if(!ck)return '<a class="tile ph" href="'+href+'"><span class="phtx">Foto em breve</span></a>';
+  return '<a class="tile" href="'+href+'"><img src="'+IMG[ck]+'" alt="'+esc(e.nome)+'" loading="lazy" style="object-position:'+esc(e.imgpos||'center')+'">'
+    +'<span class="tile-b"><span class="tile-top">'+sel.join('')+'</span>'
+    +'<span><span class="tile-nome">'+esc(e.nome)+'</span>'
+    +'<span class="tile-meta">'+meta.join(' · ')+'</span>'
+    +(e.valorNum?'<span class="tile-price">'+esc(e.valor)+'</span>':'')+'</span></span></a>';
 }
-function renderDestaques(){
-  const el=document.getElementById('dgrid');
-  const lista=FEATURED.map(s=>DATA.find(e=>e.slug===s)).filter(Boolean);
-  el.innerHTML=lista.map(dcard).join('');
-  el.querySelectorAll('.dcard').forEach(c=>{const s=c.dataset.slug;c.onclick=()=>go(s);c.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go(s);}};});
-}
+document.getElementById('homeTiles').innerHTML=
+  FEATURED.map(s=>DATA.find(e=>e.slug===s)).filter(Boolean).concat(
+  DATA.filter(e=>!FEATURED.includes(e.slug)&&cover(e)).slice(0,3)).map(tile).join('');
 
-/* ---------- grade ---------- */
-function ecard(e){
-  const ck=coverKey(e),n=gallery(e).length;
-  const img=ck?'<img src="'+IMG[ck]+'" alt="'+esc(e.nome)+'" loading="lazy" decoding="async">'
-              :'<div class="ph">'+icon('cam')+'<span>Foto em breve</span></div>';
-  const seal=e.categoria==='a10'?'<span class="seal">A10</span>':'';
-  const st=isConf(e.status)?'<span class="pill">'+esc(e.status)+'</span>':'';
-  const nf=n>1?'<span class="nfotos">'+icon('cam')+n+'</span>':'';
-  const nome=e.reg?(esc(e.reg)+' <em>'+esc(e.accent)+'</em>'):('<em>'+esc(e.accent)+'</em>');
-  const loc=isConf(e.cidade)?esc(e.cidade):esc(e.tipologia);
-  let meta=[];
-  if(e.quartosNum)meta.push(e.quartosNum+' '+esc(e.quartosLabel||'quartos'));
-  if(e.banheirosNum)meta.push(e.banheirosNum+' banh.');
-  if(fmtArea(e))meta.push(fmtArea(e));
-  return '<article class="ecard" data-slug="'+esc(e.slug)+'" tabindex="0" role="button" aria-label="Ver '+esc(e.nome)+'">'
-    +'<div class="ecard-img">'+img+seal+st+nf+'</div>'
-    +'<div class="ecard-b"><div class="ecard-loc">'+loc+'</div>'
-    +'<h3 class="ecard-nome">'+nome+'</h3>'
-    +'<div class="ecard-meta">'+(meta.join(' · ')||'&nbsp;')+'</div>'
-    +'<div class="ecard-price">'+(e.valorNum?esc(e.valor):'<small>Sob consulta</small>')+'</div></div></article>';
-}
-function renderHome(){
-  const list=currentList();
-  document.getElementById('count').textContent=list.length;
-  document.getElementById('countlabel').textContent=list.length===1?'empreendimento':'empreendimentos';
-  document.getElementById('cnt-todos').textContent=DATA.length;
-  document.getElementById('cnt-a10').textContent=DATA.filter(e=>e.categoria==='a10').length;
-  document.getElementById('cnt-div').textContent=DATA.filter(e=>e.categoria==='diversos').length;
-  const grid=document.getElementById('grid');
-  grid.innerHTML=list.length?list.map(ecard).join(''):'<div class="empty"><div class="big">Nenhum empreendimento encontrado</div><p>Ajuste a busca ou os filtros para ver mais opções.</p></div>';
-  grid.querySelectorAll('.ecard').forEach(c=>{const s=c.dataset.slug;c.onclick=()=>go(s);c.onkeydown=ev=>{if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();go(s);}};});
-  // a faixa de destaque so faz sentido na visao sem recorte
-  const puro=state.cat==='todos'&&!state.q&&activeCount()===0;
-  document.getElementById('destaques').style.display=puro?'':'none';
-  renderChips(); syncCat();
-}
-function renderChips(){
-  const c=document.getElementById('chips'),f=state.f;let h='';
-  const add=(t,fn)=>{h+='<span class="chip">'+t+' <button class="chipx" aria-label="Remover" onclick="'+fn+'">&times;</button></span>';};
-  if(state.q)add('Busca: '+esc(state.q),"limparBusca()");
-  f.cidade.forEach(v=>add(v,"toggleSet('cidade','"+v+"')"));
-  f.tipo.forEach(v=>add(v,"toggleSet('tipo','"+v+"')"));
-  f.status.forEach(v=>add(v,"toggleSet('status','"+v+"')"));
-  f.com.forEach(v=>add(v,"toggleSet('com','"+v+"')"));
-  f.faixa.forEach(v=>{const fx=FAIXAS.find(x=>x[0]===v);add(fx[1],"toggleSet('faixa','"+v+"')");});
-  if(f.quartos)add(f.quartos+"+ quartos","setSingle('quartos',null)");
-  if(f.banheiros)add(f.banheiros+"+ banheiros","setSingle('banheiros',null)");
-  if(f.vagas)add(f.vagas+"+ vagas","setSingle('vagas',null)");
-  const n=activeCount();
-  if(n>0||state.q)h+='<button class="chip clear" onclick="clearFilters()">Limpar tudo</button>';
-  c.innerHTML=h;
-  document.getElementById('fcount').textContent=n?('('+n+')'):'';
-}
-function activeCount(){const f=state.f;return f.cidade.size+f.tipo.size+f.status.size+f.com.size+f.faixa.size+(f.quartos?1:0)+(f.banheiros?1:0)+(f.vagas?1:0);}
-function toggleSet(k,v){const s=state.f[k];s.has(v)?s.delete(v):s.add(v);syncOpts();renderHome();}
-function setSingle(k,v){state.f[k]=(state.f[k]===v?null:v);syncOpts();renderHome();}
-function setCat(v){state.cat=v;syncCat();renderHome();}
-function limparBusca(){state.q='';document.getElementById('busca').value='';renderHome();}
-function clearFilters(){state.cat='todos';state.q='';document.getElementById('busca').value='';state.f={cidade:new Set(),tipo:new Set(),quartos:null,banheiros:null,vagas:null,faixa:new Set(),status:new Set(),com:new Set()};syncCat();syncOpts();renderHome();}
-function syncCat(){
-  document.querySelectorAll('.cat-btn').forEach(x=>x.classList.toggle('on',x.dataset.cat===state.cat));
-  document.querySelectorAll('.opt[data-cat]').forEach(o=>o.classList.toggle('on',o.dataset.cat===state.cat));
-}
-function buildFilters(){
-  const b=document.getElementById('filterBody');
-  const grp=(t,h)=>'<div class="fgroup"><h4>'+t+'</h4><div class="opts">'+h+'</div></div>';
-  const set=(k,arr)=>arr.map(v=>'<button type="button" class="opt" data-k="'+k+'" data-v="'+v+'" onclick="toggleSet(\''+k+'\',\''+v+'\')">'+v+'</button>').join('');
-  const single=(k,arr)=>arr.map(v=>'<button type="button" class="opt" data-single="'+k+'" data-v="'+v+'" onclick="setSingle(\''+k+'\','+v+')">'+v+'+</button>').join('');
-  const cat=CATS.map(c=>'<button type="button" class="opt" data-cat="'+c[0]+'" onclick="setCat(state.cat===\''+c[0]+'\'?\'todos\':\''+c[0]+'\')">'+c[1]+'</button>').join('');
-  b.innerHTML=grp('Categoria',cat)+grp('Cidade',set('cidade',CIDADES))+grp('Tipo de imóvel',set('tipo',TIPOS))
-    +grp('Quartos',single('quartos',[1,2,3,4]))+grp('Banheiros',single('banheiros',[1,2,3,4]))+grp('Vagas',single('vagas',[1,2,3,4]))
-    +grp('Faixa de valor',FAIXAS.map(fx=>'<button type="button" class="opt" data-k="faixa" data-v="'+fx[0]+'" onclick="toggleSet(\'faixa\',\''+fx[0]+'\')">'+fx[1]+'</button>').join(''))
-    +grp('Status',set('status',STATUS))+grp('Comodidades',set('com',COMS));
-}
-function syncOpts(){
-  document.querySelectorAll('.opt[data-k]').forEach(o=>{const k=o.dataset.k,v=o.dataset.v;o.classList.toggle('on',state.f[k].has(v));});
-  document.querySelectorAll('.opt[data-single]').forEach(o=>{const k=o.dataset.single,v=+o.dataset.v;o.classList.toggle('on',state.f[k]===v);});
-}
-function openDrawer(){lastFocus=document.activeElement;document.getElementById('drawer').classList.add('open');document.getElementById('overlay').classList.add('open');document.querySelector('#drawer .x').focus();}
-function closeDrawer(){const d=document.getElementById('drawer');if(!d.classList.contains('open'))return;d.classList.remove('open');document.getElementById('overlay').classList.remove('open');if(lastFocus&&lastFocus.focus)lastFocus.focus();}
+/* ---------- numeros ---------- */
+(function(){
+  const cid=new Set(DATA.filter(e=>isConf(e.cidade)).map(e=>e.cidade));
+  const fot=DATA.reduce((n,e)=>n+gallery(e).length,0);
+  document.getElementById('nums').innerHTML=[[DATA.length,'Empreendimentos'],[cid.size,'Cidades'],
+    [DATA.filter(e=>e.categoria==='a10').length,'Exclusivos A10'],[fot,'Fotos no portfólio']]
+    .map(n=>'<div class="num"><b>'+String(n[0]).padStart(2,'0')+'</b><span>'+n[1]+'</span></div>').join('');
+})();
 
-/* ---------- mapa ---------- */
-function priceLabel(e){return e.valorNum?e.valor.replace('milhões','mi').replace('milhão','mi'):(fmtArea(e)||'Consulte');}
-let fullMap=null,fullMarkers=null;
-function renderMapPage(){
-  if(typeof L==='undefined'||!document.getElementById('fullMap'))return;
-  if(!fullMap){
-    fullMap=L.map('fullMap',{scrollWheelZoom:true}).setView([-26.99,-48.63],11);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(fullMap);
-    fullMarkers=L.layerGroup().addTo(fullMap);
-  }
-  fullMarkers.clearLayers();
+/* ---------- filtros e catalogo ---------- */
+const FAIXAS=[['ate1','Até R$ 1 mi',0,1e6],['1a3','R$ 1 a 3 mi',1e6,3e6],['3a5','R$ 3 a 5 mi',3e6,5e6],['5a10','R$ 5 a 10 mi',5e6,1e7],['10mais','R$ 10 mi+',1e7,1e12]];
+const CID=['Balneário Camboriú','Itapema','Porto Belo'],TIP=['Casa','Apartamento'];
+const STA=['Pré-lançamento','Lançamento','Em obras','Pronto'];
+const COM=['Piscina','Academia','Vista mar','Rooftop','Churrasqueira','Salão de festas','Spa / Sauna','Segurança 24h'];
+const st={cat:'todos',sort:'destaque',q:'',f:{cidade:new Set(),tipo:new Set(),status:new Set(),com:new Set(),faixa:new Set(),quartos:null,banheiros:null,vagas:null}};
+
+function match(e){const f=st.f;
+  if(st.cat!=='todos'&&e.categoria!==st.cat)return false;
+  if(st.q){const h=norm([e.nome,e.cidade,e.endereco,e.destaque,e.tipologia,e.tag].join(' '));
+    if(!norm(st.q).split(/\s+/).filter(Boolean).every(t=>h.includes(t)))return false;}
+  if(f.cidade.size&&!f.cidade.has(e.cidade))return false;
+  if(f.tipo.size&&!f.tipo.has(e.tipo))return false;
+  if(f.status.size&&!f.status.has(e.status))return false;
+  if(f.quartos&&!(e.quartosNum>=f.quartos))return false;
+  if(f.banheiros&&!(e.banheirosNum>=f.banheiros))return false;
+  if(f.vagas&&!(e.vagasNum>=f.vagas))return false;
+  if(f.com.size){for(const c of f.com)if(!(e.comodidades||[]).includes(c))return false;}
+  if(f.faixa.size){let ok=false;for(const id of f.faixa){const x=FAIXAS.find(y=>y[0]===id);
+    if(x&&e.valorNum!=null&&e.valorNum>=x[2]&&e.valorNum<x[3])ok=true;}if(!ok)return false;}
+  return true;}
+function lista(){const s=st.sort,nn=v=>v==null?-Infinity:v,a=DATA.filter(match);
+  if(s==='destaque'){const i=x=>{const k=FEATURED.indexOf(x.slug);return k<0?99:k;};a.sort((x,y)=>i(x)-i(y));}
+  else if(s==='preco-asc')a.sort((x,y)=>(x.valorNum==null?Infinity:x.valorNum)-(y.valorNum==null?Infinity:y.valorNum));
+  else if(s==='preco-desc')a.sort((x,y)=>nn(y.valorNum)-nn(x.valorNum));
+  else if(s==='area')a.sort((x,y)=>nn(y.areaNum)-nn(x.areaNum));
+  else if(s==='nome')a.sort((x,y)=>x.nome.localeCompare(y.nome,'pt-BR'));
+  return a;}
+const nAtivo=()=>{const f=st.f;return f.cidade.size+f.tipo.size+f.status.size+f.com.size+f.faixa.size+(f.quartos?1:0)+(f.banheiros?1:0)+(f.vagas?1:0);};
+
+function renderCat(){
+  const L=lista();
+  document.getElementById('count').textContent=L.length;
+  document.getElementById('countLb').textContent=L.length===1?'empreendimento':'empreendimentos';
+  document.getElementById('grid').innerHTML=L.length?L.map(tile).join('')
+    :'<div class="empty"><b>Nenhum empreendimento encontrado</b><p>Ajuste a busca ou os filtros.</p></div>';
+  document.getElementById('cats').innerHTML=[['todos','Todos',DATA.length],
+    ['a10','Empreendimentos A10',DATA.filter(e=>e.categoria==='a10').length],
+    ['diversos','Imóveis Diversos',DATA.filter(e=>e.categoria==='diversos').length]]
+    .map(c=>'<button class="cat'+(st.cat===c[0]?' on':'')+'" data-c="'+c[0]+'">'+c[1]+' · '+c[2]+'</button>').join('');
+  document.querySelectorAll('.cat').forEach(b=>b.onclick=()=>{st.cat=b.dataset.c;renderCat();});
+  const f=st.f;let h='';
+  const add=(t,fn)=>h+='<span class="chip">'+t+' <button onclick="'+fn+'" aria-label="Remover">&times;</button></span>';
+  if(st.q)add('Busca: '+esc(st.q),'limpaBusca()');
+  ['cidade','tipo','status','com'].forEach(k=>f[k].forEach(v=>add(esc(v),"tg('"+k+"','"+v+"')")));
+  f.faixa.forEach(v=>add(FAIXAS.find(x=>x[0]===v)[1],"tg('faixa','"+v+"')"));
+  [['quartos','quartos'],['banheiros','banheiros'],['vagas','vagas']].forEach(([k,l])=>{if(f[k])add(f[k]+'+ '+l,"sg('"+k+"',null)");});
+  if(nAtivo()||st.q)h+='<button class="chip clear" onclick="clearAll()">Limpar tudo</button>';
+  document.getElementById('chips').innerHTML=h;
+  document.getElementById('fc').textContent=nAtivo()?'· '+nAtivo():'';
+  document.querySelectorAll('.opt[data-k]').forEach(o=>o.classList.toggle('on',st.f[o.dataset.k].has(o.dataset.v)));
+  document.querySelectorAll('.opt[data-s]').forEach(o=>o.classList.toggle('on',st.f[o.dataset.s]===+o.dataset.v));
+}
+function tg(k,v){const s=st.f[k];s.has(v)?s.delete(v):s.add(v);renderCat();}
+function sg(k,v){st.f[k]=st.f[k]===v?null:v;renderCat();}
+function limpaBusca(){st.q='';document.getElementById('busca').value='';renderCat();}
+function clearAll(){st.q='';document.getElementById('busca').value='';st.cat='todos';
+  st.f={cidade:new Set(),tipo:new Set(),status:new Set(),com:new Set(),faixa:new Set(),quartos:null,banheiros:null,vagas:null};renderCat();}
+(function(){
+  const g=(t,h)=>'<div class="fg"><h4>'+t+'</h4><div class="opts">'+h+'</div></div>';
+  const set=(k,a)=>a.map(v=>'<button class="opt" data-k="'+k+'" data-v="'+v+'" onclick="tg(\''+k+'\',\''+v+'\')">'+v+'</button>').join('');
+  const sin=(k,a)=>a.map(v=>'<button class="opt" data-s="'+k+'" data-v="'+v+'" onclick="sg(\''+k+'\','+v+')">'+v+'+</button>').join('');
+  document.getElementById('fBody').innerHTML=g('Cidade',set('cidade',CID))+g('Tipo de imóvel',set('tipo',TIP))
+    +g('Quartos',sin('quartos',[1,2,3,4]))+g('Banheiros',sin('banheiros',[1,2,3,4]))+g('Vagas',sin('vagas',[1,2,3,4]))
+    +g('Faixa de valor',FAIXAS.map(x=>'<button class="opt" data-k="faixa" data-v="'+x[0]+'" onclick="tg(\'faixa\',\''+x[0]+'\')">'+x[1]+'</button>').join(''))
+    +g('Status',set('status',STA))+g('Comodidades',set('com',COM));
+})();
+const drw=document.getElementById('drw'),ovl=document.getElementById('ovl');
+function openDrw(){drw.classList.add('open');ovl.classList.add('open');}
+function closeDrw(){drw.classList.remove('open');ovl.classList.remove('open');}
+document.getElementById('openF').onclick=openDrw;ovl.onclick=closeDrw;
+document.getElementById('sort').onchange=e=>{st.sort=e.target.value;renderCat();};
+document.getElementById('busca').oninput=e=>{st.q=e.target.value.trim();renderCat();};
+
+/* ---------- mapas ---------- */
+let fullMap=null,detMap=null;
+const pinIcon=()=>L.divIcon({className:'a10-pin',html:'<svg width="34" height="46" viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg"><path d="M18 1C9.2 1 2 8.2 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.2 26.8 1 18 1z" fill="#9A8250" stroke="#fff" stroke-width="2"/><circle cx="18" cy="17" r="6" fill="#0B1624"/></svg>',iconSize:[34,46],iconAnchor:[17,44]});
+function renderFullMap(){
+  if(typeof L==='undefined')return;
+  if(!fullMap){fullMap=L.map('fullMap',{scrollWheelZoom:true});
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(fullMap);}
+  else fullMap.eachLayer(l=>{if(l instanceof L.CircleMarker)fullMap.removeLayer(l);});
   const pts=[];
-  DATA.forEach(e=>{ if(e.lat==null)return;
-    const m=L.circleMarker([e.lat,e.lng],{radius:8,weight:2,color:'#fff',fillColor:e.categoria==='a10'?'#B7965A':'#0B1624',fillOpacity:1}).addTo(fullMarkers);
-    m.bindTooltip('<b>'+e.accent+'</b><br>'+priceLabel(e),{permanent:true,direction:'top',offset:[0,-6],className:'pricetip'+(e.categoria==='a10'?' a10':'')});
-    m.on('click',()=>go(e.slug));
-    pts.push([e.lat,e.lng]);
-  });
+  DATA.forEach(e=>{if(e.lat==null)return;
+    const m=L.circleMarker([e.lat,e.lng],{radius:8,weight:2,color:'#fff',fillColor:e.categoria==='a10'?'#9A8250':'#0B1624',fillOpacity:1}).addTo(fullMap);
+    m.bindTooltip('<b>'+esc(e.accent||e.nome)+'</b><br>'+(e.valorNum?esc(e.valor):'Consulte'),{permanent:true,direction:'top',offset:[0,-6],className:'pricetip'+(e.categoria==='a10'?' a10':'')});
+    m.on('click',()=>location.hash='#/emp/'+e.slug);pts.push([e.lat,e.lng]);});
   const fit=pts.filter(p=>p[0]<-26.5&&p[0]>-27.6&&p[1]<-48.4&&p[1]>-48.9);
-  const useFit=fit.length?fit:pts;
-  if(useFit.length){try{fullMap.fitBounds(useFit,{padding:[60,60],maxZoom:13.5});}catch(_){}}
-  document.getElementById('mapCount').textContent='· '+DATA.length+' empreendimentos';
+  try{fullMap.fitBounds(fit.length?fit:pts,{padding:[60,60],maxZoom:13.5});}catch(_){}
+  document.getElementById('mapCount').textContent=DATA.length+' empreendimentos no litoral de Santa Catarina.';
   setTimeout(()=>fullMap.invalidateSize(),160);
 }
-let detMap=null;
-function renderDetailMap(e){
-  const el=document.getElementById('detMap'); if(!el||typeof L==='undefined')return;
+function renderDetMap(e){
+  if(typeof L==='undefined')return;
   if(detMap){detMap.remove();detMap=null;}
-  const lat=e.lat!=null?e.lat:-26.99,lng=e.lng!=null?e.lng:-48.63;
-  detMap=L.map('detMap',{scrollWheelZoom:false}).setView([lat,lng],16);
+  const la=e.lat!=null?e.lat:-26.99,ln=e.lng!=null?e.lng:-48.63;
+  detMap=L.map('detMap',{scrollWheelZoom:false}).setView([la,ln],16);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,attribution:'&copy; OpenStreetMap'}).addTo(detMap);
-  const pin=L.divIcon({className:'a10-pin',html:'<svg width="36" height="48" viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg"><path d="M18 1C9.2 1 2 8.2 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.2 26.8 1 18 1z" fill="#C9A86A" stroke="#fff" stroke-width="2"/><circle cx="18" cy="17" r="6" fill="#0B1624"/></svg>',iconSize:[36,48],iconAnchor:[18,46],popupAnchor:[0,-42]});
-  L.marker([lat,lng],{icon:pin}).addTo(detMap).bindTooltip(e.nome,{direction:'top',offset:[0,-44]});
+  L.marker([la,ln],{icon:pinIcon()}).addTo(detMap).bindTooltip(e.nome,{direction:'top',offset:[0,-42]});
   setTimeout(()=>detMap.invalidateSize(),140);
 }
 
 /* ---------- lightbox ---------- */
-let lbImgs=[],lbIdx=0;
-function lbOpen(i){if(!lbImgs.length)return;lbIdx=i;document.getElementById('lb').classList.add('open');lbPaint();document.body.style.overflow='hidden';}
+let lbI=[],lbX=0;
+function lbOpen(i){if(!lbI.length)return;lbX=i;document.getElementById('lb').classList.add('open');lbPaint();document.body.style.overflow='hidden';}
 function lbClose(){document.getElementById('lb').classList.remove('open');document.body.style.overflow='';}
-function lbPaint(){document.getElementById('lbImg').src=IMG[lbImgs[lbIdx]];document.getElementById('lbCap').textContent=(lbIdx+1)+' de '+lbImgs.length;}
-function lbPrev(){if(lbImgs.length){lbIdx=(lbIdx-1+lbImgs.length)%lbImgs.length;lbPaint();}}
-function lbNext(){if(lbImgs.length){lbIdx=(lbIdx+1)%lbImgs.length;lbPaint();}}
-document.getElementById('lb').addEventListener('click',ev=>{if(ev.target.id==='lb')lbClose();});
+function lbPaint(){document.getElementById('lbImg').src=IMG[lbI[lbX]];document.getElementById('lbCap').textContent=(lbX+1)+' de '+lbI.length;}
+function lbPrev(){lbX=(lbX-1+lbI.length)%lbI.length;lbPaint();}
+function lbNext(){lbX=(lbX+1)%lbI.length;lbPaint();}
+document.getElementById('lb').addEventListener('click',e=>{if(e.target.id==='lb')lbClose();});
 
 /* ---------- abas ---------- */
-function setTab(id){
-  document.querySelectorAll('#detTabs .tab-btn').forEach(b=>b.classList.toggle('on',b.dataset.pane===id));
-  document.querySelectorAll('.tabpane').forEach(p=>p.classList.toggle('on',p.id===id));
-  if(id==='pane-loc'&&detMap)setTimeout(()=>detMap.invalidateSize(),60);
-}
-document.querySelectorAll('#detTabs .tab-btn').forEach(b=>b.onclick=()=>setTab(b.dataset.pane));
-
-/* ---------- galeria ---------- */
-function galBloco(titulo,fotos,offset){
-  const thumbs=fotos.map((k,i)=>'<button class="gthumb" onclick="lbOpen('+(offset+i)+')" aria-label="Ampliar foto '+(offset+i+1)+'">'
-    +'<img src="'+IMG[k]+'" alt="Foto '+(offset+i+1)+'" loading="lazy" decoding="async"></button>').join('');
-  return '<div class="gal-grp">'+(titulo?'<div class="gal-grp-t">'+esc(titulo)+'</div>':'')+'<div class="gal-grid">'+thumbs+'</div></div>';
-}
-function renderGaleria(e){
-  const el=document.getElementById('detGal');
-  const fotos=gallery(e),ck=coverKey(e);
-  // a capa entra no lightbox mesmo quando nao esta nos grupos (caso do Patio Estaleiro)
-  const capaSolta=ck&&fotos[0]!==ck;
-  lbImgs=capaSolta?[ck].concat(fotos):fotos.slice();
-  const base=capaSolta?1:0;
-  document.getElementById('tabGalN').textContent=fotos.length?fotos.length:'';
-  if(!fotos.length){
-    el.innerHTML='<div class="gal-vazia"><div class="big">Fotos em breve</div><p>Ainda estamos preparando o material deste empreendimento. Fale com a gente para receber as imagens.</p></div>';
-    return 0;
-  }
-  if(e.grupos&&e.grupos.length){
-    let off=base,h='';
-    e.grupos.forEach(g=>{const f=g.fotos||[];h+=galBloco(g.nome+' · '+f.length+' fotos',f,off);off+=f.length;});
-    el.innerHTML=h;
-  }else{
-    el.innerHTML=galBloco('',fotos,base);
-  }
-  return fotos.length;
-}
+function setTab(id){document.querySelectorAll('#dTabs .tab').forEach(b=>b.classList.toggle('on',b.dataset.p===id));
+  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id===id));
+  if(id==='p-loc'&&detMap)setTimeout(()=>detMap.invalidateSize(),60);}
+document.querySelectorAll('#dTabs .tab').forEach(b=>b.onclick=()=>setTab(b.dataset.p));
 
 /* ---------- detalhe ---------- */
-function specChip(ic,val){return val?'<div class="spec"><span class="spec-ic">'+icon(ic)+'</span>'+esc(val)+'</div>':'';}
-function listSec(wrapId,ulId,arr){document.getElementById(wrapId).style.display=arr.length?'block':'none';document.getElementById(ulId).innerHTML=arr.map(a=>'<li>'+esc(a)+'</li>').join('');}
-function renderDetail(slug){
-  const e=DATA.find(x=>x.slug===slug); if(!e){location.hash='#/';return;}
-  const ck=coverKey(e);
-  document.getElementById('detHero').innerHTML=ck
-    ? '<img src="'+IMG[ck]+'" alt="'+esc(e.nome)+'" decoding="async"><span class="expand">'+icon('expand')+'Ampliar</span>'
-    : '<div class="ph">'+icon('cam')+'<span>Foto em breve</span></div>';
-  document.getElementById('detHero').onclick=()=>{if(ck)lbOpen(0);};
-  document.getElementById('detKick').textContent=e.tipologia+(isConf(e.cidade)?' · '+e.cidade:'');
-  document.getElementById('detTit').innerHTML=e.reg?(esc(e.reg)+' <em>'+esc(e.accent)+'</em>'):('<em>'+esc(e.accent)+'</em>');
-  document.getElementById('detTag').textContent=e.tag||'';
-  document.getElementById('detSeal').style.display=e.categoria==='a10'?'inline-flex':'none';
-  const ds=document.getElementById('detStatus');ds.textContent=isConf(e.status)?e.status:'';ds.style.display=isConf(e.status)?'inline-flex':'none';
-  const dd=document.getElementById('detDisp');dd.textContent=e.disponibilidade||'';dd.style.display=e.disponibilidade?'inline-flex':'none';
-  const dl=document.getElementById('detLand');
-  if(e.landing){dl.href=e.landing;dl.style.display='inline-flex';}else{dl.style.display='none';}
-  document.getElementById('detPrice').innerHTML=e.valorNum?esc(e.valor):'<small>Sob consulta</small>';
-  document.getElementById('detSpecs').innerHTML=specChip('bed',e.quartos)+specChip('bath',e.banheirosNum?e.banheirosNum+' banheiros':'')+specChip('car',e.vagas)+specChip('ruler',e.metragem);
-  document.getElementById('detDescWrap').style.display=e.descricao?'block':'none';
-  document.getElementById('detDesc').textContent=e.descricao||'';
-  listSec('detAttrWrap','detAttr',e.atributos||[]);
-  listSec('detComWrap','detCom',e.comodidades||[]);
-  const end=isConf(e.endereco)?e.endereco:(isConf(e.cidade)?e.cidade:'Localização a confirmar');
-  document.getElementById('detEndereco').textContent=end;
-  document.getElementById('detMapsLink').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(isConf(e.endereco)?e.endereco:(e.nome+' '+(isConf(e.cidade)?e.cidade:'Balneário Camboriú')));
-  document.getElementById('detWa').href=waLink(e.nome);
-  setTab(renderGaleria(e)?'pane-gal':'pane-info');
-  renderDetailMap(e);
-  window.scrollTo(0,0);
+function galBlock(t,f,off){return '<div class="gal-grp">'+(t?'<div class="gal-t">'+esc(t)+'</div>':'')+'<div class="gal">'
+  +f.map((k,i)=>'<button class="gthumb" onclick="lbOpen('+(off+i)+')" aria-label="Ampliar foto '+(off+i+1)+'"><img src="'+IMG[k]+'" alt="" loading="lazy"></button>').join('')+'</div></div>';}
+function renderDet(slug){
+  const e=DATA.find(x=>x.slug===slug);if(!e){location.hash='#/empreendimentos';return;}
+  const ck=cover(e),fotos=gallery(e),solta=ck&&fotos[0]!==ck;
+  lbI=solta?[ck].concat(fotos):fotos.slice();
+  const base=solta?1:0;
+  const sel=[]; if(e.categoria==='a10')sel.push('<span class="tag light">Empreendimento A10</span>');
+  if(isConf(e.status))sel.push('<span class="tag">'+esc(e.status)+'</span>');
+  if(e.disponibilidade)sel.push('<span class="tag gold">'+esc(e.disponibilidade)+'</span>');
+  const dh=document.getElementById('dHero');
+  dh.innerHTML=(ck?'<img src="'+IMG[ck]+'" alt="'+esc(e.nome)+'" style="object-position:'+esc(e.imgpos||'center')+'">':'')
+    +'<div class="d-hero-in"><div class="wrap"><div class="kicker">'+esc(e.tipologia)+(isConf(e.cidade)?' · '+esc(e.cidade):'')+'</div>'
+    +'<h1>'+esc(e.nome)+'</h1>'+(e.tag?'<div class="dtag">'+esc(e.tag)+'</div>':'')
+    +'<div class="d-badges">'+sel.join('')+'</div></div></div>'
+    +(ck?'<span class="btn btn-cream d-zoom">Ampliar</span>':'');
+  dh.onclick=()=>{if(ck)lbOpen(0);};
+  document.getElementById('dPrice').textContent=e.valorNum?e.valor:'Sob consulta';
+  document.getElementById('dWa').href=wa(e.nome);
+  const sp=[['bed',e.quartos],['bath',e.banheirosNum?e.banheirosNum+' banheiros':''],['car',e.vagas],['ruler',e.metragem]]
+    .filter(x=>isConf(x[1])).map(x=>'<div class="spec">'+icon(x[0])+'<p>'+esc(x[1])+'</p></div>').join('');
+  document.getElementById('dSpecs').innerHTML=sp;
+  document.getElementById('dSpecs').style.display=sp?'grid':'none';
+  document.getElementById('dDescW').style.display=e.descricao?'block':'none';
+  document.getElementById('dDesc').textContent=e.descricao||'';
+  const ls=(id,ul,a)=>{document.getElementById(id).style.display=a.length?'block':'none';
+    document.getElementById(ul).innerHTML=a.map(x=>'<li>'+esc(x)+'</li>').join('');};
+  ls('dAttrW','dAttr',e.atributos||[]);ls('dComW','dCom',e.comodidades||[]);
+  document.getElementById('dEnd').textContent=isConf(e.endereco)?e.endereco:(isConf(e.cidade)?e.cidade:'Localização a confirmar');
+  document.getElementById('dMaps').href='https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(isConf(e.endereco)?e.endereco:(e.nome+' '+(isConf(e.cidade)?e.cidade:'Balneário Camboriú')));
+  document.getElementById('dGalN').textContent=fotos.length||'';
+  const g=document.getElementById('dGal');
+  if(!fotos.length)g.innerHTML='<div class="gvazia"><b>Fotos em breve</b><p>Ainda estamos preparando o material deste empreendimento.</p></div>';
+  else if(e.grupos&&e.grupos.length){let o=base,h='';e.grupos.forEach(x=>{const f=x.fotos||[];h+=galBlock(x.nome+' · '+f.length+' fotos',f,o);o+=f.length;});g.innerHTML=h;}
+  else g.innerHTML=galBlock('',fotos,base);
+  setTab(fotos.length?'p-gal':'p-info');
+  renderDetMap(e);window.scrollTo(0,0);
 }
 
-/* ---------- contato ---------- */
-function renderContato(){
-  const c=CONTATO;
-  const horas=c.horario.map(h=>'<div class="hora"><span>'+esc(h[0])+'</span><span>'+esc(h[1])+'</span></div>').join('');
+/* ---------- contato e rodape ---------- */
+(function(){const c=CONTATO;
+  const hh=c.horario.map(h=>'<div class="hora"><span>'+esc(h[0])+'</span><span>'+esc(h[1])+'</span></div>').join('');
   document.getElementById('ctGrid').innerHTML=
-     '<div class="ct-card"><h3>Endereço</h3><p>'+esc(c.endereco)+'</p></div>'
-    +'<div class="ct-card"><h3>Fale com a gente</h3>'
-      +'<a href="'+waLink('')+'" target="_blank" rel="noopener">WhatsApp '+esc(c.whatsapp_label)+'</a>'
-      +'<a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a></div>'
-    +'<div class="ct-card"><h3>Horário de atendimento</h3>'+horas+'</div>'
-    +'<div class="ct-card"><h3>Redes sociais</h3>'
-      +'<a href="'+esc(c.instagram)+'" target="_blank" rel="noopener">Instagram '+esc(c.instagram_label)+'</a>'
-      +'<a href="'+esc(c.youtube)+'" target="_blank" rel="noopener">YouTube '+esc(c.youtube_label)+'</a></div>';
-  document.getElementById('footCont').innerHTML=
-     '<h4>Contato</h4><p>'+esc(c.endereco)+'</p>'
-    +'<a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a>'
-    +'<a href="'+waLink('')+'" target="_blank" rel="noopener">WhatsApp '+esc(c.whatsapp_label)+'</a>';
-  document.getElementById('footRedes').innerHTML=
-     '<h4>Atendimento</h4>'+c.horario.map(h=>'<p>'+esc(h[0])+': '+esc(h[1])+'</p>').join('')
-    +'<h4 style="margin-top:20px">Redes</h4>'
-    +'<a href="'+esc(c.instagram)+'" target="_blank" rel="noopener">Instagram '+esc(c.instagram_label)+'</a>'
-    +'<a href="'+esc(c.youtube)+'" target="_blank" rel="noopener">YouTube '+esc(c.youtube_label)+'</a>';
-}
+    '<div class="ct-card"><h3>Endereço</h3><p>'+esc(c.endereco)+'</p></div>'
+   +'<div class="ct-card"><h3>Fale com a gente</h3><a href="'+wa('')+'" target="_blank" rel="noopener">WhatsApp '+esc(c.whatsapp_label)+'</a><a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a></div>'
+   +'<div class="ct-card"><h3>Horário de atendimento</h3>'+hh+'</div>'
+   +'<div class="ct-card"><h3>Redes sociais</h3><a href="'+esc(c.instagram)+'" target="_blank" rel="noopener">Instagram '+esc(c.instagram_label)+'</a><a href="'+esc(c.youtube)+'" target="_blank" rel="noopener">YouTube '+esc(c.youtube_label)+'</a></div>';
+  document.getElementById('fCont').innerHTML='<h4>Contato</h4><p>'+esc(c.endereco)+'</p><a href="mailto:'+esc(c.email)+'">'+esc(c.email)+'</a><a href="'+wa('')+'" target="_blank" rel="noopener">WhatsApp '+esc(c.whatsapp_label)+'</a>';
+  document.getElementById('fRedes').innerHTML='<h4>Atendimento</h4>'+c.horario.map(h=>'<p>'+esc(h[0])+': '+esc(h[1])+'</p>').join('')
+   +'<h4 style="margin-top:24px">Redes</h4><a href="'+esc(c.instagram)+'" target="_blank" rel="noopener">Instagram '+esc(c.instagram_label)+'</a><a href="'+esc(c.youtube)+'" target="_blank" rel="noopener">YouTube '+esc(c.youtube_label)+'</a>';
+})();
 
 /* ---------- router ---------- */
-function go(slug){location.hash=slug?('#/emp/'+encodeURIComponent(slug)):'#/';}
+const VIEWS={home:'view-home',cat:'view-cat',mapa:'view-mapa',det:'view-det',ct:'view-ct'};
+function show(k){Object.values(VIEWS).forEach(id=>document.getElementById(id).classList.toggle('on',VIEWS[k]===id));}
 function route(){
-  const h=location.hash||'#/';
-  const hd=document.getElementById('view-home'),dt=document.getElementById('view-detail'),
-        mp=document.getElementById('view-map'),ct=document.getElementById('view-contato');
-  [hd,dt,mp,ct].forEach(v=>v.style.display='none');
-  lbClose();
+  const h=location.hash||'#/';lbClose();closeDrw();
   const m=h.match(/^#\/emp\/(.+)$/);
-  if(h==='#/mapa'){mp.style.display='block';renderMapPage();}
-  else if(h==='#/contato'){ct.style.display='block';window.scrollTo(0,0);}
-  else if(m){dt.style.display='block';renderDetail(decodeURIComponent(m[1]));}
-  else{hd.style.display='';}
-  document.querySelectorAll('.nav-r a.link[data-rota]').forEach(a=>a.classList.toggle('on',a.dataset.rota===(h==='#/'?'#/':h)));
+  if(h==='#/empreendimentos'){show('cat');renderCat();window.scrollTo(0,0);}
+  else if(h==='#/mapa'){show('mapa');renderFullMap();window.scrollTo(0,0);}
+  else if(h==='#/contato'){show('ct');window.scrollTo(0,0);}
+  else if(m){show('det');renderDet(decodeURIComponent(m[1]));}
+  else{show('home');}
+  syncNav();
 }
 window.addEventListener('hashchange',route);
-window.addEventListener('keydown',ev=>{
+window.addEventListener('keydown',e=>{
   if(document.getElementById('lb').classList.contains('open')){
-    if(ev.key==='Escape')lbClose();
-    else if(ev.key==='ArrowLeft')lbPrev();
-    else if(ev.key==='ArrowRight')lbNext();
-    return;
-  }
-  if(ev.key==='Escape')closeDrawer();
+    if(e.key==='Escape')lbClose();else if(e.key==='ArrowLeft')lbPrev();else if(e.key==='ArrowRight')lbNext();return;}
+  if(e.key==='Escape'){closeDrw();mmenu.classList.remove('open');document.body.style.overflow='';}
 });
-document.getElementById('openFilters').onclick=openDrawer;
-document.getElementById('overlay').onclick=closeDrawer;
-document.getElementById('sort').onchange=ev=>{state.sort=ev.target.value;renderHome();};
-document.getElementById('busca').oninput=ev=>{state.q=ev.target.value.trim();renderHome();};
-document.querySelectorAll('.cat-btn').forEach(b=>b.onclick=()=>setCat(b.dataset.cat));
-
-buildFilters(); renderDestaques(); renderContato(); renderHome(); route();
+paintHero();renderCat();route();
 </script>
 </body></html>
