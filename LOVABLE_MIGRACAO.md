@@ -3,12 +3,12 @@
 Especificação da versão React do site que hoje roda como HTML estático neste
 repositório. Este documento é a referência do agente do Lovable.
 
-Repositório público: `joaogstrapa10-cell/sitea10`, branch `claude/vigilant-shannon-mxhzck`.
+Repositório público: `joaogstrapa10-cell/sitea10`, branch `main`.
 
 Base das URLs cruas (funcionam sem autenticação):
 
 ```
-https://raw.githubusercontent.com/joaogstrapa10-cell/sitea10/claude/vigilant-shannon-mxhzck/
+https://raw.githubusercontent.com/joaogstrapa10-cell/sitea10/main/
 ```
 
 ## 1. Dados
@@ -48,7 +48,7 @@ Referencie por URL:
 
 ```ts
 export const fotoUrl = (slug: string) =>
-  `https://raw.githubusercontent.com/joaogstrapa10-cell/sitea10/claude/vigilant-shannon-mxhzck/fotos/img/${slug}.jpg`;
+  `https://raw.githubusercontent.com/joaogstrapa10-cell/sitea10/main/fotos/img/${slug}.jpg`;
 ```
 
 O array `fotos[]` de cada empreendimento lista os slugs na ordem de exibição, e o
