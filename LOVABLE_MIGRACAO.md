@@ -1,208 +1,194 @@
-# Migração do site A10 para o Lovable
+# Site A10 Empreendimentos: especificação para o Lovable
 
-Especificação da versão React do site que hoje roda como HTML estático neste
-repositório. Este documento é a referência do agente do Lovable.
+Especificação da versão React do site. Este documento é a referência do agente.
 
 Repositório público: `joaogstrapa10-cell/sitea10`, branch `main`.
-
-Base das URLs cruas (funcionam sem autenticação):
+Base das URLs cruas, sem autenticação:
 
 ```
 https://raw.githubusercontent.com/joaogstrapa10-cell/sitea10/main/
 ```
 
+## 0. A referência é o site que já existe
+
+O site já está construído e aprovado em HTML estático. **Baixe e leia o arquivo abaixo
+antes de escrever qualquer código.** Ele é a fonte visual e funcional exata, com todo
+o CSS, a estrutura das páginas e a lógica de filtros, galeria e mapa:
+
+```
+<base>/index.html
+<base>/patio-estaleiro.html
+```
+
+Reproduza o que está ali em React. Onde este documento e o HTML divergirem, **o HTML
+manda**, porque é o que o cliente validou.
+
+O desenho segue o padrão do site da JHSF, que o cliente escolheu como referência:
+foto e vídeo em tela cheia, títulos serifados centralizados em dourado, muito ar,
+cantos retos e pouco texto.
+
 ## 1. Dados
 
-Baixe **uma vez** o arquivo abaixo e transforme o conteúdo em `src/data/empreendimentos.ts`,
-exportando os quatro blocos com tipagem TypeScript. Não reescreva nem resuma nenhum texto:
-o conteúdo é copy aprovada pelo cliente.
-
-```
-<base>/empreendimentos.json
-```
-
-Blocos do arquivo:
+Baixe `<base>/empreendimentos.json` e transforme em `src/data/empreendimentos.ts`
+com tipagem. **Não reescreva, resuma ou traduza nenhum texto:** é copy aprovada.
 
 | Bloco | Conteúdo |
 |---|---|
-| `contato` | WhatsApp, e-mail, endereço, horário de atendimento e redes sociais |
-| `destaques` | Os slugs da faixa "Em destaque", na ordem: `patio-estaleiro`, `solenne`, `holmes` |
-| `empreendimentos` | Os 20 empreendimentos |
+| `contato` | WhatsApp, e-mail, endereço, horário e redes |
+| `destaques` | Os três do hero, na ordem: `patio-estaleiro`, `solenne`, `holmes` |
+| `empreendimentos` | Os 20 |
 | `patio_landing` | Todo o texto da landing do Pátio Estaleiro |
 
-Campos de cada empreendimento: `slug`, `nome`, `reg` e `accent` (o nome quebrado em duas
-partes para o título, onde `accent` vai em itálico dourado), `tipologia`, `tipo`, `cidade`,
-`endereco`, `tag`, `valor` e `valorNum`, `metragem` e `areaNum`, `quartos`, `quartosNum`,
-`quartosLabel`, `vagas`, `vagasNum`, `banheirosNum`, `status`, `parceria`, `destaque`,
-`descricao`, `atributos[]`, `comodidades[]`, `fotos[]`, `grupos[]`, `placeholder`,
-`imgpos`, `fit`, `categoria` (`a10` ou `diversos`), `lat`, `lng`.
+Campo com o valor `"A confirmar"` é tratado como ausente e o elemento fica escondido.
 
-O Pátio Estaleiro tem ainda `arquiteto`, `landing`, `condominio` e `disponibilidade`.
+## 2. Imagens e vídeo
 
-Onde um campo vier como a string `"A confirmar"`, trate como ausente e esconda o elemento.
-
-## 2. Imagens
-
-**Não faça upload das fotos.** São 232 imagens já hospedadas no repositório público.
-Referencie por URL:
+**Nunca faça upload das fotos.** São 232, já hospedadas. Referencie por URL:
 
 ```ts
 export const fotoUrl = (slug: string) =>
   `https://raw.githubusercontent.com/joaogstrapa10-cell/sitea10/main/fotos/img/${slug}.jpg`;
 ```
 
-O array `fotos[]` de cada empreendimento lista os slugs na ordem de exibição, e o
-primeiro é sempre a capa.
+Logo oficial dourada: `<base>/lib/a10-logo.png`. Header e rodapé de toda página.
 
-A logo oficial dourada é `<base>/lib/a10-logo.png`. Ela precisa aparecer no header e no
-rodapé de toda página. Essa é uma regra fixa do cliente.
+O hero da home é um `<video>` em loop, sem som, `playsinline`, com a foto de cartaz
+enquanto o arquivo não carrega. O MP4 ainda não existe: aponte para
+`<base>/video/a10-hero.mp4` e deixe o cartaz cobrindo até ele ser publicado.
 
 ## 3. Identidade visual
 
-Defina como CSS variables no `index.css` e mapeie no `tailwind.config.ts`. Nunca use
-cores literais nos componentes.
+Tokens em CSS variables, nunca cores literais nos componentes.
 
 | Token | Valor |
 |---|---|
-| `--cream` | `#F5F2EA` |
-| `--paper` (fundo padrão) | `#FBFAF5` |
-| `--card` | `#FFFFFF` |
-| `--navy` | `#0B1624` |
-| `--navy-2` (texto) | `#1D2C4B` |
-| `--gold` | `#B7965A` |
-| `--gold-l` (dourado claro, sobre fundo escuro) | `#E7D09B` |
-| `--gold-d` (dourado escuro, sobre fundo claro) | `#856733` |
-| `--muted` | `#6E7683` |
-| `--line` | `rgba(29,44,75,.12)` |
+| creme | `#F5EFE3` |
+| papel, fundo padrão | `#FBF8F2` |
+| navy | `#0B1624` |
+| texto | `#1D2C4B` |
+| dourado | `#9A8250` |
+| dourado claro, sobre escuro | `#E7D9B8` |
+| dourado escuro, sobre claro | `#7A6538` |
+| muted | `#6E7683` |
+| linha | `rgba(29,44,75,.14)` |
+| linha dourada | `rgba(154,130,80,.45)` |
 
-Fontes: **Cormorant Garamond** (400, 500, 600, mais itálico 400 e 500) nos títulos,
-valores e números grandes; **Poppins** (300 a 600) no corpo, labels e botões.
-Nunca use branco puro como fundo de página.
+Cormorant Garamond nos títulos e números grandes, Poppins no corpo e nos rótulos.
+No `body`: `font-variant-numeric: lining-nums` e `font-feature-settings: 'lnum' 1`,
+senão o Cormorant escreve "90" como "9o". Nunca branco puro como fundo de página.
 
-Detalhe importante: o Cormorant sai com numerais em estilo antigo por padrão, e o "90"
-vira "9o". Aplique no `body`:
+**Cantos retos em tudo.** Tiles, blocos, botões, selos e caixas não têm raio. As
+únicas exceções são os controles de interface (campo de busca, botões de filtro) e o
+botão flutuante do WhatsApp, que é redondo.
 
-```css
-font-variant-numeric: lining-nums;
-font-feature-settings: 'lnum' 1;
-```
-
-Padrões recorrentes: kicker em caixa alta dourada com `letter-spacing` entre `.22em` e
-`.34em` e tamanho entre 10px e 11px; título serif com a segunda palavra em itálico
-dourado; losango dourado rotacionado 45 graus como marcador de lista.
+Escala: kicker 13px no desktop e 12px no celular com `letter-spacing: .2em`; corpo
+17px e 16px com entrelinha 1.8; títulos de seção `clamp(34px, 4.4vw, 62px)` em
+serifada dourada e centralizados.
 
 ## 4. Rotas
 
 | Rota | Página |
 |---|---|
-| `/` | Catálogo |
-| `/empreendimento/:slug` | Detalhe |
-| `/mapa` | Mapa de todos os empreendimentos |
+| `/` | Home editorial |
+| `/empreendimentos` | Catálogo com busca, filtros e ordenação |
+| `/empreendimento/:slug` | Detalhe com três abas |
+| `/mapa` | Mapa de todos |
 | `/contato` | Contato |
 | `/patio-estaleiro` | Landing do Pátio Estaleiro |
 
-## 5. Catálogo (`/`)
+A home **não** é o catálogo. A home é vitrine; a máquina de busca vive em
+`/empreendimentos`, que é o primeiro item do menu.
 
-1. **Header fixo**: logo dourada, links Empreendimentos, Pátio Estaleiro, Mapa e Contato,
-   mais um botão verde de WhatsApp com o texto "Fale com a gente".
-2. **Hero** centralizado: kicker "O portfólio A10", título "Encontre seu *endereço.*"
-   com a segunda palavra em itálico dourado, uma linha de apoio, o seletor de categoria
-   (Todos / A10 / Imóveis Diversos, cada um com a contagem) e o botão navy
-   "Ver empreendimentos no mapa".
-3. **Em destaque**: os três slugs de `destaques` em cards grandes 4/5, foto com gradiente
-   escuro na base, selo A10, selo dourado de disponibilidade quando o campo existir, nome,
-   tag em itálico e uma linha de meta. **Esta faixa some** assim que houver busca ativa,
-   filtro ativo ou categoria diferente de "todos": ela atrapalha a leitura do resultado.
-4. **Barra de ferramentas grudada abaixo do header**: contagem de resultados, campo de
-   busca, botão de filtros e select de ordenação (Destaque, Maior preço, Menor preço,
-   Maior área, Nome A a Z).
-   - A busca casa contra `nome`, `cidade`, `endereco`, `destaque`, `tipologia` e `tag`,
-     sem acento e sem caixa, exigindo que **todos** os termos digitados apareçam.
-   - "Destaque" ordena colocando os slugs de `destaques` na frente, na ordem do array.
-5. **Chips** dos filtros ativos, incluindo o termo buscado, cada um removível, mais um
-   "Limpar tudo".
-6. **Grade** responsiva de cards com proporção 20/17. A foto **sempre** preenche o card
-   com `object-fit: cover`, sem exceção. Cada card tem selo A10 quando `categoria` for
-   `a10`, pill de status, contador de fotos e, quando não houver foto, um placeholder
-   elegante com o texto "Foto em breve".
+## 5. Cabeçalho
 
-**Filtros** (em drawer lateral): Categoria, Cidade (Balneário Camboriú, Itapema,
-Porto Belo), Tipo (Casa, Apartamento), Quartos, Banheiros e Vagas (botões 1+ a 4+),
-Faixa de valor (até R$ 1 mi, R$ 1 a 3 mi, R$ 3 a 5 mi, R$ 5 a 10 mi, R$ 10 mi+),
-Status (Pré-lançamento, Lançamento, Em obras, Pronto) e Comodidades (Piscina, Academia,
-Vista mar, Rooftop, Churrasqueira, Salão de festas, Spa / Sauna, Segurança 24h).
-Comodidades combinam em E, não em OU.
+Fixo e **transparente**, sem faixa de fundo e sem borda. **Logo no centro**, links
+divididos nos dois lados dela, em texto branco, caixa alta, 12,5px, bem espaçados.
 
-## 6. Detalhe (`/empreendimento/:slug`)
+Ao rolar para fora do hero, ganha fundo papel e o texto vira navy, senão os links
+ficam ilegíveis sobre o conteúdo claro. Nas rotas sem hero, já entra sólido.
 
-Capa grande 16/9 clicável que abre o lightbox na primeira foto. Abaixo: kicker com
-tipologia e cidade, título, tag em itálico, selos (Empreendimento A10, status,
-disponibilidade, e o link "Página do empreendimento" quando o campo `landing` existir)
-e o valor à direita.
+No celular, hambúrguer que abre um menu em tela cheia sobre fundo navy.
 
-Em seguida, **três abas**:
+## 6. Home
 
-1. **Galeria de fotos**, com a contagem ao lado do rótulo. Grade de miniaturas 4/3 que
-   abrem um lightbox em tela cheia com setas, navegação por teclado e Esc.
-   Quando o empreendimento tiver `grupos`, a galeria vem separada por bloco rotulado
-   (o Pátio Estaleiro mostra "Casa Mar · 7 fotos" e "Casa Brisa · 12 fotos").
-   Atenção ao índice: a capa do Pátio não está dentro de `grupos`, então ela entra no
-   lightbox na posição 0 e as miniaturas começam em 1.
-   Sem fotos, mostre "Fotos em breve" e abra o detalhe já na aba Informações.
-2. **Informações**: specs com ícone (quartos, banheiros, vagas, metragem), descrição,
-   atributos e lazer, comodidades.
-3. **Localização**: mapa com pino dourado, endereço, link para o Google Maps e a nota
-   "Localização aproximada. Confirme o endereço exato com o corretor."
+1. **Hero em vídeo**, altura de tela cheia, escurecido por gradiente. Texto
+   centralizado: a cidade em 17px, o nome do empreendimento em serifada enorme,
+   a tag, e dois botões, um sólido creme e um vazado claro. Alterna entre os três
+   de `destaques` com setas e marcadores na base.
+2. **Faixa creme de medalhões**: um círculo por empreendimento com foto, com o nome
+   embaixo, em rolagem lateral.
+3. **"Nossos empreendimentos"** em serifada dourada centralizada, e abaixo os tiles
+   de foto em duas colunas, **sangrando de ponta a ponta, sem espaço entre eles**.
+   Cada tile tem os selos no topo e, na base, nome, meta e preço, todos em branco
+   sobre a foto.
+4. **Bloco institucional**: metade creme com texto e uma caixa de borda dourada fina,
+   metade foto até a borda.
+5. **Faixa de números** e chamada para o mapa.
 
-No fim, botão verde de WhatsApp "Falar sobre este empreendimento".
+**Alinhamento dos tiles.** O bloco de texto é ancorado na base, então a altura de
+cada linha precisa ser previsível, senão os nomes dançam de um card para o outro:
+o nome reserva duas linhas, a meta reserva uma, e **o preço sempre existe**, mostrando
+"Sob consulta" quando `valorNum` for nulo. Sem isso, um card sem preço fica uma linha
+mais curto e desalinha do vizinho.
 
-## 7. Mapa (`/mapa`)
+## 7. Catálogo
 
-Mapa com todos os empreendimentos que tiverem `lat` e `lng`. Pino dourado para
-`categoria: a10` e navy para os demais, com tooltip permanente mostrando o nome curto
-(`accent`) e o valor. Clicar no pino leva ao detalhe. O enquadramento inicial deve
-considerar só os pontos entre as latitudes -26.5 e -27.6 e longitudes -48.4 e -48.9,
-senão a Casa Colombo (que fica em Colombo, no Paraná) afasta demais o zoom.
+Categorias (Todos, Empreendimentos A10, Imóveis Diversos, com contagem), barra grudada
+com contagem, busca, filtros e ordenação, chips removíveis e a grade dos mesmos tiles.
 
-## 8. Landing do Pátio Estaleiro (`/patio-estaleiro`)
+Busca sem acento e sem caixa contra nome, cidade, endereço, destaque, tipologia e tag,
+exigindo que todos os termos apareçam. Ordenação: Destaque, Maior preço, Menor preço,
+Maior área e Nome A a Z.
 
-Todo o texto vem de `patio_landing`. Header próprio com âncoras para as seções.
+Filtros em drawer: Cidade, Tipo, Quartos, Banheiros, Vagas, Faixa de valor, Status e
+Comodidades. Comodidades combinam em E, não em OU.
 
-1. **Hero** de altura quase cheia, foto `patio-estaleiro` de fundo com opacidade 0.66
-   sobre fundo navy, gradiente escurecendo topo e base. Kicker, título em duas linhas
-   (a segunda em dourado claro), subtítulo, botão dourado "Agendar visita" que abre o
-   WhatsApp e botão vazado "Ver as fotos".
-2. **Faixa dourada** logo abaixo do hero com o campo `disponibilidade`.
-3. **Filosofia** (fundo creme): kicker, título, texto e os quatro valores numerados
-   01 a 04, cada um com uma linha dourada no topo.
-4. **As Residências**: texto ao lado de uma foto vertical 4/5 com moldura dourada
-   interna, e três números grandes em serif dourado.
-5. **Exclusividade & Natureza** (fundo navy): foto à esquerda, texto e bullets à direita.
-6. **Santuário Arquitetônico** (fundo creme): texto, três selos em caixa com borda
-   dourada e a citação centralizada em serif itálico, entre aspas douradas.
-7. **Galeria**, separada por Casa Mar e Casa Brisa, com o mesmo lightbox do detalhe.
-8. **Localização**: texto, dois números grandes e o mapa com o pino.
-9. **Contato** (fundo navy): os quatro cartões (Endereço, Fale com a gente, Horário de
-   atendimento, Redes sociais) e o botão dourado de agendamento.
-10. **Rodapé** escuro com a logo, a assinatura, o resumo, os links das seções e a linha
-    dos quatro pilares.
+## 8. Detalhe
 
-## 9. Regras que não podem ser quebradas
+Capa em tela grande com os selos e o nome sobre a foto, clicável para o lightbox.
+Barra com o valor e o botão de WhatsApp. Depois, três abas:
 
-1. **Nunca usar travessões**, nem o longo nem o curto, em nenhum texto da interface.
-   Use ponto, vírgula, dois-pontos ou o separador `·`.
-2. **Logo oficial dourada** no header e no rodapé de toda página.
-3. **A foto sempre preenche o card**, com `object-fit: cover`. Nunca deixe faixa de
-   fundo sobrando em volta da imagem.
-4. **WhatsApp oficial `5547991916412`**, lido de `contato.whatsapp`, nunca escrito no
-   componente. Os links levam mensagem pré-preenchida com o nome do empreendimento.
-5. Destaque inicial fixo em Pátio Estaleiro, Solenne e Holmes, na ordem do array
-   `destaques`.
-6. Não invente dado comercial. O que estiver como "A confirmar" fica escondido.
+1. **Galeria de fotos** com a contagem. Miniaturas e lightbox em tela cheia com setas,
+   teclado e Esc. Com `grupos`, vem separada por bloco: o Pátio Estaleiro mostra
+   "Casa Mar · 7 fotos" e "Casa Brisa · 12 fotos". A capa dele não está dentro de
+   `grupos`, então entra no lightbox na posição 0 e as miniaturas começam em 1.
+   Sem fotos, mostre "Fotos em breve" e abra já em Informações.
+2. **Informações**: specs com ícone, descrição, atributos e comodidades.
+3. **Localização**: mapa Leaflet de verdade com pino dourado, endereço, link do Google
+   Maps e a nota "Localização aproximada. Confirme o endereço exato com o corretor."
 
-## 10. Acessibilidade e responsivo
+## 9. Mapa
 
-Mobile a partir de 360px de largura, sem rolagem horizontal, com respiro lateral de
-16px. Cards e miniaturas navegáveis por teclado. Lightbox com `role="dialog"`,
-`aria-modal` e fechamento por Esc. Foco visível em dourado.
-`loading="lazy"` em tudo menos a capa da página.
+Todos os que têm `lat` e `lng`. Pino dourado para `categoria: a10`, navy para os
+demais, tooltip permanente com o nome curto e o valor, clique leva ao detalhe. O
+enquadramento considera só as latitudes entre -26.5 e -27.6 e longitudes entre -48.4
+e -48.9, senão a Casa Colombo, que fica no Paraná, afasta demais o zoom.
+
+## 10. Landing do Pátio Estaleiro
+
+Todo o texto vem de `patio_landing`. Hero cheio, faixa dourada de disponibilidade, e
+as seções Filosofia, As Residências, Exclusividade & Natureza, Santuário Arquitetônico,
+Galeria por casa, Localização com mapa real e Contato. O rodapé leva a assinatura, o
+endereço e o botão de agendar visita, sem o parágrafo de resumo e sem a linha dos
+pilares.
+
+## 11. Regras que não podem ser quebradas
+
+1. **Nunca usar travessões**, nem o longo nem o curto. Use ponto, vírgula,
+   dois-pontos ou o separador `·`.
+2. **Logo dourada oficial no header e no rodapé** de toda página.
+3. **A foto sempre preenche o espaço**, com `object-fit: cover`, sem faixa de fundo
+   sobrando.
+4. **WhatsApp** lido de `contato.whatsapp`, nunca escrito no componente, com mensagem
+   pré-preenchida com o nome do empreendimento. Fica num **botão flutuante redondo**
+   no canto inferior direito, presente em todas as rotas, respeitando a safe area. Não
+   fica no cabeçalho.
+5. **Cantos retos**, conforme a seção 3.
+6. **Não inventar dado comercial.** `"A confirmar"` é tratado como ausente.
+
+## 12. Acessibilidade e responsivo
+
+Mobile a partir de 360px, sem rolagem horizontal, respiro lateral de 20px. Tiles,
+miniaturas e controles navegáveis por teclado. Lightbox com `role="dialog"`,
+`aria-modal` e fechamento por Esc. Foco visível em dourado. `loading="lazy"` em tudo
+menos a capa da página.
