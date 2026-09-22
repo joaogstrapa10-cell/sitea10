@@ -147,7 +147,7 @@ const DIFERENCIAIS = [
     title: "8 residências, e só.",
     body:
       "Um condomínio fechado desenhado para o resguardo pleno da vida familiar, com jardins e áreas externas protegidas. Restam a Casa Mar e a Casa Brisa.",
-    image: img("patio-condominio-aereo"),
+    image: img("patio-brisa-4"),
   },
   {
     eyebrow: "Autoria",
@@ -168,7 +168,9 @@ const DIFERENCIAIS = [
     title: "A menor distância entre você e a areia.",
     body:
       "A Praia do Estaleiro é reconhecida pelas águas cristalinas, pela restinga preservada e pela certificação Bandeira Azul.",
-    image: img("patio-mar-1"),
+    // A aérea, que mostra o condomínio e a praia na mesma imagem, é o
+    // argumento desta seção. Saiu do bloco de privacidade para não repetir.
+    image: img("patio-condominio-aereo"),
   },
 ];
 
@@ -181,8 +183,6 @@ const GALLERY_IMAGES = [
   { src: img("patio-brisa-2"), legenda: "Casa Brisa" },
   { src: img("patio-brisa-5"), legenda: "Casa Brisa" },
   { src: img("patio-brisa-9"), legenda: "Casa Brisa" },
-  { src: img("solenne-hero"), legenda: "Solenne" },
-  { src: img("solenne-3"), legenda: "Solenne" },
 ];
 
 const LOCATION = {
