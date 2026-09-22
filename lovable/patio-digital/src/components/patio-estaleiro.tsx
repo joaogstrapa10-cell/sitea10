@@ -47,8 +47,9 @@ const NAV_ITEMS = [
   { label: "Localização", href: "#localizacao" },
 ];
 
-/* O hero alterna sozinho entre os dois endereços, a cada HERO_SEGUNDOS.
-   As setas continuam ali para quem quiser adiantar, mas ninguém precisa clicar. */
+/* O hero é do Pátio Estaleiro, que é o foco do site. A máquina de carrossel
+   fica pronta: com mais de um slide ela alterna sozinha a cada HERO_SEGUNDOS e
+   mostra as setas; com um só, some tudo e a abertura fica parada. */
 const HERO_SEGUNDOS = 5;
 
 const HERO_SLIDES = [
@@ -60,26 +61,24 @@ const HERO_SLIDES = [
     imagem: img("patio-estaleiro"),
     alt: "Casas do Pátio Estaleiro, na Praia do Estaleiro, Balneário Camboriú",
   },
-  {
-    slug: "solenne",
-    italico: "",
-    maiusculo: "Solenne",
-    tagline: "A elegância do singular.",
-    imagem: img("solenne-hero"),
-    alt: "Solenne, torre neoclássica no Centro de Balneário Camboriú",
-  },
 ];
 
-/* Os números do Pátio Estaleiro. Quando o valor é uma faixa, vem em `texto`
-   e o contador não roda, porque não há um número só para contar. */
-const STATS: { value?: number; texto?: string; suffix: string; label: string }[] = [
-  { value: 8, suffix: "", label: "Residências no condomínio" },
-  { value: 2, suffix: "", label: "Ainda disponíveis" },
-  { value: 90, suffix: " m", label: "Do mar" },
-  { texto: "350 a 402", suffix: " m²", label: "Área privativa" },
+/* Os números do Pátio Estaleiro. A unidade fica ao lado do número, menor, na
+   mesma linha de base. Quando o valor é uma faixa, vira duas linhas separadas
+   por um traço curto, e o contador não roda, porque não há um número só. */
+const STATS: {
+  numero?: string;
+  unidade?: string;
+  faixa?: [string, string];
+  label: string;
+}[] = [
+  { numero: "8", unidade: "residências", label: "No condomínio" },
+  { numero: "2", label: "Ainda disponíveis" },
+  { numero: "90", unidade: "m", label: "Do mar" },
+  { faixa: ["350 m²", "402 m²"], label: "Área privativa" },
 ];
 
-/* Os dois endereços que a A10 assina hoje. */
+/* O endereço que abre o site. O restante do portfólio vem logo abaixo. */
 const DESTAQUES = [
   {
     slug: "patio-estaleiro",
@@ -98,27 +97,21 @@ const DESTAQUES = [
     ],
     cta: "Falar sobre o Pátio Estaleiro",
   },
-  {
-    slug: "solenne",
-    eyebrow: "Centro · Balneário Camboriú",
-    nome: "Solenne",
-    tag: "A elegância do singular.",
-    texto:
-      "Torre neoclássica de herança francesa entre o Centro e a Barra Sul, a setecentos metros da praia. São trinta e cinco pavimentos e mais de cento e dez metros de altura, com lazer estilo home club de mais de mil e seiscentos metros quadrados distribuídos em dezessete ambientes.",
-    valor: "Sob consulta",
-    imagem: img("solenne-hero"),
-    specs: [
-      ["Pavimentos", "35, mais de 110 m de altura"],
-      ["Área privativa", "138,59 m², duplex até 305 m²"],
-      ["Dormitórios", "3 suítes, master de 22,20 m²"],
-      ["Vagas", "2 mais hobby box"],
-    ],
-    cta: "Falar sobre o Solenne",
-  },
 ];
 
-/* O restante do portfólio A10. */
-const PORTFOLIO = [
+/* O restante do portfólio A10. O Solenne vem na frente, com selo próprio. */
+const PORTFOLIO: {
+  nome: string; cidade: string; resumo: string; valor: string; imagem: string; selo?: string;
+}[] = [
+  {
+    nome: "Solenne",
+    cidade: "Centro · Balneário Camboriú",
+    resumo:
+      "Torre neoclássica de herança francesa, a 700 m da praia, com 35 pavimentos e lazer estilo home club em 17 ambientes.",
+    valor: "Sob consulta",
+    imagem: img("solenne-hero"),
+    selo: "Pré-lançamento",
+  },
   {
     nome: "Holmes",
     cidade: "Balneário Camboriú",
@@ -144,7 +137,7 @@ const PORTFOLIO = [
 
 const VISTA = {
   image: img("praia-estaleiro-drone"),
-  quote: "O mar é o quintal desta casa.",
+  quote: "O mar é o quintal deste refúgio.",
 };
 
 const DIFERENCIAIS = [
@@ -192,9 +185,9 @@ const GALLERY_IMAGES = [
 ];
 
 const LOCATION = {
-  title: "2 dos principais endereços da A10 em Balneário Camboriú.",
+  title: "Praia do Estaleiro, em Balneário Camboriú.",
   body:
-    "O Pátio Estaleiro ocupa a Praia do Estaleiro, a noventa metros da areia, uma das faixas mais preservadas do litoral catarinense. O Solenne fica entre o Centro e a Barra Sul, a setecentos metros da praia central.",
+    "O Pátio Estaleiro ocupa a Praia do Estaleiro, a noventa metros da areia, uma das faixas mais preservadas do litoral catarinense. Águas cristalinas, restinga preservada e certificação Bandeira Azul, a poucos minutos do centro de Balneário Camboriú.",
   pinos: [
     {
       nome: "Pátio Estaleiro",
@@ -204,15 +197,6 @@ const LOCATION = {
       destaque: true,
       mapa:
         "https://www.google.com/maps?q=-27.026192,-48.582213&hl=pt-BR&z=17&output=embed",
-    },
-    {
-      nome: "Solenne",
-      detalhe: "Centro, praia central",
-      lat: -27.00169512068981,
-      lng: -48.6268836750322,
-      destaque: false,
-      mapa:
-        "https://www.google.com/maps?q=-27.001695,-48.626884&hl=pt-BR&z=17&output=embed",
     },
   ],
 };
@@ -277,7 +261,7 @@ function SignatureLine({
 
 function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <div className="font-sans text-[0.86rem] uppercase tracking-[0.3em] text-[var(--color-gold-2)]">
+    <div className="font-sans text-[1rem] font-medium uppercase tracking-[0.26em] text-[var(--color-gold-2)]">
       {children}
     </div>
   );
@@ -428,6 +412,7 @@ function Hero() {
   // Troca sozinho. O relógio reinicia a cada mudança, então quem usa a seta
   // ganha os cinco segundos inteiros antes da próxima virada automática.
   useEffect(() => {
+    if (total < 2) return;
     const t = setTimeout(() => setI((a) => (a + 1) % total), HERO_SEGUNDOS * 1000);
     return () => clearTimeout(t);
   }, [i, total]);
@@ -526,6 +511,7 @@ function Hero() {
       </motion.div>
 
       {/* Setas e marcadores, no canto, para não brigar com o "Role" do centro */}
+      {total > 1 && (
       <div className="absolute bottom-10 right-6 z-20 flex items-center gap-5 md:bottom-12 md:right-10">
         <button
           onClick={() => setI((a) => (a - 1 + total) % total)}
@@ -556,6 +542,7 @@ function Hero() {
           ›
         </button>
       </div>
+      )}
 
       {/* Scroll indicator */}
       <motion.div
@@ -598,21 +585,28 @@ function Stats() {
                 i > 0 ? "md:border-l md:border-[var(--color-line)]/60" : ""
               }`}
             >
-              <div
-                className="font-display font-light leading-none text-[var(--color-cream)]"
-                style={{
-                  fontSize: s.texto
-                    ? "clamp(2.2rem, 4vw, 3.8rem)"
-                    : "clamp(3rem, 6vw, 5.5rem)",
-                }}
-              >
-                {s.texto ? (
-                  <span>
-                    {s.texto}
-                    {s.suffix}
-                  </span>
+              <div className="font-display font-light leading-none text-[var(--color-cream)]">
+                {s.faixa ? (
+                  <div
+                    className="flex flex-col items-start gap-3"
+                    style={{ fontSize: "clamp(2rem, 3.4vw, 3rem)" }}
+                  >
+                    <span>{s.faixa[0]}</span>
+                    <span className="block h-px w-9 bg-[var(--color-gold)]/70" />
+                    <span>{s.faixa[1]}</span>
+                  </div>
                 ) : (
-                  <Counter to={s.value as number} suffix={s.suffix} />
+                  <span
+                    className="inline-flex items-baseline gap-3"
+                    style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)" }}
+                  >
+                    <Counter to={Number(s.numero)} />
+                    {s.unidade && (
+                      <span style={{ fontSize: "0.34em" }} className="font-sans tracking-wide">
+                        {s.unidade}
+                      </span>
+                    )}
+                  </span>
                 )}
               </div>
               <div className="mt-6 font-sans text-[0.82rem] uppercase tracking-[0.22em] text-[var(--color-mist)]">
@@ -644,11 +638,11 @@ function Empreendimentos() {
             className="mt-6 font-display leading-[1.05] text-[var(--color-cream)]"
             style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
           >
-            Os endereços <span className="italic">à venda hoje.</span>
+            O Pátio <span className="italic">Estaleiro.</span>
           </h2>
           <p className="mt-8 max-w-xl font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
-            O Pátio Estaleiro e o Solenne são as duas assinaturas da A10 neste
-            momento. Abaixo deles, o restante do portfólio próprio.
+            A entrega principal da A10 neste momento, na Praia do Estaleiro.
+            Abaixo dele, o restante do portfólio próprio.
           </p>
         </div>
 
@@ -685,7 +679,7 @@ function Empreendimentos() {
                   transition={{ duration: 1, delay: 0.15 }}
                   className={`md:col-span-5 ${flip ? "md:order-1" : ""}`}
                 >
-                  <div className="font-sans text-[0.82rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
+                  <div className="font-sans text-[0.98rem] font-medium uppercase tracking-[0.22em] text-[var(--color-gold-2)]">
                     {e.eyebrow}
                   </div>
 
@@ -751,7 +745,7 @@ function Empreendimentos() {
             Também no <span className="italic">nosso portfólio.</span>
           </h3>
 
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
             {PORTFOLIO.map((p, i) => (
               <motion.a
                 key={p.nome}
@@ -776,6 +770,11 @@ function Empreendimentos() {
                     className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)]/85 via-transparent to-transparent" />
+                  {p.selo && (
+                    <div className="absolute left-6 top-6 bg-[var(--color-gold)] px-4 py-2 font-sans text-[0.68rem] uppercase tracking-[0.2em] text-[var(--color-navy)]">
+                      {p.selo}
+                    </div>
+                  )}
                   <div className="absolute inset-x-0 bottom-0 p-6">
                     <div className="font-sans text-[0.76rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
                       {p.cidade}
@@ -907,7 +906,7 @@ function Diferenciais() {
                   transition={{ duration: 1, delay: 0.15 }}
                   className={`md:col-span-5 ${flip ? "md:order-1" : ""}`}
                 >
-                  <div className="font-sans text-[0.82rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
+                  <div className="font-sans text-[0.98rem] font-medium uppercase tracking-[0.22em] text-[var(--color-gold-2)]">
                     {d.eyebrow}
                   </div>
                   <h3
