@@ -135,8 +135,7 @@ const DIFERENCIAIS = [
     title: "Oito residências, e só.",
     body:
       "Um condomínio fechado desenhado para o resguardo pleno da vida familiar, com jardins e áreas externas protegidas. Restam a Casa Mar e a Casa Brisa.",
-    // PENDENTE: trocar pela aérea do condomínio, que está no Drive em FOTOS DRONE.
-    image: img("patio-brisa-1"),
+    image: img("patio-condominio-aereo"),
   },
   {
     eyebrow: "Autoria",
