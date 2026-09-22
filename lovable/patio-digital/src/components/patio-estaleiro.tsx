@@ -139,11 +139,10 @@ const DIFERENCIAIS = [
   },
   {
     eyebrow: "Autoria",
-    // PENDENTE: trocar pelo retrato do Marcos Jobim quando ele chegar.
     title: "Projeto de Marcos Jobim.",
     body:
       "Linhas puras e materiais nobres em um partido que integra a arquitetura moderna externa ao aconchego dos materiais naturais no interior.",
-    image: img("patio-mar-5"),
+    image: img("marcos-jobim"),
   },
   {
     eyebrow: "Lazer privativo",
