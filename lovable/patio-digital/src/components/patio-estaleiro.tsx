@@ -664,6 +664,9 @@ function Empreendimentos() {
             O Pátio{" "}
             <span className="italic text-[var(--color-gold-2)]">Estaleiro.</span>
           </h2>
+          <div className="mt-6 font-sans text-[0.98rem] font-medium uppercase tracking-[0.22em] text-[var(--color-gold-2)]">
+            {DESTAQUES[0].eyebrow}
+          </div>
         </div>
 
         <div className="flex flex-col gap-14 md:gap-20">
@@ -699,11 +702,7 @@ function Empreendimentos() {
                   transition={{ duration: 1, delay: 0.15 }}
                   className={`md:col-span-5 ${flip ? "md:order-1" : ""}`}
                 >
-                  <div className="font-sans text-[0.98rem] font-medium uppercase tracking-[0.22em] text-[var(--color-gold-2)]">
-                    {e.eyebrow}
-                  </div>
-
-                  <p className="mt-6 font-display italic text-2xl text-[var(--color-gold-2)]">
+                  <p className="font-display italic text-2xl text-[var(--color-gold-2)]">
                     {e.tag}
                   </p>
                   <p className="mt-6 font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
