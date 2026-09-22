@@ -125,7 +125,7 @@ const PORTFOLIO = [
 ];
 
 const VISTA = {
-  image: img("praia-estaleiro-aerea"),
+  image: img("praia-estaleiro-drone"),
   quote: "O mar é o quintal desta casa.",
 };
 
