@@ -254,7 +254,7 @@ function SignatureLine({
       style={style}
     >
       <span className="block h-[6px] w-[6px] rounded-full bg-[var(--color-gold)]" />
-      <span className="block h-full w-px bg-gradient-to-b from-[var(--color-gold)] via-[var(--color-gold)]/40 to-[var(--color-gold)]" />
+      <span className="block w-px flex-1 bg-gradient-to-b from-[var(--color-gold)] via-[var(--color-gold)]/40 to-[var(--color-gold)]" />
       <span className="block h-[6px] w-[6px] rounded-full bg-[var(--color-gold)]" />
     </div>
   );
@@ -589,7 +589,7 @@ function Portfolio() {
           className="mb-10 font-display text-[var(--color-cream)]"
           style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
         >
-          Nosso <span className="italic">portfólio.</span>
+          Nosso <span className="italic text-[var(--color-gold-2)]">portfólio.</span>
         </h2>
                   <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
             {PORTFOLIO.map((p, i) => (
@@ -825,7 +825,7 @@ function Diferenciais() {
             style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
           >
             Um endereço definido{" "}
-            <span className="italic">pelos detalhes.</span>
+            <span className="italic text-[var(--color-gold-2)]">pelos detalhes.</span>
           </h2>
         </div>
 
@@ -916,7 +916,7 @@ function Gallery({ onOpen }: { onOpen: (i: number) => void }) {
               className="mt-5 font-display leading-none text-[var(--color-cream)]"
               style={{ fontSize: "clamp(2.5rem, 5vw, 4.4rem)" }}
             >
-              <span className="italic">Um passeio</span> pelas casas.
+              <span className="italic text-[var(--color-gold-2)]">Um passeio</span> pelas casas.
             </h2>
           </div>
           <div className="hidden font-sans text-[0.68rem] uppercase tracking-[0.3em] text-[var(--color-mist-2)] md:block">
@@ -1115,13 +1115,16 @@ function CTA() {
   return (
     <section className="relative overflow-hidden bg-[var(--color-navy-3)] py-16 md:py-24">
       <Grain />
-      <SignatureLine className="absolute left-1/2 top-16 h-24 -translate-x-1/2" />
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center md:px-10">
+        {/* No fluxo, e não mais posicionado por cima: assim ele acompanha o
+            título em qualquer espaçamento e nunca cai sobre o texto. */}
+        <SignatureLine className="mx-auto mb-10 h-16" />
         <h2
           className="font-display leading-[1.05] text-[var(--color-cream)]"
           style={{ fontSize: "clamp(2.6rem, 6vw, 5.4rem)" }}
         >
-          Conheça o Pátio Estaleiro{" "}
+          Conheça o Pátio{" "}
+          <span className="italic text-[var(--color-gold-2)]">Estaleiro</span>{" "}
           <span className="italic">pessoalmente.</span>
         </h2>
         <p className="mx-auto mt-8 max-w-xl font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
