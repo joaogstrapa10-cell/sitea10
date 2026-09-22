@@ -735,8 +735,8 @@ function Vista() {
     target: ref,
     offset: ["start end", "end start"],
   });
-  const y = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
-  const scale = useTransform(scrollYProgress, [0, 1], [1.15, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
+  const scale = useTransform(scrollYProgress, [0, 1], [1.03, 1]);
 
   return (
     <section
@@ -746,17 +746,14 @@ function Vista() {
     >
       <motion.div
         style={{ y, scale }}
-        className="absolute inset-[-10%] will-change-transform"
+        className="absolute inset-[-3%] will-change-transform"
       >
         <img
           src={VISTA.image}
           alt="Praia do Estaleiro vista do alto, em Balneário Camboriú"
-          loading="lazy"
           className="h-full w-full object-cover"
         />
       </motion.div>
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-navy)]/40 via-transparent to-[var(--color-navy)]/60" />
-      <Grain />
 
       <div className="relative z-10 flex h-full items-center justify-center px-6">
         <motion.div
@@ -767,8 +764,12 @@ function Vista() {
           className="max-w-3xl text-center"
         >
           <p
-            className="font-display italic leading-tight text-[var(--color-cream)]"
-            style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)" }}
+            className="font-display italic leading-tight text-white"
+            style={{
+              fontSize: "clamp(2rem, 5vw, 4.5rem)",
+              textShadow:
+                "0 2px 20px rgba(0,0,0,.55), 0 1px 4px rgba(0,0,0,.45)",
+            }}
           >
             {VISTA.quote}
           </p>
