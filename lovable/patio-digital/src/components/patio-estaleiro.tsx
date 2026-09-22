@@ -125,8 +125,7 @@ const PORTFOLIO = [
 ];
 
 const VISTA = {
-  // PENDENTE: trocar pela Praia do Estaleiro vista do alto, que está no Drive.
-  image: img("patio-mar-2"),
+  image: img("praia-estaleiro-aerea"),
   quote: "O mar é o quintal desta casa.",
 };
 
@@ -751,7 +750,7 @@ function Vista() {
       >
         <img
           src={VISTA.image}
-          alt="Vista das casas do Pátio Estaleiro"
+          alt="Praia do Estaleiro vista do alto, em Balneário Camboriú"
           loading="lazy"
           className="h-full w-full object-cover"
         />
