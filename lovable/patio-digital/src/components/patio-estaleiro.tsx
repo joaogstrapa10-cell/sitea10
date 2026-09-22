@@ -517,7 +517,7 @@ function Hero() {
 
 function Stats() {
   return (
-    <section className="relative overflow-hidden bg-[var(--color-navy-2)] py-20 md:py-28">
+    <section className="relative overflow-hidden bg-[var(--color-navy-2)] py-14 md:py-20">
       <Grain />
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
         <div className="grid grid-cols-2 gap-y-14 md:grid-cols-4 md:gap-y-0">
@@ -535,13 +535,18 @@ function Stats() {
               <div className="font-display font-light leading-none text-[var(--color-cream)]">
                 {s.faixa ? (
                   <div
-                    className="inline-flex flex-col items-center"
+                    className="relative inline-flex flex-col items-center gap-10"
                     style={{ fontSize: "clamp(2rem, 3.4vw, 3rem)" }}
                   >
                     <span className="leading-none">{s.faixa[0]}</span>
-                    {/* margem igual em cima e embaixo, então o traço fica no meio do vão */}
-                    <span className="my-5 block h-px w-10 bg-[var(--color-gold)]/70" />
                     <span className="leading-none">{s.faixa[1]}</span>
+                    {/* Ancorado no centro do bloco. Como as duas linhas têm a
+                        mesma altura, o centro do bloco é o centro exato do vão,
+                        sem depender das métricas da fonte. */}
+                    <span
+                      aria-hidden
+                      className="absolute left-1/2 top-1/2 h-px w-10 -translate-x-1/2 -translate-y-1/2 bg-[var(--color-gold)]/70"
+                    />
                   </div>
                 ) : (
                   <span
@@ -576,12 +581,12 @@ function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative overflow-hidden bg-[var(--color-navy)] py-20 md:py-28"
+      className="relative overflow-hidden bg-[var(--color-navy)] py-14 md:py-20"
     >
       <Grain />
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
         <h2
-          className="mb-14 font-display text-[var(--color-cream)]"
+          className="mb-10 font-display text-[var(--color-cream)]"
           style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
         >
           Nosso <span className="italic">portfólio.</span>
@@ -647,11 +652,11 @@ function Empreendimentos() {
   return (
     <section
       id="empreendimentos"
-      className="relative overflow-hidden bg-[var(--color-navy)] py-20 md:py-28"
+      className="relative overflow-hidden bg-[var(--color-navy)] py-14 md:py-20"
     >
       <Grain />
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
-        <div className="mb-14 max-w-2xl">
+        <div className="mb-10 max-w-2xl">
           <h2
             className="font-display leading-[1.05] text-[var(--color-cream)]"
             style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
@@ -661,7 +666,7 @@ function Empreendimentos() {
           </h2>
         </div>
 
-        <div className="flex flex-col gap-20 md:gap-28">
+        <div className="flex flex-col gap-14 md:gap-20">
           {DESTAQUES.map((e, i) => {
             const flip = i % 2 === 1;
             return (
@@ -810,10 +815,10 @@ function Vista() {
 
 function Diferenciais() {
   return (
-    <section className="relative overflow-hidden bg-[var(--color-navy)] py-20 md:py-28">
+    <section className="relative overflow-hidden bg-[var(--color-navy)] py-14 md:py-20">
       <Grain />
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
-        <div className="mb-14 max-w-2xl">
+        <div className="mb-10 max-w-2xl">
           <Eyebrow>Diferenciais</Eyebrow>
           <h2
             className="mt-6 font-display leading-[1.05] text-[var(--color-cream)]"
@@ -824,7 +829,7 @@ function Diferenciais() {
           </h2>
         </div>
 
-        <div className="flex flex-col gap-20 md:gap-28">
+        <div className="flex flex-col gap-14 md:gap-20">
           {DIFERENCIAIS.map((d, i) => {
             const flip = i % 2 === 1;
             return (
@@ -1039,7 +1044,7 @@ function Location() {
   return (
     <section
       id="localizacao"
-      className="relative overflow-hidden bg-[var(--color-navy)] py-20 md:py-28"
+      className="relative overflow-hidden bg-[var(--color-navy)] py-14 md:py-20"
     >
       <Grain />
 
@@ -1108,7 +1113,7 @@ function Location() {
 
 function CTA() {
   return (
-    <section className="relative overflow-hidden bg-[var(--color-navy-3)] py-24 md:py-32">
+    <section className="relative overflow-hidden bg-[var(--color-navy-3)] py-16 md:py-24">
       <Grain />
       <SignatureLine className="absolute left-1/2 top-16 h-24 -translate-x-1/2" />
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center md:px-10">
