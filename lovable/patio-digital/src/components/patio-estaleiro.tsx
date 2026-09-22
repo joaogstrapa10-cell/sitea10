@@ -47,21 +47,39 @@ const NAV_ITEMS = [
   { label: "Localização", href: "#localizacao" },
 ];
 
-const HERO = {
-  titleItalic: "Pátio",
-  titleUpper: "Estaleiro",
-  tagline: "Viver à altura do mar.",
-  image: img("patio-estaleiro"),
-};
+/* O hero alterna sozinho entre os dois endereços, a cada HERO_SEGUNDOS.
+   As setas continuam ali para quem quiser adiantar, mas ninguém precisa clicar. */
+const HERO_SEGUNDOS = 5;
 
-const STATS = [
-  { value: 8, suffix: "", label: "Residências no condomínio" },
-  { value: 2, suffix: "", label: "Ainda disponíveis" },
-  { value: 90, suffix: " m", label: "Distância da praia" },
-  { value: 344, suffix: " m²", label: "Maior área privativa" },
+const HERO_SLIDES = [
+  {
+    slug: "patio-estaleiro",
+    italico: "Pátio",
+    maiusculo: "Estaleiro",
+    tagline: "Viver à altura do mar.",
+    imagem: img("patio-estaleiro"),
+    alt: "Casas do Pátio Estaleiro, na Praia do Estaleiro, Balneário Camboriú",
+  },
+  {
+    slug: "solenne",
+    italico: "",
+    maiusculo: "Solenne",
+    tagline: "A elegância do singular.",
+    imagem: img("solenne-hero"),
+    alt: "Solenne, torre neoclássica no Centro de Balneário Camboriú",
+  },
 ];
 
-/* Os dois carros-chefe da A10 hoje. */
+/* Os números do Pátio Estaleiro. Quando o valor é uma faixa, vem em `texto`
+   e o contador não roda, porque não há um número só para contar. */
+const STATS: { value?: number; texto?: string; suffix: string; label: string }[] = [
+  { value: 8, suffix: "", label: "Residências no condomínio" },
+  { value: 2, suffix: "", label: "Ainda disponíveis" },
+  { value: 90, suffix: " m", label: "Do mar" },
+  { texto: "350 a 402", suffix: " m²", label: "Área privativa" },
+];
+
+/* Os dois endereços que a A10 assina hoje. */
 const DESTAQUES = [
   {
     slug: "patio-estaleiro",
@@ -69,13 +87,13 @@ const DESTAQUES = [
     nome: "Pátio Estaleiro",
     tag: "Casas exclusivas, o mar como quintal.",
     texto:
-      "Um conjunto privado de oito residências contemporâneas assinadas pelo arquiteto Marcos Jobim, a noventa metros da areia. Restam duas: a Casa Mar, de 344 m² privativos, e a Casa Brisa, de 299 m². Cada uma com quatro suítes, piscina privativa e três vagas.",
+      "Um conjunto privado de oito residências contemporâneas assinadas pelo arquiteto Marcos Jobim, a noventa metros da areia. Restam duas: a Casa Mar, de 402 m², e a Casa Brisa, de 350 m². Cada uma com quatro suítes, piscina privativa e três vagas.",
     valor: "R$ 6,89 mi",
     imagem: img("patio-estaleiro"),
     specs: [
       ["Casas", "8 no condomínio, 2 disponíveis"],
-      ["Área privativa", "344 e 299 m²"],
-      ["Dormitórios", "4 suítes em cada casa"],
+      ["Área privativa", "350 a 402 m²"],
+      ["Dormitórios", "4 suítes em cada uma das 2 casas"],
       ["Vagas", "3 por residência"],
     ],
     cta: "Falar sobre o Pátio Estaleiro",
@@ -177,12 +195,6 @@ const LOCATION = {
   title: "2 dos principais endereços da A10 em Balneário Camboriú.",
   body:
     "O Pátio Estaleiro ocupa a Praia do Estaleiro, a noventa metros da areia, uma das faixas mais preservadas do litoral catarinense. O Solenne fica entre o Centro e a Barra Sul, a setecentos metros da praia central.",
-  points: [
-    "90 m da areia, na Praia do Estaleiro",
-    "700 m da praia central, no Centro",
-    "12 min do Aeroporto de Navegantes",
-    "Acesso direto à BR-101",
-  ],
   pinos: [
     {
       nome: "Pátio Estaleiro",
@@ -409,7 +421,18 @@ function Hero() {
   const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "-8%"]);
   const contentOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
-  const words = HERO.titleUpper.split("");
+  const total = HERO_SLIDES.length;
+  const [i, setI] = useState(0);
+  const slide = HERO_SLIDES[i];
+
+  // Troca sozinho. O relógio reinicia a cada mudança, então quem usa a seta
+  // ganha os cinco segundos inteiros antes da próxima virada automática.
+  useEffect(() => {
+    const t = setTimeout(() => setI((a) => (a + 1) % total), HERO_SEGUNDOS * 1000);
+    return () => clearTimeout(t);
+  }, [i, total]);
+
+  const letras = slide.maiusculo.split("");
 
   return (
     <section
@@ -421,12 +444,19 @@ function Hero() {
         style={{ y, scale }}
         className="absolute inset-0 will-change-transform"
       >
-        <img
-          src={HERO.image}
-          alt="Casas do Pátio Estaleiro, na Praia do Estaleiro, Balneário Camboriú"
-          fetchPriority="high"
-          className="h-full w-full object-cover"
-        />
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={slide.slug}
+            src={slide.imagem}
+            alt={slide.alt}
+            fetchPriority="high"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.2, ease: "easeInOut" }}
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+        </AnimatePresence>
       </motion.div>
 
       {/* Gradients */}
@@ -448,27 +478,30 @@ function Hero() {
       >
         <div className="mx-auto w-full max-w-[1600px] px-6 pb-20 md:px-10 md:pb-24">
           <h1 className="font-display leading-[0.9] text-[var(--color-cream)]">
-            <motion.span
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-              className="block italic font-light"
-              style={{ fontSize: "clamp(3rem, 10vw, 9rem)" }}
-            >
-              {HERO.titleItalic}
-            </motion.span>
+            {slide.italico && (
+              <motion.span
+                key={slide.slug + "-i"}
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                className="block italic font-light"
+                style={{ fontSize: "clamp(3rem, 10vw, 9rem)" }}
+              >
+                {slide.italico}
+              </motion.span>
+            )}
             <span
               className="block uppercase font-normal tracking-[0.05em] -mt-2 md:-mt-4"
               style={{ fontSize: "clamp(3.4rem, 12vw, 11rem)" }}
             >
-              {words.map((c, i) => (
+              {letras.map((c, n) => (
                 <motion.span
-                  key={i}
+                  key={slide.slug + "-" + n}
                   initial={{ opacity: 0, y: 60 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{
-                    duration: 0.9,
-                    delay: 0.9 + i * 0.06,
+                    duration: 0.85,
+                    delay: 0.32 + n * 0.05,
                     ease: [0.22, 1, 0.36, 1],
                   }}
                   className="inline-block"
@@ -480,22 +513,55 @@ function Hero() {
           </h1>
 
           <motion.p
+            key={slide.slug + "-t"}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 1.5 }}
+            transition={{ duration: 0.9, delay: 0.85 }}
             className="mt-10 font-display italic text-[var(--color-mist)]"
             style={{ fontSize: "clamp(1.1rem, 1.6vw, 1.5rem)" }}
           >
-            {HERO.tagline}
+            {slide.tagline}
           </motion.p>
         </div>
       </motion.div>
+
+      {/* Setas e marcadores, no canto, para não brigar com o "Role" do centro */}
+      <div className="absolute bottom-10 right-6 z-20 flex items-center gap-5 md:bottom-12 md:right-10">
+        <button
+          onClick={() => setI((a) => (a - 1 + total) % total)}
+          aria-label="Empreendimento anterior"
+          className="font-display text-3xl leading-none text-white/70 transition-colors duration-300 hover:text-[var(--color-gold-2)]"
+        >
+          ‹
+        </button>
+        <div className="flex items-center gap-2">
+          {HERO_SLIDES.map((sl, n) => (
+            <button
+              key={sl.slug}
+              onClick={() => setI(n)}
+              aria-label={sl.maiusculo}
+              aria-current={n === i}
+              className={
+                "h-px transition-all duration-500 " +
+                (n === i ? "w-12 bg-[var(--color-gold)]" : "w-6 bg-white/40")
+              }
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => setI((a) => (a + 1) % total)}
+          aria-label="Próximo empreendimento"
+          className="font-display text-3xl leading-none text-white/70 transition-colors duration-300 hover:text-[var(--color-gold-2)]"
+        >
+          ›
+        </button>
+      </div>
 
       {/* Scroll indicator */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2 }}
+        transition={{ delay: 1.6 }}
         className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-3"
       >
         <span className="font-sans text-[0.62rem] uppercase tracking-[0.4em] text-[var(--color-mist-2)]">
@@ -534,9 +600,20 @@ function Stats() {
             >
               <div
                 className="font-display font-light leading-none text-[var(--color-cream)]"
-                style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)" }}
+                style={{
+                  fontSize: s.texto
+                    ? "clamp(2.2rem, 4vw, 3.8rem)"
+                    : "clamp(3rem, 6vw, 5.5rem)",
+                }}
               >
-                <Counter to={s.value} suffix={s.suffix} />
+                {s.texto ? (
+                  <span>
+                    {s.texto}
+                    {s.suffix}
+                  </span>
+                ) : (
+                  <Counter to={s.value as number} suffix={s.suffix} />
+                )}
               </div>
               <div className="mt-6 font-sans text-[0.82rem] uppercase tracking-[0.22em] text-[var(--color-mist)]">
                 {s.label}
@@ -570,7 +647,7 @@ function Empreendimentos() {
             Os endereços <span className="italic">à venda hoje.</span>
           </h2>
           <p className="mt-8 max-w-xl font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
-            O Pátio Estaleiro e o Solenne são os carros-chefe da A10 neste
+            O Pátio Estaleiro e o Solenne são as duas assinaturas da A10 neste
             momento. Abaixo deles, o restante do portfólio próprio.
           </p>
         </div>
@@ -1030,16 +1107,6 @@ function Location() {
               {LOCATION.body}
             </p>
 
-            <ul className="mt-12 flex flex-col gap-4">
-              {LOCATION.points.map((p) => (
-                <li
-                  key={p}
-                  className="border-b border-[var(--color-line)]/50 pb-4 font-sans text-[1.05rem] text-[var(--color-cream)]"
-                >
-                  {p}
-                </li>
-              ))}
-            </ul>
 
           </div>
 
