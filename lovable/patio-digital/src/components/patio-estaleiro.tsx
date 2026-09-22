@@ -117,7 +117,7 @@ const PORTFOLIO: {
     cidade: "Balneário Camboriú",
     resumo: "Estética britânica no ponto mais central, com rooftop panorâmico.",
     valor: "R$ 2,5 mi",
-    imagem: img("holmes"),
+    imagem: img("holmes-18"),
   },
   {
     nome: "Cape Town",
@@ -131,7 +131,7 @@ const PORTFOLIO: {
     cidade: "Balneário Camboriú",
     resumo: "Um andar inteiro de lazer no rooftop, com piscina e deck.",
     valor: "R$ 3,2 mi",
-    imagem: img("florence-garden"),
+    imagem: img("florence-garden-10"),
   },
 ];
 
@@ -279,15 +279,17 @@ function Counter({
 }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-20%" });
-  const [n, setN] = useState(0);
+  // Começa já no valor final. Assim o número está certo no servidor, no
+  // primeiro quadro e mesmo que a contagem nunca dispare. A contagem zera e
+  // sobe só no instante em que o bloco entra na tela.
+  const [n, setN] = useState(to);
+  const [contou, setContou] = useState(false);
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    if (!inView) return;
-    if (reduced) {
-      setN(to);
-      return;
-    }
+    if (!inView || contou) return;
+    setContou(true);
+    if (reduced) return;
     let raf = 0;
     const start = performance.now();
     const tick = (t: number) => {
@@ -296,9 +298,10 @@ function Counter({
       setN(Math.round(to * eased));
       if (p < 1) raf = requestAnimationFrame(tick);
     };
+    setN(0);
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [inView, to, duration, reduced]);
+  }, [inView, contou, to, duration, reduced]);
 
   return (
     <span ref={ref}>
@@ -588,7 +591,7 @@ function Stats() {
               <div className="font-display font-light leading-none text-[var(--color-cream)]">
                 {s.faixa ? (
                   <div
-                    className="flex flex-col items-start gap-3"
+                    className="inline-flex flex-col items-center gap-3"
                     style={{ fontSize: "clamp(2rem, 3.4vw, 3rem)" }}
                   >
                     <span>{s.faixa[0]}</span>
@@ -621,6 +624,77 @@ function Stats() {
 }
 
 /* ------------------------------------------------------------------ */
+/*  PORTFÓLIO                                                         */
+/* ------------------------------------------------------------------ */
+
+function Portfolio() {
+  return (
+    <section
+      id="portfolio"
+      className="relative overflow-hidden bg-[var(--color-navy)] py-32 md:py-44"
+    >
+      <Grain />
+      <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
+        <h2
+          className="mb-14 font-display text-[var(--color-cream)]"
+          style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
+        >
+          Nosso <span className="italic">portfólio.</span>
+        </h2>
+                  <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
+            {PORTFOLIO.map((p, i) => (
+              <motion.a
+                key={p.nome}
+                href={wa(
+                  "Olá! Tenho interesse no " +
+                    p.nome +
+                    ". Poderia me enviar mais informações?",
+                )}
+                target="_blank"
+                rel="noreferrer"
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-10%" }}
+                transition={{ duration: 0.8, delay: i * 0.1 }}
+                className="group block"
+              >
+                <div className="relative aspect-[3/4] overflow-hidden">
+                  <img
+                    src={p.imagem}
+                    alt={p.nome}
+                    loading="lazy"
+                    className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)]/85 via-transparent to-transparent" />
+                  {p.selo && (
+                    <div className="absolute left-6 top-6 bg-[var(--color-gold)] px-4 py-2 font-sans text-[0.68rem] uppercase tracking-[0.2em] text-[var(--color-navy)]">
+                      {p.selo}
+                    </div>
+                  )}
+                  <div className="absolute inset-x-0 bottom-0 p-6">
+                    <div className="font-sans text-[0.76rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
+                      {p.cidade}
+                    </div>
+                    <div className="mt-2 font-display text-3xl text-[var(--color-cream)]">
+                      {p.nome}
+                    </div>
+                    <div className="mt-1 font-sans text-base text-[var(--color-cream)]">
+                      {p.valor}
+                    </div>
+                  </div>
+                </div>
+                <p className="mt-5 font-sans text-[1.05rem] leading-[1.7] text-[var(--color-mist)]">
+                  {p.resumo}
+                </p>
+              </motion.a>
+            ))}
+          </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------------------------------------------ */
 /*  EMPREENDIMENTOS                                                   */
 /* ------------------------------------------------------------------ */
 
@@ -633,9 +707,8 @@ function Empreendimentos() {
       <Grain />
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
         <div className="mb-24 max-w-2xl">
-          <Eyebrow>Empreendimentos</Eyebrow>
           <h2
-            className="mt-6 font-display leading-[1.05] text-[var(--color-cream)]"
+            className="font-display leading-[1.05] text-[var(--color-cream)]"
             style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
           >
             O Pátio <span className="italic">Estaleiro.</span>
@@ -683,13 +756,7 @@ function Empreendimentos() {
                     {e.eyebrow}
                   </div>
 
-                  <h3
-                    className="mt-6 font-display leading-[1.1] text-[var(--color-cream)]"
-                    style={{ fontSize: "clamp(2rem, 3vw, 3rem)" }}
-                  >
-                    {e.nome}
-                  </h3>
-                  <p className="mt-3 font-display italic text-2xl text-[var(--color-gold-2)]">
+                  <p className="mt-6 font-display italic text-2xl text-[var(--color-gold-2)]">
                     {e.tag}
                   </p>
                   <p className="mt-6 font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
@@ -736,64 +803,6 @@ function Empreendimentos() {
           })}
         </div>
 
-        {/* Restante do portfólio */}
-        <div className="mt-32 md:mt-48">
-          <h3
-            className="mb-12 font-display text-[var(--color-cream)]"
-            style={{ fontSize: "clamp(1.9rem, 3vw, 2.8rem)" }}
-          >
-            Também no <span className="italic">nosso portfólio.</span>
-          </h3>
-
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
-            {PORTFOLIO.map((p, i) => (
-              <motion.a
-                key={p.nome}
-                href={wa(
-                  "Olá! Tenho interesse no " +
-                    p.nome +
-                    ". Poderia me enviar mais informações?",
-                )}
-                target="_blank"
-                rel="noreferrer"
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-10%" }}
-                transition={{ duration: 0.8, delay: i * 0.1 }}
-                className="group block"
-              >
-                <div className="relative aspect-[4/5] overflow-hidden">
-                  <img
-                    src={p.imagem}
-                    alt={p.nome}
-                    loading="lazy"
-                    className="h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)]/85 via-transparent to-transparent" />
-                  {p.selo && (
-                    <div className="absolute left-6 top-6 bg-[var(--color-gold)] px-4 py-2 font-sans text-[0.68rem] uppercase tracking-[0.2em] text-[var(--color-navy)]">
-                      {p.selo}
-                    </div>
-                  )}
-                  <div className="absolute inset-x-0 bottom-0 p-6">
-                    <div className="font-sans text-[0.76rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
-                      {p.cidade}
-                    </div>
-                    <div className="mt-2 font-display text-3xl text-[var(--color-cream)]">
-                      {p.nome}
-                    </div>
-                    <div className="mt-1 font-sans text-base text-[var(--color-cream)]">
-                      {p.valor}
-                    </div>
-                  </div>
-                </div>
-                <p className="mt-5 font-sans text-[1.05rem] leading-[1.7] text-[var(--color-mist)]">
-                  {p.resumo}
-                </p>
-              </motion.a>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   );
@@ -1305,9 +1314,10 @@ export default function PatioEstaleiro() {
     <div className="min-h-screen bg-[var(--color-navy)] font-sans text-[var(--color-cream)] antialiased">
       <Navbar />
       <Hero />
-      <Stats />
+      <Portfolio />
       <Empreendimentos />
       <Vista />
+      <Stats />
       <Diferenciais />
       <Gallery onOpen={setLightbox} />
       <Location />
