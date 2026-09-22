@@ -100,7 +100,8 @@ const DESTAQUES = [
   },
 ];
 
-/* O restante do portfólio A10. O Solenne vem na frente, com selo próprio. */
+/* O restante do portfólio A10. O Solenne vem na frente, com selo próprio.
+   `cidade` segue no dado mas não aparece no card, a pedido. */
 const PORTFOLIO: {
   nome: string; cidade: string; resumo: string; valor: string; imagem: string; selo?: string;
 }[] = [
@@ -622,9 +623,6 @@ function Portfolio() {
                     </div>
                   )}
                   <div className="absolute inset-x-0 bottom-0 p-6">
-                    <div className="font-sans text-[0.76rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
-                      {p.cidade}
-                    </div>
                     <div className="mt-2 font-display text-3xl text-[var(--color-cream)]">
                       {p.nome}
                     </div>
