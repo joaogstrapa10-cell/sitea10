@@ -24,6 +24,9 @@ import {
 /*  foto basta trocar o slug.                                         */
 /* ------------------------------------------------------------------ */
 
+const LOGO =
+  "https://raw.githubusercontent.com/joaogstrapa10-cell/sitea10/main/lib/a10-logo.png";
+
 const FOTOS =
   "https://raw.githubusercontent.com/joaogstrapa10-cell/sitea10/main/fotos/img/";
 const img = (slug: string) => FOTOS + slug + ".jpg";
@@ -45,15 +48,11 @@ const NAV_ITEMS = [
 ];
 
 const HERO = {
-  eyebrow: "A10 Empreendimentos · Balneário Camboriú",
   titleItalic: "Pátio",
   titleUpper: "Estaleiro",
   tagline: "Viver à altura do mar.",
   image: img("patio-estaleiro"),
 };
-
-const MANIFESTO =
-  "Oito residências erguidas a noventa metros do mar, na Praia do Estaleiro. Arquitetura que emoldura a paisagem, privacidade que se torna endereço, e uma exclusividade reservada a duas famílias.";
 
 const STATS = [
   { value: 8, suffix: "", label: "Residências no condomínio" },
@@ -126,7 +125,8 @@ const PORTFOLIO = [
 ];
 
 const VISTA = {
-  image: img("patio-mar-3"),
+  // PENDENTE: trocar pela Praia do Estaleiro vista do alto, que está no Drive.
+  image: img("patio-mar-2"),
   quote: "O mar é o quintal desta casa.",
 };
 
@@ -136,10 +136,12 @@ const DIFERENCIAIS = [
     title: "Oito residências, e só.",
     body:
       "Um condomínio fechado desenhado para o resguardo pleno da vida familiar, com jardins e áreas externas protegidas. Restam a Casa Mar e a Casa Brisa.",
-    image: img("patio-brisa-2"),
+    // PENDENTE: trocar pela aérea do condomínio, que está no Drive em FOTOS DRONE.
+    image: img("patio-brisa-1"),
   },
   {
     eyebrow: "Autoria",
+    // PENDENTE: trocar pelo retrato do Marcos Jobim quando ele chegar.
     title: "Projeto de Marcos Jobim.",
     body:
       "Linhas puras e materiais nobres em um partido que integra a arquitetura moderna externa ao aconchego dos materiais naturais no interior.",
@@ -150,7 +152,7 @@ const DIFERENCIAIS = [
     title: "Piscina, deck e jardim em cada casa.",
     body:
       "A transição entre os espaços internos e externos convida o verde para dentro. Decks de madeira nobre e piscinas particulares cercadas por vegetação nativa.",
-    image: img("patio-brisa-7"),
+    image: img("patio-mar-2"),
   },
   {
     eyebrow: "Noventa metros",
@@ -175,7 +177,7 @@ const GALLERY_IMAGES = [
 ];
 
 const LOCATION = {
-  title: "Dois endereços em Balneário Camboriú.",
+  title: "2 dos principais endereços da A10 em Balneário Camboriú.",
   body:
     "O Pátio Estaleiro ocupa a Praia do Estaleiro, a noventa metros da areia, uma das faixas mais preservadas do litoral catarinense. O Solenne fica entre o Centro e a Barra Sul, a setecentos metros da praia central.",
   points: [
@@ -191,6 +193,8 @@ const LOCATION = {
       lat: -27.026191931412384,
       lng: -48.58221290072425,
       destaque: true,
+      mapa:
+        "https://www.google.com/maps?q=-27.026192,-48.582213&hl=pt-BR&z=17&output=embed",
     },
     {
       nome: "Solenne",
@@ -198,6 +202,8 @@ const LOCATION = {
       lat: -27.00169512068981,
       lng: -48.6268836750322,
       destaque: false,
+      mapa:
+        "https://www.google.com/maps?q=-27.001695,-48.626884&hl=pt-BR&z=17&output=embed",
     },
   ],
 };
@@ -262,9 +268,8 @@ function SignatureLine({
 
 function Eyebrow({ children }: { children: ReactNode }) {
   return (
-    <div className="flex items-center gap-3 font-sans text-[0.7rem] uppercase tracking-[0.3em] text-[var(--color-gold-2)]">
-      <span className="h-px w-8 bg-[var(--color-gold)]/70" />
-      <span>{children}</span>
+    <div className="font-sans text-[0.86rem] uppercase tracking-[0.3em] text-[var(--color-gold-2)]">
+      {children}
     </div>
   );
 }
@@ -333,11 +338,13 @@ function Navbar() {
       }`}
     >
       <div className="mx-auto flex max-w-[1600px] items-center justify-between px-6 py-5 md:px-10">
-        <a
-          href="#top"
-          className="font-display text-xl italic tracking-wide text-[var(--color-cream)]"
-        >
-          A<span className="text-[var(--color-gold-2)]">10</span>
+        <a href="#top" aria-label="A10 Empreendimentos">
+          <img
+            src={LOGO}
+            alt="A10 Empreendimentos"
+            className="h-12 w-auto md:h-14"
+            style={{ filter: "brightness(0) invert(1)" }}
+          />
         </a>
 
         <nav className="hidden items-center gap-10 md:flex">
@@ -345,21 +352,13 @@ function Navbar() {
             <a
               key={n.href}
               href={n.href}
-              className="font-sans text-[0.72rem] uppercase tracking-[0.28em] text-[var(--color-mist)] transition-colors duration-500 hover:text-[var(--color-gold-2)]"
+              className="font-sans text-[0.82rem] font-medium uppercase tracking-[0.2em] text-white transition-colors duration-300 hover:text-[var(--color-gold-2)]"
+              style={{ textShadow: "0 1px 12px rgba(0,0,0,.55)" }}
             >
               {n.label}
             </a>
           ))}
         </nav>
-
-        <a
-          href={WHATSAPP_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="hidden border border-[var(--color-gold)]/70 px-5 py-2.5 font-sans text-[0.7rem] uppercase tracking-[0.3em] text-[var(--color-gold-2)] transition-all duration-500 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)] md:inline-block"
-        >
-          WhatsApp
-        </a>
 
         <button
           aria-label="Abrir menu"
@@ -385,19 +384,11 @@ function Navbar() {
                   key={n.href}
                   onClick={() => setOpen(false)}
                   href={n.href}
-                  className="font-sans text-xs uppercase tracking-[0.28em] text-[var(--color-mist)]"
+                  className="font-sans text-sm uppercase tracking-[0.22em] text-white"
                 >
                   {n.label}
                 </a>
               ))}
-              <a
-                href={WHATSAPP_URL}
-                target="_blank"
-                rel="noreferrer"
-                className="mt-2 inline-block w-fit border border-[var(--color-gold)]/70 px-5 py-2.5 font-sans text-xs uppercase tracking-[0.3em] text-[var(--color-gold-2)]"
-              >
-                WhatsApp
-              </a>
             </div>
           </motion.div>
         )}
@@ -459,22 +450,6 @@ function Hero() {
         className="relative z-10 flex h-full items-end"
       >
         <div className="mx-auto w-full max-w-[1600px] px-6 pb-20 md:px-10 md:pb-24">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-6"
-          >
-            <Eyebrow>{HERO.eyebrow}</Eyebrow>
-          </motion.div>
-
-          <motion.div
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.1, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="mb-8 h-px w-40 origin-left bg-[var(--color-gold)]"
-          />
-
           <h1 className="font-display leading-[0.9] text-[var(--color-cream)]">
             <motion.span
               initial={{ opacity: 0, y: 40 }}
@@ -540,52 +515,6 @@ function Hero() {
 }
 
 /* ------------------------------------------------------------------ */
-/*  MANIFESTO                                                         */
-/* ------------------------------------------------------------------ */
-
-function Manifesto() {
-  const words = MANIFESTO.split(" ");
-
-  return (
-    <section className="relative overflow-hidden bg-[var(--color-navy)] py-40 md:py-56">
-      <Grain />
-      <SignatureLine className="absolute left-8 top-24 h-32 md:left-16" />
-      <SignatureLine className="absolute right-8 bottom-24 h-32 md:right-16" />
-
-      <div className="relative z-10 mx-auto max-w-4xl px-6 md:px-10">
-        <div className="mb-14 flex items-center gap-4">
-          <span className="h-px w-14 bg-[var(--color-gold)]" />
-          <span className="font-sans text-[0.7rem] uppercase tracking-[0.32em] text-[var(--color-gold-2)]">
-            Manifesto
-          </span>
-        </div>
-        <p
-          className="font-display leading-[1.25] text-[var(--color-cream)]"
-          style={{ fontSize: "clamp(1.6rem, 3.2vw, 3rem)" }}
-        >
-          {words.map((w, i) => (
-            <motion.span
-              key={i}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-15%" }}
-              transition={{
-                duration: 0.7,
-                delay: i * 0.04,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="inline-block"
-            >
-              {w}&nbsp;
-            </motion.span>
-          ))}
-        </p>
-      </div>
-    </section>
-  );
-}
-
-/* ------------------------------------------------------------------ */
 /*  STATS                                                             */
 /* ------------------------------------------------------------------ */
 
@@ -612,8 +541,7 @@ function Stats() {
               >
                 <Counter to={s.value} suffix={s.suffix} />
               </div>
-              <div className="mt-6 h-px w-10 bg-[var(--color-gold)]/70" />
-              <div className="mt-4 font-sans text-[0.68rem] uppercase tracking-[0.32em] text-[var(--color-mist-2)]">
+              <div className="mt-6 font-sans text-[0.82rem] uppercase tracking-[0.22em] text-[var(--color-mist)]">
                 {s.label}
               </div>
             </motion.div>
@@ -640,11 +568,11 @@ function Empreendimentos() {
           <Eyebrow>Empreendimentos</Eyebrow>
           <h2
             className="mt-6 font-display leading-[1.05] text-[var(--color-cream)]"
-            style={{ fontSize: "clamp(2rem, 4vw, 3.6rem)" }}
+            style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
           >
             Os endereços <span className="italic">à venda hoje.</span>
           </h2>
-          <p className="mt-8 max-w-xl font-sans text-[0.95rem] leading-relaxed text-[var(--color-mist)]">
+          <p className="mt-8 max-w-xl font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
             O Pátio Estaleiro e o Solenne são os carros-chefe da A10 neste
             momento. Abaixo deles, o restante do portfólio próprio.
           </p>
@@ -683,14 +611,8 @@ function Empreendimentos() {
                   transition={{ duration: 1, delay: 0.15 }}
                   className={`md:col-span-5 ${flip ? "md:order-1" : ""}`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="font-display italic text-[var(--color-gold-2)] text-sm">
-                      0{i + 1}
-                    </span>
-                    <span className="h-px w-10 bg-[var(--color-gold)]/60" />
-                    <span className="font-sans text-[0.68rem] uppercase tracking-[0.3em] text-[var(--color-gold-2)]">
-                      {e.eyebrow}
-                    </span>
+                  <div className="font-sans text-[0.82rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
+                    {e.eyebrow}
                   </div>
 
                   <h3
@@ -699,10 +621,10 @@ function Empreendimentos() {
                   >
                     {e.nome}
                   </h3>
-                  <p className="mt-3 font-display italic text-[var(--color-gold-2)]">
+                  <p className="mt-3 font-display italic text-2xl text-[var(--color-gold-2)]">
                     {e.tag}
                   </p>
-                  <p className="mt-6 font-sans text-[0.95rem] leading-relaxed text-[var(--color-mist)]">
+                  <p className="mt-6 font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
                     {e.texto}
                   </p>
 
@@ -712,10 +634,10 @@ function Empreendimentos() {
                         key={k}
                         className="flex items-baseline justify-between gap-6 border-b border-[var(--color-line)]/50 py-3"
                       >
-                        <dt className="font-sans text-[0.68rem] uppercase tracking-[0.24em] text-[var(--color-mist-2)]">
+                        <dt className="font-sans text-[0.8rem] uppercase tracking-[0.18em] text-[var(--color-mist)]">
                           {k}
                         </dt>
-                        <dd className="text-right font-sans text-sm text-[var(--color-cream)]">
+                        <dd className="text-right font-sans text-base text-[var(--color-cream)]">
                           {v}
                         </dd>
                       </div>
@@ -723,7 +645,7 @@ function Empreendimentos() {
                   </dl>
 
                   <div className="mt-10 flex flex-wrap items-center gap-6">
-                    <span className="font-display text-2xl text-[var(--color-cream)]">
+                    <span className="font-display text-3xl text-[var(--color-cream)]">
                       {e.valor}
                     </span>
                     <a
@@ -734,7 +656,7 @@ function Empreendimentos() {
                       )}
                       target="_blank"
                       rel="noreferrer"
-                      className="group inline-flex items-center gap-4 border border-[var(--color-gold)]/70 px-7 py-4 font-sans text-[0.7rem] uppercase tracking-[0.3em] text-[var(--color-gold-2)] transition-all duration-500 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
+                      className="group inline-flex items-center gap-4 border border-[var(--color-gold)]/70 px-9 py-5 font-sans text-[0.84rem] uppercase tracking-[0.22em] text-[var(--color-gold-2)] transition-all duration-500 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
                     >
                       {e.cta}
                       <span className="h-px w-6 bg-current transition-all duration-500 group-hover:w-10" />
@@ -748,12 +670,12 @@ function Empreendimentos() {
 
         {/* Restante do portfólio */}
         <div className="mt-32 md:mt-48">
-          <div className="mb-12 flex items-center gap-4">
-            <span className="h-px w-14 bg-[var(--color-gold)]" />
-            <span className="font-sans text-[0.7rem] uppercase tracking-[0.32em] text-[var(--color-gold-2)]">
-              Também no portfólio A10
-            </span>
-          </div>
+          <h3
+            className="mb-12 font-display text-[var(--color-cream)]"
+            style={{ fontSize: "clamp(1.9rem, 3vw, 2.8rem)" }}
+          >
+            Também no <span className="italic">nosso portfólio.</span>
+          </h3>
 
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             {PORTFOLIO.map((p, i) => (
@@ -781,18 +703,18 @@ function Empreendimentos() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-navy)]/85 via-transparent to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-6">
-                    <div className="font-sans text-[0.62rem] uppercase tracking-[0.3em] text-[var(--color-gold-2)]">
+                    <div className="font-sans text-[0.76rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
                       {p.cidade}
                     </div>
-                    <div className="mt-2 font-display text-2xl text-[var(--color-cream)]">
+                    <div className="mt-2 font-display text-3xl text-[var(--color-cream)]">
                       {p.nome}
                     </div>
-                    <div className="mt-1 font-sans text-sm text-[var(--color-mist)]">
+                    <div className="mt-1 font-sans text-base text-[var(--color-cream)]">
                       {p.valor}
                     </div>
                   </div>
                 </div>
-                <p className="mt-5 font-sans text-[0.9rem] leading-relaxed text-[var(--color-mist)]">
+                <p className="mt-5 font-sans text-[1.05rem] leading-[1.7] text-[var(--color-mist)]">
                   {p.resumo}
                 </p>
               </motion.a>
@@ -845,9 +767,8 @@ function Vista() {
           transition={{ duration: 1.4, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-3xl text-center"
         >
-          <Eyebrow>Vista</Eyebrow>
           <p
-            className="mt-8 font-display italic leading-tight text-[var(--color-cream)]"
+            className="font-display italic leading-tight text-[var(--color-cream)]"
             style={{ fontSize: "clamp(2rem, 5vw, 4.5rem)" }}
           >
             {VISTA.quote}
@@ -871,7 +792,7 @@ function Diferenciais() {
           <Eyebrow>Diferenciais</Eyebrow>
           <h2
             className="mt-6 font-display leading-[1.05] text-[var(--color-cream)]"
-            style={{ fontSize: "clamp(2rem, 4vw, 3.6rem)" }}
+            style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
           >
             Um endereço definido{" "}
             <span className="italic">pelos detalhes.</span>
@@ -911,22 +832,16 @@ function Diferenciais() {
                   transition={{ duration: 1, delay: 0.15 }}
                   className={`md:col-span-5 ${flip ? "md:order-1" : ""}`}
                 >
-                  <div className="flex items-center gap-3">
-                    <span className="font-display italic text-[var(--color-gold-2)] text-sm">
-                      0{i + 1}
-                    </span>
-                    <span className="h-px w-10 bg-[var(--color-gold)]/60" />
-                    <span className="font-sans text-[0.68rem] uppercase tracking-[0.3em] text-[var(--color-gold-2)]">
-                      {d.eyebrow}
-                    </span>
+                  <div className="font-sans text-[0.82rem] uppercase tracking-[0.24em] text-[var(--color-gold-2)]">
+                    {d.eyebrow}
                   </div>
                   <h3
                     className="mt-6 font-display leading-[1.1] text-[var(--color-cream)]"
-                    style={{ fontSize: "clamp(1.6rem, 2.4vw, 2.4rem)" }}
+                    style={{ fontSize: "clamp(2rem, 3vw, 3rem)" }}
                   >
                     {d.title}
                   </h3>
-                  <p className="mt-6 font-sans text-[0.95rem] leading-relaxed text-[var(--color-mist)]">
+                  <p className="mt-6 font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
                     {d.body}
                   </p>
                 </motion.div>
@@ -969,7 +884,7 @@ function Gallery({ onOpen }: { onOpen: (i: number) => void }) {
             <Eyebrow>Galeria</Eyebrow>
             <h2
               className="mt-5 font-display leading-none text-[var(--color-cream)]"
-              style={{ fontSize: "clamp(2rem, 4vw, 3.4rem)" }}
+              style={{ fontSize: "clamp(2.5rem, 5vw, 4.4rem)" }}
             >
               <span className="italic">Um passeio</span> pelas casas.
             </h2>
@@ -1089,105 +1004,11 @@ function Lightbox({
 }
 
 /* ------------------------------------------------------------------ */
-/*  LOCALIZAÇÃO, mapa real com um pino por empreendimento             */
+/*  LOCALIZAÇÃO, um Google Maps por empreendimento                    */
 /*                                                                    */
-/*  O Leaflet entra pelo CDN dentro do useEffect, então não precisa   */
-/*  instalar pacote nenhum e nada disso roda no servidor.             */
+/*  Cada mapa aponta para a coordenada exata e o próprio Google marca */
+/*  o ponto, então não precisa de biblioteca nem de pino desenhado.   */
 /* ------------------------------------------------------------------ */
-
-const LEAFLET_CSS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-const LEAFLET_JS = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
-
-function carregarLeaflet(): Promise<any> {
-  const w = window as any;
-  if (w.L) return Promise.resolve(w.L);
-  if (w.__leafletPromise) return w.__leafletPromise;
-
-  w.__leafletPromise = new Promise((resolve, reject) => {
-    if (!document.querySelector(`link[href="${LEAFLET_CSS}"]`)) {
-      const link = document.createElement("link");
-      link.rel = "stylesheet";
-      link.href = LEAFLET_CSS;
-      document.head.appendChild(link);
-    }
-    const s = document.createElement("script");
-    s.src = LEAFLET_JS;
-    s.async = true;
-    s.onload = () => resolve((window as any).L);
-    s.onerror = () => reject(new Error("Leaflet não carregou"));
-    document.head.appendChild(s);
-  });
-  return w.__leafletPromise;
-}
-
-function Mapa() {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    let mapa: any = null;
-    let vivo = true;
-
-    carregarLeaflet()
-      .then((L) => {
-        if (!vivo || !ref.current) return;
-
-        mapa = L.map(ref.current, {
-          scrollWheelZoom: false,
-          attributionControl: true,
-        });
-
-        L.tileLayer(
-          "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
-          {
-            maxZoom: 19,
-            attribution: "&copy; OpenStreetMap, &copy; CARTO",
-          },
-        ).addTo(mapa);
-
-        const pino = (dourado: boolean) =>
-          L.divIcon({
-            className: "a10-pino",
-            html:
-              '<svg width="34" height="46" viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg">' +
-              '<path d="M18 1C9.2 1 2 8.2 2 17c0 11.2 16 30 16 30s16-18.8 16-30C34 8.2 26.8 1 18 1z" fill="' +
-              (dourado ? "#E4C987" : "#F2EDE3") +
-              '" stroke="#0B1624" stroke-width="2"/>' +
-              '<circle cx="18" cy="17" r="6" fill="#0B1624"/></svg>',
-            iconSize: [34, 46],
-            iconAnchor: [17, 44],
-          });
-
-        const pontos: [number, number][] = [];
-        LOCATION.pinos.forEach((p) => {
-          L.marker([p.lat, p.lng], { icon: pino(p.destaque) })
-            .addTo(mapa)
-            .bindTooltip(
-              '<b>' + p.nome + "</b><br>" + p.detalhe,
-              {
-                permanent: true,
-                direction: "top",
-                offset: [0, -44],
-                className: "a10-tip",
-              },
-            );
-          pontos.push([p.lat, p.lng]);
-        });
-
-        mapa.fitBounds(pontos, { padding: [70, 70], maxZoom: 14 });
-        setTimeout(() => mapa && mapa.invalidateSize(), 180);
-      })
-      .catch(() => {
-        /* sem mapa, a seção continua legível pelo texto e pela lista */
-      });
-
-    return () => {
-      vivo = false;
-      if (mapa) mapa.remove();
-    };
-  }, []);
-
-  return <div ref={ref} className="h-full w-full" />;
-}
 
 function Location() {
   return (
@@ -1196,16 +1017,6 @@ function Location() {
       className="relative overflow-hidden bg-[var(--color-navy)] py-32 md:py-44"
     >
       <Grain />
-      <style>{`
-        .a10-pino{background:none;border:0;filter:drop-shadow(0 3px 8px rgba(0,0,0,.55))}
-        .a10-tip{background:rgba(11,22,36,.92)!important;border:1px solid rgba(228,201,135,.45)!important;
-          border-radius:0!important;box-shadow:none!important;color:#F2EDE3!important;
-          font-family:inherit!important;font-size:11px!important;line-height:1.5;padding:6px 11px!important;text-align:center}
-        .a10-tip b{color:#E4C987;font-size:13px}
-        .a10-tip::before{display:none!important}
-        .leaflet-control-attribution{background:rgba(11,22,36,.7)!important;color:#7B8697!important;font-size:10px!important}
-        .leaflet-control-attribution a{color:#9AA5B5!important}
-      `}</style>
 
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
         <div className="grid grid-cols-1 gap-16 md:grid-cols-12 md:gap-20">
@@ -1213,11 +1024,11 @@ function Location() {
             <Eyebrow>Localização</Eyebrow>
             <h2
               className="mt-6 font-display leading-[1.08] text-[var(--color-cream)]"
-              style={{ fontSize: "clamp(1.8rem, 3.2vw, 3rem)" }}
+              style={{ fontSize: "clamp(2.3rem, 4.2vw, 3.8rem)" }}
             >
               {LOCATION.title}
             </h2>
-            <p className="mt-8 max-w-md font-sans text-[0.95rem] leading-relaxed text-[var(--color-mist)]">
+            <p className="mt-8 max-w-md font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
               {LOCATION.body}
             </p>
 
@@ -1225,32 +1036,13 @@ function Location() {
               {LOCATION.points.map((p) => (
                 <li
                   key={p}
-                  className="flex items-center gap-4 border-b border-[var(--color-line)]/50 pb-4 font-sans text-sm text-[var(--color-cream)]"
+                  className="border-b border-[var(--color-line)]/50 pb-4 font-sans text-[1.05rem] text-[var(--color-cream)]"
                 >
-                  <span className="h-px w-6 bg-[var(--color-gold)]" />
                   {p}
                 </li>
               ))}
             </ul>
 
-            <div className="mt-12 flex flex-col gap-3">
-              {LOCATION.pinos.map((p) => (
-                <div key={p.nome} className="flex items-center gap-3">
-                  <span
-                    className="block h-2.5 w-2.5 rounded-full"
-                    style={{
-                      background: p.destaque ? "#E4C987" : "#F2EDE3",
-                    }}
-                  />
-                  <span className="font-sans text-sm text-[var(--color-cream)]">
-                    {p.nome}
-                  </span>
-                  <span className="font-sans text-xs text-[var(--color-mist-2)]">
-                    {p.detalhe}
-                  </span>
-                </div>
-              ))}
-            </div>
           </div>
 
           <motion.div
@@ -1260,11 +1052,33 @@ function Location() {
             transition={{ duration: 1 }}
             className="relative md:col-span-7"
           >
-            <div className="relative aspect-[4/3] overflow-hidden border border-[var(--color-line-2)]/50">
-              <Mapa />
+            <div className="flex flex-col gap-8">
+              {LOCATION.pinos.map((p) => (
+                <div key={p.nome}>
+                  <div className="mb-3 flex flex-wrap items-baseline gap-3">
+                    <span className="font-display text-2xl text-[var(--color-cream)]">
+                      {p.nome}
+                    </span>
+                    <span className="font-sans text-[0.82rem] uppercase tracking-[0.2em] text-[var(--color-gold-2)]">
+                      {p.detalhe}
+                    </span>
+                  </div>
+                  <div className="relative aspect-[16/9] overflow-hidden border border-[var(--color-line-2)]/50">
+                    <iframe
+                      title={"Mapa do " + p.nome}
+                      src={p.mapa}
+                      className="h-full w-full"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
+              ))}
             </div>
-            <p className="mt-4 font-sans text-xs italic text-[var(--color-mist-2)]">
-              Localização aproximada. Confirme o endereço exato com o corretor.
+            <p className="mt-6 font-sans text-sm italic text-[var(--color-mist-2)]">
+              Confirme o endereço exato com o corretor.
             </p>
           </motion.div>
         </div>
@@ -1283,15 +1097,14 @@ function CTA() {
       <Grain />
       <SignatureLine className="absolute left-1/2 top-16 h-24 -translate-x-1/2" />
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center md:px-10">
-        <Eyebrow>Convite</Eyebrow>
         <h2
-          className="mt-8 font-display leading-[1.05] text-[var(--color-cream)]"
-          style={{ fontSize: "clamp(2rem, 5vw, 4.4rem)" }}
+          className="font-display leading-[1.05] text-[var(--color-cream)]"
+          style={{ fontSize: "clamp(2.6rem, 6vw, 5.4rem)" }}
         >
           Conheça o Pátio Estaleiro{" "}
           <span className="italic">pessoalmente.</span>
         </h2>
-        <p className="mx-auto mt-8 max-w-xl font-sans text-[0.95rem] leading-relaxed text-[var(--color-mist)]">
+        <p className="mx-auto mt-8 max-w-xl font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
           Visitas mediante agendamento. Nossa equipe conduz uma apresentação
           reservada das residências, das plantas e da praia.
         </p>
@@ -1299,7 +1112,7 @@ function CTA() {
           href={wa("Olá! Gostaria de agendar uma visita ao Pátio Estaleiro.")}
           target="_blank"
           rel="noreferrer"
-          className="group relative mt-14 inline-flex items-center gap-4 border border-[var(--color-gold)]/70 bg-transparent px-10 py-5 font-sans text-[0.72rem] uppercase tracking-[0.32em] text-[var(--color-gold-2)] transition-all duration-500 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
+          className="group relative mt-14 inline-flex items-center gap-4 border border-[var(--color-gold)]/70 bg-transparent px-14 py-7 font-sans text-[0.92rem] uppercase tracking-[0.26em] text-[var(--color-gold-2)] transition-all duration-500 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
         >
           Agendar visita
           <span className="h-px w-8 bg-current transition-all duration-500 group-hover:w-14" />
@@ -1317,40 +1130,55 @@ function Footer() {
   return (
     <footer className="bg-[var(--color-navy-3)] pb-14 pt-20">
       <div className="mx-auto max-w-[1600px] px-6 md:px-10">
-        <div className="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+        <div className="flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
           <div>
-            <div className="font-display text-3xl italic text-[var(--color-cream)]">
-              A<span className="text-[var(--color-gold-2)]">10</span>
-            </div>
-            <div className="mt-4 font-sans text-[0.68rem] uppercase tracking-[0.32em] text-[var(--color-mist-2)]">
-              Vendas exclusivas · A10 Empreendimentos
-            </div>
-            <p className="mt-4 max-w-sm font-sans text-sm leading-relaxed text-[var(--color-mist)]">
+            <img
+              src={LOGO}
+              alt="A10 Empreendimentos"
+              className="h-14 w-auto md:h-16"
+              style={{ filter: "brightness(0) invert(1)" }}
+              loading="lazy"
+            />
+            <p className="mt-6 max-w-sm font-sans text-[1.02rem] leading-[1.7] text-[var(--color-mist)]">
               {CONTATO.endereco}
             </p>
           </div>
 
-          <div className="flex flex-col items-start gap-3 md:items-end">
+          <div className="flex items-center gap-4">
             <a
               href={WHATSAPP_URL}
               target="_blank"
               rel="noreferrer"
-              className="font-sans text-[0.7rem] uppercase tracking-[0.32em] text-[var(--color-gold-2)]"
+              aria-label={"WhatsApp " + WHATSAPP_LABEL}
+              className="flex h-14 w-14 items-center justify-center border border-[var(--color-gold)]/70 text-[var(--color-gold-2)] transition-all duration-500 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
             >
-              WhatsApp {WHATSAPP_LABEL} →
+              <svg viewBox="0 0 24 24" fill="currentColor" className="h-7 w-7">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.966-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.71.306 1.263.489 1.695.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zM12.02 21.785h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.002-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.02 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.51-8.413z" />
+              </svg>
             </a>
             <a
               href={CONTATO.instagram}
               target="_blank"
               rel="noreferrer"
-              className="font-sans text-sm text-[var(--color-mist)] transition-colors hover:text-[var(--color-gold-2)]"
+              aria-label={"Instagram " + CONTATO.instagram_label}
+              className="flex h-14 w-14 items-center justify-center border border-[var(--color-gold)]/70 text-[var(--color-gold-2)] transition-all duration-500 hover:bg-[var(--color-gold)] hover:text-[var(--color-navy)]"
             >
-              Instagram {CONTATO.instagram_label}
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                className="h-7 w-7"
+              >
+                <rect x="2.5" y="2.5" width="19" height="19" rx="5.5" />
+                <circle cx="12" cy="12" r="4.2" />
+                <circle cx="17.6" cy="6.4" r="1.2" fill="currentColor" stroke="none" />
+              </svg>
             </a>
           </div>
         </div>
         <div className="mt-14 h-px w-full bg-[var(--color-line-2)]/60" />
-        <p className="mt-8 max-w-3xl font-sans text-[0.72rem] leading-relaxed text-[var(--color-mist-2)]">
+        <p className="mx-auto mt-8 max-w-3xl text-center font-sans text-[0.86rem] leading-relaxed text-[var(--color-mist-2)]">
           Imagens meramente ilustrativas. Metragens, valores e disponibilidade
           sujeitos a confirmação. Registro de incorporação sob consulta. ©{" "}
           {new Date().getFullYear()} A10 Empreendimentos. Todos os direitos
@@ -1366,17 +1194,10 @@ function Footer() {
 /* ------------------------------------------------------------------ */
 
 function FloatingWhatsapp() {
-  const [show, setShow] = useState(false);
-  useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > window.innerHeight * 0.7);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
+  /* Fica sempre na tela, desde o topo. */
   return (
-    <AnimatePresence>
-      {show && (
+    <>
+      {true && (
         <motion.a
           href={WHATSAPP_URL}
           target="_blank"
@@ -1397,7 +1218,7 @@ function FloatingWhatsapp() {
           </svg>
         </motion.a>
       )}
-    </AnimatePresence>
+    </>
   );
 }
 
@@ -1420,7 +1241,6 @@ export default function PatioEstaleiro() {
     <div className="min-h-screen bg-[var(--color-navy)] font-sans text-[var(--color-cream)] antialiased">
       <Navbar />
       <Hero />
-      <Manifesto />
       <Stats />
       <Empreendimentos />
       <Vista />
