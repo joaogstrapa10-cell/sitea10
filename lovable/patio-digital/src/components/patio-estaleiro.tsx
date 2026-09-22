@@ -656,7 +656,8 @@ function Empreendimentos() {
             className="font-display leading-[1.05] text-[var(--color-cream)]"
             style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
           >
-            O Pátio <span className="italic">Estaleiro.</span>
+            O Pátio{" "}
+            <span className="italic text-[var(--color-gold-2)]">Estaleiro.</span>
           </h2>
         </div>
 
