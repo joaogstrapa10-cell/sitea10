@@ -1096,9 +1096,6 @@ function Location() {
                 </div>
               ))}
             </div>
-            <p className="mt-6 font-sans text-sm italic text-[var(--color-mist-2)]">
-              Confirme o endereço exato com o corretor.
-            </p>
           </motion.div>
         </div>
       </div>
