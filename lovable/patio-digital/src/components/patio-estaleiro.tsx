@@ -9,8 +9,6 @@ import {
 import {
   AnimatePresence,
   motion,
-  useInView,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
@@ -55,8 +53,11 @@ const HERO_SEGUNDOS = 5;
 const HERO_SLIDES = [
   {
     slug: "patio-estaleiro",
-    italico: "Pátio",
-    maiusculo: "Estaleiro",
+    // O nome segue o logotipo do empreendimento: as duas palavras em serifada
+    // itálica, na mesma linha, a segunda em dourado. No logotipo a primeira é
+    // navy, que sumiria sobre a foto escura, então aqui ela vai em creme.
+    parte1: "Pátio",
+    parte2: "Estaleiro",
     tagline: "Viver à altura do mar.",
     imagem: img("patio-estaleiro"),
     alt: "Casas do Pátio Estaleiro, na Praia do Estaleiro, Balneário Camboriú",
@@ -86,7 +87,7 @@ const DESTAQUES = [
     nome: "Pátio Estaleiro",
     tag: "Casas exclusivas, o mar como quintal.",
     texto:
-      "Um conjunto privado de oito residências contemporâneas assinadas pelo arquiteto Marcos Jobim, a noventa metros da areia. Restam duas: a Casa Mar, de 402 m², e a Casa Brisa, de 350 m². Cada uma com quatro suítes, piscina privativa e três vagas.",
+      "Um conjunto privado de oito residências contemporâneas assinadas pelo arquiteto Marcos Jobim, a 90 metros da areia. Restam duas: a Casa Mar, de 402 m², e a Casa Brisa, de 350 m². Cada uma com quatro suítes, piscina privativa e três vagas.",
     valor: "R$ 6,89 mi",
     imagem: img("patio-estaleiro"),
     specs: [
@@ -117,7 +118,7 @@ const PORTFOLIO: {
     cidade: "Balneário Camboriú",
     resumo: "Estética britânica no ponto mais central, com rooftop panorâmico.",
     valor: "R$ 2,5 mi",
-    imagem: img("holmes-18"),
+    imagem: img("holmes"),
   },
   {
     nome: "Cape Town",
@@ -131,7 +132,7 @@ const PORTFOLIO: {
     cidade: "Balneário Camboriú",
     resumo: "Um andar inteiro de lazer no rooftop, com piscina e deck.",
     valor: "R$ 3,2 mi",
-    imagem: img("florence-garden-10"),
+    imagem: img("florence-garden"),
   },
 ];
 
@@ -143,7 +144,7 @@ const VISTA = {
 const DIFERENCIAIS = [
   {
     eyebrow: "Privacidade",
-    title: "Oito residências, e só.",
+    title: "8 residências, e só.",
     body:
       "Um condomínio fechado desenhado para o resguardo pleno da vida familiar, com jardins e áreas externas protegidas. Restam a Casa Mar e a Casa Brisa.",
     image: img("patio-condominio-aereo"),
@@ -163,7 +164,7 @@ const DIFERENCIAIS = [
     image: img("patio-mar-2"),
   },
   {
-    eyebrow: "Noventa metros",
+    eyebrow: "90 metros",
     title: "A menor distância entre você e a areia.",
     body:
       "A Praia do Estaleiro é reconhecida pelas águas cristalinas, pela restinga preservada e pela certificação Bandeira Azul.",
@@ -187,7 +188,7 @@ const GALLERY_IMAGES = [
 const LOCATION = {
   title: "Praia do Estaleiro, em Balneário Camboriú.",
   body:
-    "O Pátio Estaleiro ocupa a Praia do Estaleiro, a noventa metros da areia, uma das faixas mais preservadas do litoral catarinense. Águas cristalinas, restinga preservada e certificação Bandeira Azul, a poucos minutos do centro de Balneário Camboriú.",
+    "O Pátio Estaleiro ocupa a Praia do Estaleiro, a 90 metros da areia, uma das faixas mais preservadas do litoral catarinense. Águas cristalinas, restinga preservada e certificação Bandeira Azul, a poucos minutos do centro de Balneário Camboriú.",
   pinos: [
     {
       nome: "Pátio Estaleiro",
@@ -264,50 +265,6 @@ function Eyebrow({ children }: { children: ReactNode }) {
     <div className="font-sans text-[1rem] font-medium uppercase tracking-[0.26em] text-[var(--color-gold-2)]">
       {children}
     </div>
-  );
-}
-
-/* Animated counter */
-function Counter({
-  to,
-  suffix = "",
-  duration = 1600,
-}: {
-  to: number;
-  suffix?: string;
-  duration?: number;
-}) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-20%" });
-  // Começa já no valor final. Assim o número está certo no servidor, no
-  // primeiro quadro e mesmo que a contagem nunca dispare. A contagem zera e
-  // sobe só no instante em que o bloco entra na tela.
-  const [n, setN] = useState(to);
-  const [contou, setContou] = useState(false);
-  const reduced = useReducedMotion();
-
-  useEffect(() => {
-    if (!inView || contou) return;
-    setContou(true);
-    if (reduced) return;
-    let raf = 0;
-    const start = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - start) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setN(Math.round(to * eased));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    setN(0);
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, contou, to, duration, reduced]);
-
-  return (
-    <span ref={ref}>
-      {n}
-      {suffix}
-    </span>
   );
 }
 
@@ -420,8 +377,6 @@ function Hero() {
     return () => clearTimeout(t);
   }, [i, total]);
 
-  const letras = slide.maiusculo.split("");
-
   return (
     <section
       ref={ref}
@@ -465,39 +420,28 @@ function Hero() {
         className="relative z-10 flex h-full items-end"
       >
         <div className="mx-auto w-full max-w-[1600px] px-6 pb-20 md:px-10 md:pb-24">
-          <h1 className="font-display leading-[0.9] text-[var(--color-cream)]">
-            {slide.italico && (
-              <motion.span
-                key={slide.slug + "-i"}
-                initial={{ opacity: 0, y: 40 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                className="block italic font-light"
-                style={{ fontSize: "clamp(3rem, 10vw, 9rem)" }}
-              >
-                {slide.italico}
-              </motion.span>
-            )}
-            <span
-              className="block uppercase font-normal tracking-[0.05em] -mt-2 md:-mt-4"
-              style={{ fontSize: "clamp(3.4rem, 12vw, 11rem)" }}
+          <h1
+            className="font-display font-light italic leading-[1.02] text-[var(--color-cream)]"
+            style={{ fontSize: "clamp(3rem, 10vw, 9rem)" }}
+          >
+            <motion.span
+              key={slide.slug + "-1"}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+              className="inline-block"
             >
-              {letras.map((c, n) => (
-                <motion.span
-                  key={slide.slug + "-" + n}
-                  initial={{ opacity: 0, y: 60 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.85,
-                    delay: 0.32 + n * 0.05,
-                    ease: [0.22, 1, 0.36, 1],
-                  }}
-                  className="inline-block"
-                >
-                  {c}
-                </motion.span>
-              ))}
-            </span>
+              {slide.parte1}
+            </motion.span>{" "}
+            <motion.span
+              key={slide.slug + "-2"}
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
+              className="inline-block text-[var(--color-gold-2)]"
+            >
+              {slide.parte2}
+            </motion.span>
           </h1>
 
           <motion.p
@@ -528,7 +472,7 @@ function Hero() {
             <button
               key={sl.slug}
               onClick={() => setI(n)}
-              aria-label={sl.maiusculo}
+              aria-label={sl.parte1 + " " + sl.parte2}
               aria-current={n === i}
               className={
                 "h-px transition-all duration-500 " +
@@ -591,19 +535,20 @@ function Stats() {
               <div className="font-display font-light leading-none text-[var(--color-cream)]">
                 {s.faixa ? (
                   <div
-                    className="inline-flex flex-col items-center gap-3"
+                    className="inline-flex flex-col items-center"
                     style={{ fontSize: "clamp(2rem, 3.4vw, 3rem)" }}
                   >
-                    <span>{s.faixa[0]}</span>
-                    <span className="block h-px w-9 bg-[var(--color-gold)]/70" />
-                    <span>{s.faixa[1]}</span>
+                    <span className="leading-none">{s.faixa[0]}</span>
+                    {/* margem igual em cima e embaixo, então o traço fica no meio do vão */}
+                    <span className="my-5 block h-px w-10 bg-[var(--color-gold)]/70" />
+                    <span className="leading-none">{s.faixa[1]}</span>
                   </div>
                 ) : (
                   <span
                     className="inline-flex items-baseline gap-3"
                     style={{ fontSize: "clamp(3rem, 6vw, 5.5rem)" }}
                   >
-                    <Counter to={Number(s.numero)} />
+                    <span>{s.numero}</span>
                     {s.unidade && (
                       <span style={{ fontSize: "0.34em" }} className="font-sans tracking-wide">
                         {s.unidade}
@@ -631,7 +576,7 @@ function Portfolio() {
   return (
     <section
       id="portfolio"
-      className="relative overflow-hidden bg-[var(--color-navy)] py-32 md:py-44"
+      className="relative overflow-hidden bg-[var(--color-navy)] py-20 md:py-28"
     >
       <Grain />
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
@@ -702,24 +647,20 @@ function Empreendimentos() {
   return (
     <section
       id="empreendimentos"
-      className="relative overflow-hidden bg-[var(--color-navy)] py-32 md:py-44"
+      className="relative overflow-hidden bg-[var(--color-navy)] py-20 md:py-28"
     >
       <Grain />
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
-        <div className="mb-24 max-w-2xl">
+        <div className="mb-14 max-w-2xl">
           <h2
             className="font-display leading-[1.05] text-[var(--color-cream)]"
             style={{ fontSize: "clamp(2.5rem, 5vw, 4.6rem)" }}
           >
             O Pátio <span className="italic">Estaleiro.</span>
           </h2>
-          <p className="mt-8 max-w-xl font-sans text-[1.12rem] leading-[1.75] text-[var(--color-mist)]">
-            A entrega principal da A10 neste momento, na Praia do Estaleiro.
-            Abaixo dele, o restante do portfólio próprio.
-          </p>
         </div>
 
-        <div className="flex flex-col gap-32 md:gap-48">
+        <div className="flex flex-col gap-20 md:gap-28">
           {DESTAQUES.map((e, i) => {
             const flip = i % 2 === 1;
             return (
@@ -868,10 +809,10 @@ function Vista() {
 
 function Diferenciais() {
   return (
-    <section className="relative overflow-hidden bg-[var(--color-navy)] py-32 md:py-44">
+    <section className="relative overflow-hidden bg-[var(--color-navy)] py-20 md:py-28">
       <Grain />
       <div className="relative z-10 mx-auto max-w-[1600px] px-6 md:px-10">
-        <div className="mb-24 max-w-2xl">
+        <div className="mb-14 max-w-2xl">
           <Eyebrow>Diferenciais</Eyebrow>
           <h2
             className="mt-6 font-display leading-[1.05] text-[var(--color-cream)]"
@@ -882,7 +823,7 @@ function Diferenciais() {
           </h2>
         </div>
 
-        <div className="flex flex-col gap-32 md:gap-48">
+        <div className="flex flex-col gap-20 md:gap-28">
           {DIFERENCIAIS.map((d, i) => {
             const flip = i % 2 === 1;
             return (
@@ -1097,7 +1038,7 @@ function Location() {
   return (
     <section
       id="localizacao"
-      className="relative overflow-hidden bg-[var(--color-navy)] py-32 md:py-44"
+      className="relative overflow-hidden bg-[var(--color-navy)] py-20 md:py-28"
     >
       <Grain />
 
@@ -1166,7 +1107,7 @@ function Location() {
 
 function CTA() {
   return (
-    <section className="relative overflow-hidden bg-[var(--color-navy-3)] py-40 md:py-56">
+    <section className="relative overflow-hidden bg-[var(--color-navy-3)] py-24 md:py-32">
       <Grain />
       <SignatureLine className="absolute left-1/2 top-16 h-24 -translate-x-1/2" />
       <div className="relative z-10 mx-auto max-w-3xl px-6 text-center md:px-10">
